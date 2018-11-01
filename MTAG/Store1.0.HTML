@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MTAG 1.0</title>
+</head>
+
+<body>
+    <button onclick="OpenStore()">Store</button>
+    <button onclick="JobOptions()">JobOptions</button>
+    <button onclick="WeekOptions()">WeekOptions</button>
+    <p id="OtherInfo"></p>
+    <p id="display_jobinfo"></p>
+    <p id="display_currency"></p>
+    <p id="display_inventory"></p>
+
+    <script type="text/javascript">
+        // COMMENTS SECTION
+        /* 
+        Programmer: Mauricio
+        Date Last Modified: 10/31/2018
+        Goal/Purpose: Make a presentable MTAG
+        Status: in Progress
+        */
+
+
+        // VARIABLES section
+        //Items Library
+        var ItemNames = [
+            "Hot Pocket",
+            "Maruchan Ramen",
+            "New TV Remote",
+            "BackScraterenator 3000",
+            "Caleb",
+            "Rosetta Stone"
+        ];
+        var ItemPrice = [
+            2, 5, 20, 60, 1000, 4200
+        ];
+        var ItemDecription = [
+            "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor.",
+            "The Maruchan ramen is a very popular brand of noodles in the United-States.",
+            "Infrared All in One Remote Control",
+            "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw",
+            "If you feed him 25 cents, he'll fix your roof",
+            "REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET!!!!!!"
+        ];
+
+        //User
+        var Currency = Math.floor(Math.random() * 401) + 100;
+        var UserInventory = [];
+        var UserJob = 0;
+        var Employability = [ //Out of 100
+            100,
+            100,
+            70,
+            30,
+            10,
+            5,
+            1
+        ];
+        var Actions = 7;
+
+        //Time
+        var Week = 0;
+        var Spendings = [
+            0,
+            215,
+            210 + 160
+        ]
+        var Reasons = [
+            "Time for a fresh Start",
+            "I hope I have enough to pay the water bill",
+            "This Week I have to pay the gas and electric",
+
+        ]
+
+        //Employment
+        var Job = [
+            "Unemployed",
+            "Intern",
+            "McDonalds",
+            "Waiter",
+            "Nurse",
+            "FactoryWorker",
+            "Scientist"
+        ];
+        var Salary = [ //Weekly
+            0,
+            0,
+            250,
+            Math.floor(Math.random * 200) + 200,
+            400,
+            500,
+            800
+        ]
+
+
+        // FUNCTION section
+        //Store Functions
+        function OpenStore() { //Done
+            var i = prompt("Store Owner: Hi how you doing? What do you need today\n \n1. Buy\n2. Sell\n3. Exit");
+            if (i == 1) { Buy() }
+            else if (i == 2) { Sell() }
+            else if (i == 3) { alert("Uhh. Have a nice day?") }
+            else { alert("Excuse me, I couldn't quite hear you. Could you repeat?"); OpenStore() }
+        }
+
+        function Buy() { //Done
+            var text = "";
+            var i;
+            var c;
+            var StoreInventory = [0, 1, 2, 3, 4, 5]
+
+            //Formats the stores stock an user input
+            for (i = 0; i < StoreInventory.length; i++) { text += (i + 1) + ". " + ItemNames[StoreInventory[i]] + " - $" + ItemPrice[StoreInventory[i]] + "\n" }
+            i = prompt("Type in an items number to buy it. \n \n" + text + (StoreInventory.length + 1) + ". Cancel") - 1;
+
+            if (i < StoreInventory.length && i >= 0) {  //Selected Item. Gives option to purchase item or cancel
+                c = prompt(ItemNames[StoreInventory[i]] + " - $" + ItemPrice[StoreInventory[i]] + "\n" + ItemDecription[StoreInventory[i]] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
+                if (c == 1) {
+                    Currency -= ItemPrice[StoreInventory[i]];
+                    AddToInventory(i);
+                }
+                else if (c == 2) { Buy(); }
+            }
+            else if (i == StoreInventory.length) { //Cancel or Close Store 
+                alert("Thank you. Come again!")
+            }
+            else { //Not a Number
+                alert("Excuse me, I couldn't quite hear you. Could you repeat?")
+                { Buy() }
+            }
+        }
+
+        function Sell() { //Done
+            var text = ""
+            var i;
+            var c;
+
+            for (i = 0; i < UserInventory.length; i++) { text += (i + 1) + ". " + ItemNames[UserInventory[i]] + " - $" + ItemPrice[UserInventory[i]] + "\n" }
+            i = prompt("Type in an items number to Sell it \n \n" + text + (UserInventory.length + 1) + ". Cancel") - 1;
+
+            if (i < UserInventory.length && i >= 0) {  //Selected Item. Gives option to sell item or cancel
+                c = prompt(ItemNames[UserInventory[i]] + " - $" + ItemPrice[UserInventory[i]] + "\n" + ItemDecription[UserInventory[i]] + "\n\nAre you sure you want to sell this?\n1. Yes \n2. No")
+                if (c == 1) {
+                    Currency += ItemPrice[UserInventory[i]];
+                    RemoveToInventory(i);
+                }
+                else if (c == 2) { Sell(); }
+            }
+
+            else if (i == UserInventory.length) { //Cancel or Close Store 
+                alert("Thank you. Come again!")
+            }
+
+            else { //Not a Number
+                alert("Excuse me, I couldn't quite hear you. Could you repeat?")
+                { Sell() }
+            }
+        }
+
+        //Inventory Functions
+        function AddToInventory(NewItem) { //Done
+            UserInventory.push(NewItem);
+            RefreshUI();
+        }
+
+        function RemoveToInventory(RemovedItem) { //Done
+            UserInventory.splice(RemovedItem)
+            RefreshUI();
+        }
+
+        function RefreshUI() { //Done
+
+            Itext = "";
+            for (i = 0; i < UserInventory.length; i++) {
+                Itext += ItemNames[UserInventory[i]] + "<br>";
+            }
+
+            document.getElementById("OtherInfo").innerHTML = "Week: " + Week + "<br>Actions Left: " + Actions
+            document.getElementById("display_jobinfo").innerHTML = "Job: " + Job[UserJob];
+            document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
+            document.getElementById("display_inventory").innerHTML = "Inventory: <br>" + Itext;
+            if (Actions == 0) {
+                NextWeek();
+            }
+        }
+
+        //Time Functions
+        function WeekOptions() { //Done
+            n = prompt("Progress to next week. \n\nAre you you sure you want to progress now?\n1. Yes\n2. No");
+            switch (n == 1) {
+                case true:
+                    NextWeek();
+                    break;
+                case false:
+                    alert("Hold that thought!")
+                    break;
+            }
+        }
+
+        function NextWeek() {
+            Week++;
+            if (UserJob == -2) {
+                alert("Get a job, loser")
+            }
+
+            if (UserJob > 0 && UserJob < Job.length) {
+                Currency += Salary[UserJob]
+            }
+            alert(Reasons[Week] + "\n\nCurrency - " + Spendings[Week])
+            Currency -= Spendings[Week]
+            alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob])
+            Actions = 7;
+            RefreshUI()
+        }
+
+        //Job Functions
+        function JobOptions() { //Done
+            i;
+            Ltext = "";
+
+            i = prompt("What to do?\n1. Change Job\n2. Quit Current Job \n3. Get Internship")
+            if (i == 1) { Apply() }
+            if (i == 2) { Resign() }
+            if (i == 3) { Intern() }
+        }
+
+        function Apply() { //NeedsFix
+            var i;
+            var Ltext = "";
+            var r = Math.floor(Math.random() * 101);
+
+
+            switch (UserJob < 2) {
+                case true:
+                    alert("You already have a job")
+                    break;
+
+                case false:
+                    for (i = 2; i < Job.length; i++) { Ltext += (i - 1) + ". " + Job[i] + "\n" }
+                    var i = prompt("Where do you want to apply?\n" + Ltext + (Job.length + 1) + ". Cancel") - 1;
+
+                    if (i >= 0 && i < Job.length) {
+                        var k = prompt("Yor chance of getting a job at " + Job[i] + " is about " + Employability[i] + " percent.\n\n Are you sure you want to apply?\n1. Yes\n2. No");
+
+                        if (k == 1) {
+                            switch (Employability[i] > r) {
+                                case true:
+                                    alert("You got the job!");
+                                    Actions -= 1;
+                                    UserJob = i + 2;
+                                    RefreshUI();
+                                    break;
+
+                                case false:
+                                    alert("These losers don't see talent when it's right in front of them!");
+                                    Actions -= 1;
+                                    RefreshUI();
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        function Resign() { //Done
+            if (UserJob < 2) { alert("You don't have a job silly.") }
+            else {
+                q = prompt("Are you sure you want to quit your " + Job[UserJob] + "job?\n1. Yes\n2. No")
+                if (q == 1) {
+                    Actions -= 1
+                    UserJob = 0;
+                    RefreshUI();
+                }
+            }
+        }
+
+        function Intern() { //NeedsFix
+            var v;
+            Ltext = "";
+
+            for (v = 2; v < Job.length; v++) { Ltext += (v - 1) + ". " + Job[v] + "\n" }
+            switch (UserJob == 0 || UserJob == 1) {
+                case true:
+                    alert("You already have a job. Quit your current job if you want to intern")
+                    break;
+
+                case false:
+                    v = prompt("Where do you want to Intern?\n" + Ltext + (Job.length + 1) + ". Cancel") - 1;
+                    if (v >= 0 && v < Job.length) {
+                        alert("You interned for " + Job[v + 2] + " for the rest of the week\nYour chance of getting that job next time rose by 5 percent");
+                        Employability[v] += 5;
+                        UserJob = 1;
+                        Actions = - 1;
+                    }
+                    break;
+            }
+        }
+
+        // MAIN program execution
+        RefreshUI();
+    </script>
+</body>
+
+</html>
