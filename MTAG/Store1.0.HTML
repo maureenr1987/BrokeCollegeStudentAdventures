@@ -202,12 +202,14 @@
 
         function NextWeek() {
             Week++;
-            if (UserJob == -2) {
-                alert("Get a job, loser")
-            }
+            switch (UserJob > 1) {
+                case true:
+                    alert("Get a job, loser")
+                    break;
 
-            if (UserJob > 0 && UserJob < Job.length) {
-                Currency += Salary[UserJob]
+                case false:
+                    Currency += Salary[UserJob]
+                    break;
             }
             alert(Reasons[Week] + "\n\nCurrency - " + Spendings[Week])
             Currency -= Spendings[Week]
@@ -233,16 +235,16 @@
             var r = Math.floor(Math.random() * 101);
 
 
-            switch (UserJob < 2) {
+            switch (UserJob > 1) {
                 case true:
                     alert("You already have a job")
                     break;
 
                 case false:
-                    for (i = 2; i < Job.length; i++) { Ltext += (i - 1) + ". " + Job[i] + "\n" }
-                    var i = prompt("Where do you want to apply?\n" + Ltext + (Job.length + 1) + ". Cancel") - 1;
+                    for (i = 2; i < Job.length; i++) { Ltext += (i - 1) + ". " + Job[i] + "\n" };
+                    var i = prompt("Where do you want to apply?\n" + Ltext + (Job.length + 1) + ". Cancel") +1;
 
-                    if (i >= 0 && i < Job.length) {
+                    if (i >= 2 && i < Job.length) {
                         var k = prompt("Yor chance of getting a job at " + Job[i] + " is about " + Employability[i] + " percent.\n\n Are you sure you want to apply?\n1. Yes\n2. No");
 
                         if (k == 1) {
@@ -267,7 +269,7 @@
         }
 
         function Resign() { //Done
-            if (UserJob < 2) { alert("You don't have a job silly.") }
+            if (UserJob > 1) { alert("You don't have a job silly.") }
             else {
                 q = prompt("Are you sure you want to quit your " + Job[UserJob] + "job?\n1. Yes\n2. No")
                 if (q == 1) {
@@ -283,7 +285,7 @@
             Ltext = "";
 
             for (v = 2; v < Job.length; v++) { Ltext += (v - 1) + ". " + Job[v] + "\n" }
-            switch (UserJob == 0 || UserJob == 1) {
+            switch (UserJob > 1) {
                 case true:
                     alert("You already have a job. Quit your current job if you want to intern")
                     break;
