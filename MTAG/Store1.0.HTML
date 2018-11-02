@@ -28,7 +28,6 @@
 <body>
     <button onclick="OpenStore()">Store</button>
     <button onclick="JobOptions()">JobOptions</button>
-    <button onclick="WeekOptions()">WeekOptions</button>
     <p id="OtherInfo"></p>
     <p id="display_jobinfo"></p>
     <p id="display_currency"></p>
@@ -72,7 +71,6 @@
         var UserInventory = [];
         var UserJob = 0;
 
-
         //Time
         var Week = 0;
         var Spendings = [
@@ -88,16 +86,7 @@
             "This Week I have to pay the gas and electric",
 
         ]
-        var Actions = 7;
-        var Days = [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"
-        ]
+        var Day = 1;
 
         //Employment
         var Job = [
@@ -108,7 +97,7 @@
             "FactoryWorker",
             "Scientist"
         ];
-        var Salary = [ //Weekly
+        var Salary = [
             0,
             250,
             Math.floor(Math.random * 200) + 200,
@@ -116,7 +105,7 @@
             500,
             800
         ]
-        var Employability = [ //Out of 100
+        var Employability = [
             100,
             70,
             30,
@@ -127,13 +116,13 @@
 
         // FUNCTION section
         function RefreshUI() { //Done
-
-            Itext = "";
+            var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+            var text = "";
             for (i = 0; i < UserInventory.length; i++) {
-                Itext += ItemNames[UserInventory[i]] + "<br>";
+                text += ItemNames[UserInventory[i]] + "<br>";
             }
 
-            document.getElementById("OtherInfo").innerHTML = "Week: " + Week  + "<br>Day: " + (7 - Actions) + "<br>" + Days[(7 - Actions)]
+            document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day]
             document.getElementById("display_jobinfo").innerHTML = "Job: " + Job[UserJob];
             document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
             if (Currency <= 0) {
@@ -142,7 +131,7 @@
                 document.getElementById("display_currency").style.color = "white";
             }
             document.getElementById("display_inventory").innerHTML = "Inventory: <br>" + Itext;
-            if (Actions == 0) {
+            if (Day == 7) {
                 NextWeek();
             }
         }
@@ -188,8 +177,8 @@
             if (UserInput < UserInventory.length && UserInput >= 0) {
                 var Confirm = prompt(ItemNames[UserInventory[UserInput]] + " - $" + ItemPrice[UserInventory[UserInput]] + "\n" + ItemDecription[UserInventory[UserInput]] + "\n\nAre you sure you want to sell this?\n1. Yes \n2. No")
                 if (Confirm == 1) {
-                    Currency += ItemPrice[UserInventory[i]];
-                    RemoveToInventory(i);
+                    Currency += ItemPrice[UserInventory[UserInput]];
+                    RemoveToInventory(UserInput);
                     alert("Uhhh. Thanks...")
                     RefreshUI();
                 }
@@ -218,13 +207,13 @@
             else { alert("Hold that thought!")}
         }
 
-        function NextWeek() {
+        function NextWeek() { //Done, but might be removed
             Week++;
             if (UserJob == 0) { alert("Time to get a job!")}
 
             else { Currency += Salary[UserJob] }
             Currency -= Spendings[Week]
-            Actions = 7;
+            Day = 1;
             alert(Reasons[Week] + "\n\nSpendings: " + ( Spendings [Week]) * -1 )
             alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob])
             RefreshUI()
@@ -232,7 +221,7 @@
 
         //Job Functions
         function JobOptions() { //Done
-            UserInput = prompt("What to do?\n1. Change Job\n2. Quit Current Job \n3. Get Internship")
+            UserInput = prompt("What to do?\n1. Change Job\n2. Quit Current Job \n3. Get Internship");
             if (UserInput == 1) { Apply() }
             else if (UserInput == 2) { Resign() }
             else if (UserInput == 3) { Intern() }
@@ -242,7 +231,6 @@
         function Apply() { //Done
             var i;
             var text = "";
-            var Random = Math.floor(Math.random() * 101);
 
             if (UserJob > 1) {
                 alert("You already have a job")
@@ -253,6 +241,7 @@
                 if (UserInput >= 1 && UserInput < i) {
                     var Confirm = prompt("Yor chance of getting a job at " + Job[UserInput] + " is about " + Employability[UserInput] + " percent.\n\n Are you sure you want to apply?\n1. Yes\n2. No");
                     if (Confirm == 1) {
+                        var Random = Math.floor(Math.random() * 101);
                         if (Employability[UserInput] > Random) {
                             UserJob = UserInput;
                             alert("You got the job!")
@@ -260,7 +249,7 @@
                         else {
                             alert("These losers don't see talent when it's right in front of them!")
                         }
-                        Actions -= 1;
+                        Day++;
                         RefreshUI()
                     }
                     else {
@@ -280,7 +269,7 @@
                 UserInput = prompt("Are you sure you want to quit your " + Job[UserJob] + " job?\n1. Yes\n2. No")
                 if (UserInput == 1) {
                     UserJob = 0;
-                    Actions -= 1;
+                    Day++;
                     RefreshUI();
                 }
             }
@@ -297,7 +286,7 @@
                     if (Confirm == 1) {
                         Employability[UserInput] += 5;
                         alert("You interned for " + Job[UserInput] + " for the rest of the day\nYour chance of getting that job next time is now " + Employability[UserInput] + " Percent");
-                        Actions -= 1;
+                        Day++;
                         RefreshUI();
                     }
                     else {
