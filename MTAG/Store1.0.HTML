@@ -71,23 +71,34 @@
         var Currency = Math.floor(Math.random() * 401) + 100;
         var UserInventory = [];
         var UserJob = 0;
-       
+
 
         //Time
         var Week = 0;
         var Spendings = [
             0,
+            0,
             215,
             210 + 160
         ]
         var Reasons = [
+            "",
             "Time for a fresh Start",
             "I hope I have enough to pay the water bill",
             "This Week I have to pay the gas and electric",
 
         ]
         var Actions = 7;
-        
+        var Days = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        ]
+
         //Employment
         var Job = [
             "Unemployed",
@@ -115,6 +126,27 @@
         ];
 
         // FUNCTION section
+        function RefreshUI() { //Done
+
+            Itext = "";
+            for (i = 0; i < UserInventory.length; i++) {
+                Itext += ItemNames[UserInventory[i]] + "<br>";
+            }
+
+            document.getElementById("OtherInfo").innerHTML = "Week: " + Week  + "<br>Day: " + (7 - Actions) + "<br>" + Days[(7 - Actions)]
+            document.getElementById("display_jobinfo").innerHTML = "Job: " + Job[UserJob];
+            document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
+            if (Currency <= 0) {
+                document.getElementById("display_currency").style.color = "red";
+            } else {
+                document.getElementById("display_currency").style.color = "white";
+            }
+            document.getElementById("display_inventory").innerHTML = "Inventory: <br>" + Itext;
+            if (Actions == 0) {
+                NextWeek();
+            }
+        }
+
         //Store Functions
         function OpenStore() { //Done
             var UserInput = prompt("Store Owner: Hi how you doing? What do you need today\n \n1. Buy\n2. Sell\n3. Exit");
@@ -138,7 +170,7 @@
                     Currency -= ItemPrice[StoreInventory[UserInput]];
                     AddToInventory(UserInput);
                     alert("Thank you for your purchase.")
-                    RefreshUI();                   
+                    RefreshUI();
                 }
                 else if (Confirm == 2) { Buy(); }
             }
@@ -179,55 +211,22 @@
             RefreshUI();
         }
 
-        function RefreshUI() { //Done
-
-            Itext = "";
-            for (i = 0; i < UserInventory.length; i++) {
-                Itext += ItemNames[UserInventory[i]] + "<br>";
-            }
-
-            document.getElementById("OtherInfo").innerHTML = "Week: " + Week + "<br>Actions Left: " + Actions
-            document.getElementById("display_jobinfo").innerHTML = "Job: " + Job[UserJob];
-            document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
-            if (Currency <= 0) {
-                document.getElementById("display_currency").style.color = "red";
-            } else {
-                document.getElementById("display_currency").style.color = "white";
-            }
-            document.getElementById("display_inventory").innerHTML = "Inventory: <br>" + Itext;
-            if (Actions == 0) {
-                NextWeek();
-            }
-        }
-
         //Time Functions
         function WeekOptions() { //Done
-            n = prompt("Progress to next week. \n\nAre you you sure you want to progress now?\n1. Yes\n2. No");
-            switch (n == 1) {
-                case true:
-                    NextWeek();
-                    break;
-                case false:
-                    alert("Hold that thought!")
-                    break;
-            }
+            UserInput = prompt("Progress to next week. \n\nAre you you sure you want to progress now?\n1. Yes\n2. No");
+            if (UserInput == 1) { NextWeek()}
+            else { alert("Hold that thought!")}
         }
 
         function NextWeek() {
             Week++;
-            switch (UserJob > 1) {
-                case true:
-                    alert("Get a job, loser")
-                    break;
+            if (UserJob == 0) { alert("Time to get a job!")}
 
-                case false:
-                    Currency += Salary[UserJob]
-                    break;
-            }
-            alert(Reasons[Week] + "\n\nCurrency - " + Spendings[Week])
+            else { Currency += Salary[UserJob] }
             Currency -= Spendings[Week]
-            alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob])
             Actions = 7;
+            alert(Reasons[Week] + "\n\nSpendings: " + ( Spendings [Week]) * -1 )
+            alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob])
             RefreshUI()
         }
 
@@ -315,7 +314,9 @@
         }
 
         // MAIN program execution
+        NextWeek();
         RefreshUI();
+
     </script>
 </body>
 
