@@ -189,6 +189,11 @@
             document.getElementById("OtherInfo").innerHTML = "Week: " + Week + "<br>Actions Left: " + Actions
             document.getElementById("display_jobinfo").innerHTML = "Job: " + Job[UserJob];
             document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
+            if (Currency <= 0) {
+                document.getElementById("display_currency").style.color = "red";
+            } else {
+                document.getElementById("display_currency").style.color = "white";
+            }
             document.getElementById("display_inventory").innerHTML = "Inventory: <br>" + Itext;
             if (Actions == 0) {
                 NextWeek();
