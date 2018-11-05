@@ -5,36 +5,59 @@
     <title>MTAG 1.0</title>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Roboto');
-    body {
-        font-family: Roboto;
-        background-color: #333;
-        color:white;
-    }
-    button {
-        background-color: gray;
-        border: none;
-        color:white;
-        padding: 12px 32px;
-        cursor: pointer;
-        transition: 0.2s ease;
-        margin: 0 2px;
-    }
-    button:hover {
-        background-color: rgb(85, 85, 85);
-    }
-</style>
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #333;
+            color:white;
+        }
+        button {
+            background-color: gray;
+            border: none;
+            color:white;
+            padding: 12px 32px;
+            cursor: pointer;
+            transition: 200ms ease;
+            margin: 0 2px;
+        }
+        button:hover {
+            background-color: rgb(85, 85, 85);
+        }
+        .cont {
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.288), 0 3px 6px rgba(0,0,0,0.23);
+            margin: 10px auto;
+            max-width: 35%;
+            padding: 16px 14px;
+            color:white;
+            border-radius: 3px;
+            background-color: rgb(63, 63, 63);
+        }
+        #buttons{
+            display: flex;
+        }
+        #buttons button{
+            display: block;
+            flex-grow: 1;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
-    <button onclick="OpenStore()">Store</button>
-    <button onclick="JobOptions()">JobOptions</button>
-    <button onclick="Sloop()">Sloop</button>
+    <div class="cont">
+        <div id="buttons">
+            <button onclick="OpenStore()">Store</button>
+            <button onclick="JobOptions()">JobOptions</button>
+            <button onclick="Sloop()">Sloop</button>
+        </div>
 
-    <p id="OtherInfo"></p>
-    <p id="display_jobinfo"></p>
-    <p id="display_currency"></p>
-    <p id="display_inventory"></p>
 
+        <p id="OtherInfo"></p>
+        <p id="display_jobinfo"></p>
+        <p id="display_currency"></p>
+        <p id="display_inventory"></p>
+    </div>
     <script type="text/javascript">
 
         // COMMENTS SECTION
@@ -144,8 +167,7 @@
             var UserInput = prompt("Store Owner: Hi how you doing? What do you need today\n \n1. Buy\n2. Sell\n3. Exit");
             if (UserInput == 1) { Buy() }
             else if (UserInput == 2) { Sell() }
-            else if (UserInput == 3) { alert("Uhh. Have a nice day?") }
-            else { alert("Excuse me, I couldn't quite hear you. Could you repeat?"); OpenStore() }
+            else { alert("Uhh. Have a nice day?") }
         }
 
         function Buy() { //Done
@@ -201,13 +223,13 @@
         }
 
         //Inventory Functions
-        function AddToInventory(NewItemN,NewItemQ) { //Done
+        function AddToInventory(NewItemN, NewItemQ) { //Done
             UserInventoryItemName.push(NewItemN);
             UserInventoryQuantity.push(NewItemQ);
             RefreshUI();
         }
 
-        function RemoveToInventory(RemovedItemN,RemovedItemQ) { //Done
+        function RemoveToInventory(RemovedItemN, RemovedItemQ) { //Done
             UserInventoryItemName.splice(RemovedItemN)
             UserInventoryQuantity.splice
             RefreshUI();
@@ -316,11 +338,11 @@
         }
 
         function Sloop() {
-            Day++
-            RefreshUI()
+            Day++;
+            RefreshUI();
         }
         // MAIN program execution
-        NextWeek();
+        // NextWeek();
         RefreshUI();
 
     </script>
