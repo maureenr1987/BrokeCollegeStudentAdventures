@@ -3,7 +3,31 @@
 
 <head>
     <title>MTAG 1.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
+        .container {
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        }
+        @media (min-width: 768px) {
+            .container {
+                width: 750px;
+            }
+        }
+        @media (min-width: 992px) {
+            .container {
+                width: 970px;
+            }
+        }
+        @media (min-width: 1200px) {
+            .container {
+                width: 1170px;
+            }
+        }
+
         @import url('https://fonts.googleapis.com/css?family=Roboto');
         body {
             font-family: "Roboto", sans-serif;
@@ -25,7 +49,6 @@
         .cont {
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.288), 0 3px 6px rgba(0,0,0,0.23);
             margin: 10px auto;
-            max-width: 35%;
             padding: 16px 14px;
             color:white;
             border-radius: 3px;
@@ -45,19 +68,22 @@
 </head>
 
 <body>
-    <div class="cont">
-        <div id="buttons">
-            <button onclick="OpenStore()">Store</button>
-            <button onclick="JobOptions()">JobOptions</button>
-            <button onclick="Sloop()">Sloop</button>
+    <div class="container">
+        <div class="cont">
+            <div id="buttons">
+                <button onclick="OpenStore()">Store</button>
+                <button onclick="JobOptions()">JobOptions</button>
+                <button onclick="Sloop()">Sloop</button>
+            </div>
+
+
+            <p id="OtherInfo"></p>
+            <p id="display_jobinfo"></p>
+            <p id="display_currency"></p>
+            <p id="display_inventory"></p>
         </div>
-
-
-        <p id="OtherInfo"></p>
-        <p id="display_jobinfo"></p>
-        <p id="display_currency"></p>
-        <p id="display_inventory"></p>
     </div>
+
     <script type="text/javascript">
 
         // COMMENTS SECTION
