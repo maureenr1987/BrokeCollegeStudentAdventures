@@ -154,12 +154,20 @@
             for (i = 0; i < StoreInventory.length; i++) { text += (i + 1) + ". " + ItemNames[StoreInventory[i]] + " - $" + ItemPrice[StoreInventory[i]] + "\n" }
             UserInput = prompt("Choose anything you like. \n \n" + text + (StoreInventory.length + 1) + ". Exit") - 1;
             if (UserInput < StoreInventory.length && UserInput >= 0) {
-                var Confirm = prompt(ItemNames[StoreInventory[UserInput]] + " - $" + ItemPrice[StoreInventory[UserInput]] + "\n" + ItemDecription[StoreInventory[UserInput]] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
-                if (Confirm == 1) {
-                    Currency -= ItemPrice[StoreInventory[UserInput]];
-                    AddToInventory(UserInput);
-                    alert("Thank you for your purchase.")
-                    RefreshUI();
+                var Many = prompt("How many do you want to buy", 1)
+                if (Many >= 1 && Many <= 1000) {
+                    var Confirm = prompt(ItemNames[StoreInventory[UserInput]] + " x" + Many + " - $" + (ItemPrice[StoreInventory[UserInput]]*Many) + "\n" + ItemDecription[StoreInventory[UserInput]] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
+                    if (Confirm == 1) {
+                        Currency -= ItemPrice[StoreInventory[UserInput]] * Many;
+                        for (i = 1; i <= Many; i++) {
+                            AddToInventory(UserInput);
+                        }
+                        alert("Thank you for your purchase.")
+                        RefreshUI();
+                    }
+                    else {
+                        alert("Ummm... Where are your parents?")
+                    }
                 }
                 else if (Confirm == 2) { Buy(); }
             }
@@ -203,18 +211,18 @@
         //Time Functions
         function WeekOptions() { //Done
             UserInput = prompt("Progress to next week. \n\nAre you you sure you want to progress now?\n1. Yes\n2. No");
-            if (UserInput == 1) { NextWeek()}
-            else { alert("Hold that thought!")}
+            if (UserInput == 1) { NextWeek() }
+            else { alert("Hold that thought!") }
         }
 
         function NextWeek() { //Done, but might be removed
             Week++;
-            if (UserJob == 0) { alert("Time to get a job!")}
+            if (UserJob == 0) { alert("Time to get a job!") }
 
             else { Currency += Salary[UserJob] }
             Currency -= Spendings[Week]
             Day = 1;
-            alert(Reasons[Week] + "\n\nSpendings: " + ( Spendings [Week]) * -1 )
+            alert(Reasons[Week] + "\n\nSpendings: " + (Spendings[Week]) * -1)
             alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob])
             RefreshUI()
         }
