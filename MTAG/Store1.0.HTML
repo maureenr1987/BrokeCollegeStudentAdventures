@@ -68,7 +68,8 @@
 
         //User
         var Currency = Math.floor(Math.random() * 401) + 100;
-        var UserInventory = [];
+        var UserInventoryItemName = [];
+        var UserInventoryQuantity = [];
         var UserJob = 0;
 
         //Time
@@ -118,8 +119,8 @@
         function RefreshUI() { //Done
             var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
             var text = "";
-            for (i = 0; i < UserInventory.length; i++) {
-                text += ItemNames[UserInventory[i]] + "<br>";
+            for (i = 0; i < UserInventoryItemName.length; i++) {
+                text += ItemNames[UserInventoryItemName[i]] + "<br>";
             }
 
             document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day]
@@ -156,7 +157,7 @@
             if (UserInput < StoreInventory.length && UserInput >= 0) {
                 var Many = prompt("How many do you want to buy", 1)
                 if (Many >= 1 && Many <= 1000) {
-                    var Confirm = prompt(ItemNames[StoreInventory[UserInput]] + " x" + Many + " - $" + (ItemPrice[StoreInventory[UserInput]]*Many) + "\n" + ItemDecription[StoreInventory[UserInput]] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
+                    var Confirm = prompt(ItemNames[StoreInventory[UserInput]] + " x" + Many + " - $" + (ItemPrice[StoreInventory[UserInput]] * Many) + "\n" + ItemDecription[StoreInventory[UserInput]] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
                     if (Confirm == 1) {
                         Currency -= ItemPrice[StoreInventory[UserInput]] * Many;
                         for (i = 1; i <= Many; i++) {
@@ -165,11 +166,11 @@
                         alert("Thank you for your purchase.")
                         RefreshUI();
                     }
-                    else {
-                        alert("Ummm... Where are your parents?")
-                    }
+                    else { Buy(); }
                 }
-                else if (Confirm == 2) { Buy(); }
+                else {
+                    alert("Ummm... Where are your parents?")
+                }
             }
             else if (UserInput == i) {
                 alert("Thank you. Come again!")
@@ -180,12 +181,12 @@
             var text = ""
             var i;
 
-            for (i = 0; i < UserInventory.length; i++) { text += (i + 1) + ". " + ItemNames[UserInventory[i]] + " - $" + ItemPrice[UserInventory[i]] + "\n" }
-            UserInput = prompt("Type in an items number to Sell it \n \n" + text + (UserInventory.length + 1) + ". Exit") - 1;
-            if (UserInput < UserInventory.length && UserInput >= 0) {
-                var Confirm = prompt(ItemNames[UserInventory[UserInput]] + " - $" + ItemPrice[UserInventory[UserInput]] + "\n" + ItemDecription[UserInventory[UserInput]] + "\n\nAre you sure you want to sell this?\n1. Yes \n2. No")
+            for (i = 0; i < UserInventoryItemName.length; i++) { text += (i + 1) + ". " + ItemNames[UserInventoryItemName[i]] + " - $" + ItemPrice[UserInventoryItemName[i]] + "\n" }
+            UserInput = prompt("Type in an items number to Sell it \n \n" + text + (UserInventorItemName.length + 1) + ". Exit") - 1;
+            if (UserInput < UserInventoryItemName.length && UserInput >= 0) {
+                var Confirm = prompt(ItemNames[UserInventoryItemName[UserInput]] + " - $" + ItemPrice[UserInventoryItemName[UserInput]] + "\n" + ItemDecription[UserInventoryItemName[UserInput]] + "\n\nAre you sure you want to sell this?\n1. Yes \n2. No")
                 if (Confirm == 1) {
-                    Currency += ItemPrice[UserInventory[UserInput]];
+                    Currency += ItemPrice[UserInventoryItemName[UserInput]];
                     RemoveToInventory(UserInput);
                     alert("Uhhh. Thanks...")
                     RefreshUI();
@@ -199,12 +200,12 @@
 
         //Inventory Functions
         function AddToInventory(NewItem) { //Done
-            UserInventory.push(NewItem);
+            UserInventoryItemName.push(NewItem);
             RefreshUI();
         }
 
         function RemoveToInventory(RemovedItem) { //Done
-            UserInventory.splice(RemovedItem)
+            UserInventoryItemName.splice(RemovedItem)
             RefreshUI();
         }
 
