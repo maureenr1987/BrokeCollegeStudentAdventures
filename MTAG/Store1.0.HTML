@@ -3,37 +3,86 @@
 
 <head>
     <title>MTAG 1.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
+        .container {
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        }
+        @media (min-width: 768px) {
+            .container {
+                width: 750px;
+            }
+        }
+        @media (min-width: 992px) {
+            .container {
+                width: 970px;
+            }
+        }
+        @media (min-width: 1200px) {
+            .container {
+                width: 1170px;
+            }
+        }
+
         @import url('https://fonts.googleapis.com/css?family=Roboto');
-    body {
-        font-family: Roboto;
-        background-color: #333;
-        color:white;
-    }
-    button {
-        background-color: gray;
-        border: none;
-        color:white;
-        padding: 12px 32px;
-        cursor: pointer;
-        transition: 0.2s ease;
-        margin: 0 2px;
-    }
-    button:hover {
-        background-color: rgb(85, 85, 85);
-    }
-</style>
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #333;
+            color:white;
+        }
+        button {
+            background-color: gray;
+            border: none;
+            color:white;
+            padding: 12px 32px;
+            cursor: pointer;
+            transition: 200ms ease;
+            margin: 0 2px;
+        }
+        button:hover {
+            background-color: rgb(85, 85, 85);
+        }
+        .cont {
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.288), 0 3px 6px rgba(0,0,0,0.23);
+            margin: 10px auto;
+            padding: 16px 14px;
+            color:white;
+            border-radius: 3px;
+            background-color: rgb(63, 63, 63);
+        }
+        #buttons{
+            display: flex;
+        }
+        #buttons button{
+            display: block;
+            flex-grow: 1;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
-    <button onclick="OpenStore()">Store</button>
-    <button onclick="JobOptions()">JobOptions</button>
-    <button onclick="Sloop()">Sloop</button>
+    <div class="container">
+        <div class="cont">
+            <div id="buttons">
+                <button onclick="OpenStore()">Store</button>
+                <button onclick="JobOptions()">JobOptions</button>
+                <button onclick="Sloop()">Sloop</button>
+            </div>
 
-    <p id="OtherInfo"></p>
-    <p id="display_jobinfo"></p>
-    <p id="display_currency"></p>
-    <p id="display_inventory"></p>
+
+            <p id="OtherInfo"></p>
+            <p id="display_jobinfo"></p>
+            <p id="display_currency"></p>
+            <p id="display_inventory"></p>
+        </div>
+    </div>
 
     <script type="text/javascript">
 
@@ -48,6 +97,7 @@
 
         // VARIABLES section
         //Items Library
+
         var ItemNames = [
             "Hot Pocket",
             "Maruchan Ramen",
@@ -78,16 +128,19 @@
         var Week = 0;
         var Spendings = [
             0,
-            0,
             215,
-            210 + 160
+            210 + 160,
+            100,
+            0,
+            300,
         ]
         var Reasons = [
             "",
-            "Time for a fresh Start",
-            "I hope I have enough to pay the water bill",
-            "This Week I have to pay the gas and electric",
-
+            "I hope I have enough to pay the water bill.",
+            "This week I have to pay the gas and electric.",
+            "I have to get clothes and food for that party that everybody is talking about.",
+            "FINALLY, a week with no expenses.",
+            "I have to buy food fo the month."
         ]
         var Day = 1;
 
@@ -122,7 +175,7 @@
             var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
             var text = "";
             for (i = 0; i < UserInventoryItemName.length; i++) {
-                text += ItemNames[UserInventoryItemName[i]] + " x" + UserInventoryQuantity[i] + "<br>"
+                text += ItemNames[UserInventoryItemName[i]] + "<br>";
             }
 
             document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day]
@@ -144,8 +197,7 @@
             var UserInput = prompt("Store Owner: Hi how you doing? What do you need today\n \n1. Buy\n2. Sell\n3. Exit");
             if (UserInput == 1) { Buy() }
             else if (UserInput == 2) { Sell() }
-            else if (UserInput == 3) { alert("Uhh. Have a nice day?") }
-            else { alert("Excuse me, I couldn't quite hear you. Could you repeat?"); OpenStore() }
+            else { alert("Uhh. Have a nice day?") }
         }
 
         function Buy() { //Done
@@ -162,7 +214,9 @@
                     var Confirm = prompt(ItemNames[StoreInventory[UserInput]] + " x" + Many + " - $" + (ItemPrice[StoreInventory[UserInput]] * Many) + "\n" + ItemDecription[StoreInventory[UserInput]] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
                     if (Confirm == 1) {
                         Currency -= ItemPrice[StoreInventory[UserInput]] * Many;
-                        AddToInventory(UserInput, Many);
+                        for (i = 1; i <= Many; i++) {
+                            AddToInventory(UserInput);
+                        }
                         alert("Thank you for your purchase.")
                         RefreshUI();
                     }
@@ -200,24 +254,14 @@
 
         //Inventory Functions
         function AddToInventory(NewItemN, NewItemQ) { //Done
-            for (i = 0; i < UserInventoryItemName.length; i++) {
-                if (NewItemN == UserInventoryItemName[i]) {
-                    UserInventoryQuantity[i] += NewItemQ
-                }
-                else {
-                UserInventoryItemName.push(NewItemN);
-                UserInventoryQuantity.push(NewItemQ);
-                
-                }
-            }
+            UserInventoryItemName.push(NewItemN);
+            UserInventoryQuantity.push(NewItemQ);
             RefreshUI();
         }
 
-        function RemoveToInventory(RemovedItemIndex, RemovedItemQ) { //Done
-            //for (i = 1; i < RemovedItemN; i++) {
-                UserInventoryItemName.splice(RemovedItemN)
-                UserInventoryQuantity.splice(RemovedItemQ)
-            //}
+        function RemoveToInventory(RemovedItemN, RemovedItemQ) { //Done
+            UserInventoryItemName.splice(RemovedItemN)
+            UserInventoryQuantity.splice
             RefreshUI();
         }
 
@@ -230,7 +274,7 @@
 
         function NextWeek() { //Done, but might be removed
             Week++;
-            if (UserJob == 0) { alert("Time to get a job!") }
+            if (UserJob == 0) { alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!") }
 
             else { Currency += Salary[UserJob] }
             Currency -= Spendings[Week]
@@ -324,14 +368,12 @@
         }
 
         function Sloop() {
-            Day++
-            RefreshUI()
+            Day++;
+            RefreshUI();
         }
 
         // MAIN program execution
-        NextWeek();
         RefreshUI();
-
     </script>
 </body>
 
