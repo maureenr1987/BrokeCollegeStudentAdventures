@@ -122,7 +122,7 @@
             var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
             var text = "";
             for (i = 0; i < UserInventoryItemName.length; i++) {
-                text += ItemNames[UserInventoryItemName[i]] + "<br>";
+                text += ItemNames[UserInventoryItemName[i]] + " x" + UserInventoryQuantity[i] + "<br>"
             }
 
             document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day]
@@ -162,9 +162,7 @@
                     var Confirm = prompt(ItemNames[StoreInventory[UserInput]] + " x" + Many + " - $" + (ItemPrice[StoreInventory[UserInput]] * Many) + "\n" + ItemDecription[StoreInventory[UserInput]] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
                     if (Confirm == 1) {
                         Currency -= ItemPrice[StoreInventory[UserInput]] * Many;
-                        for (i = 1; i <= Many; i++) {
-                            AddToInventory(UserInput);
-                        }
+                        AddToInventory(UserInput, Many);
                         alert("Thank you for your purchase.")
                         RefreshUI();
                     }
@@ -201,15 +199,25 @@
         }
 
         //Inventory Functions
-        function AddToInventory(NewItemN,NewItemQ) { //Done
-            UserInventoryItemName.push(NewItemN);
-            UserInventoryQuantity.push(NewItemQ);
+        function AddToInventory(NewItemN, NewItemQ) { //Done
+            for (i = 0; i < UserInventoryItemName.length; i++) {
+                if (NewItemN == UserInventoryItemName[i]) {
+                    UserInventoryQuantity[i] += NewItemQ
+                }
+                else {
+                UserInventoryItemName.push(NewItemN);
+                UserInventoryQuantity.push(NewItemQ);
+                
+                }
+            }
             RefreshUI();
         }
 
-        function RemoveToInventory(RemovedItemN,RemovedItemQ) { //Done
-            UserInventoryItemName.splice(RemovedItemN)
-            UserInventoryQuantity.splice
+        function RemoveToInventory(RemovedItemIndex, RemovedItemQ) { //Done
+            //for (i = 1; i < RemovedItemN; i++) {
+                UserInventoryItemName.splice(RemovedItemN)
+                UserInventoryQuantity.splice(RemovedItemQ)
+            //}
             RefreshUI();
         }
 
@@ -319,6 +327,7 @@
             Day++
             RefreshUI()
         }
+
         // MAIN program execution
         NextWeek();
         RefreshUI();
