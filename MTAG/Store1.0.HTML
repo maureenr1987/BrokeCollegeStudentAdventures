@@ -80,14 +80,19 @@
             0,
             0,
             215,
-            210 + 160
+            210 + 160,
+            100,
+            0,
+            300,
         ]
         var Reasons = [
             "",
-            "Time for a fresh Start",
-            "I hope I have enough to pay the water bill",
-            "This Week I have to pay the gas and electric",
-
+            "Time for a fresh Start.",
+            "I hope I have enough to pay the water bill.",
+            "This week I have to pay the gas and electric.",
+            "I have to get clothes and food for that party that everybody is talking about.",
+            "FINALLY, a week with no expenses.",
+            "I have to buy food fo the month."
         ]
         var Day = 1;
 
@@ -201,13 +206,13 @@
         }
 
         //Inventory Functions
-        function AddToInventory(NewItemN,NewItemQ) { //Done
+        function AddToInventory(NewItemN, NewItemQ) { //Done
             UserInventoryItemName.push(NewItemN);
             UserInventoryQuantity.push(NewItemQ);
             RefreshUI();
         }
 
-        function RemoveToInventory(RemovedItemN,RemovedItemQ) { //Done
+        function RemoveToInventory(RemovedItemN, RemovedItemQ) { //Done
             UserInventoryItemName.splice(RemovedItemN)
             UserInventoryQuantity.splice
             RefreshUI();
@@ -222,7 +227,7 @@
 
         function NextWeek() { //Done, but might be removed
             Week++;
-            if (UserJob == 0) { alert("Time to get a job!") }
+            if (UserJob == 0) { alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!") }
 
             else { Currency += Salary[UserJob] }
             Currency -= Spendings[Week]
