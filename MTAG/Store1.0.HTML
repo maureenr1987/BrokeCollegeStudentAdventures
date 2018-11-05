@@ -28,6 +28,8 @@
 <body>
     <button onclick="OpenStore()">Store</button>
     <button onclick="JobOptions()">JobOptions</button>
+    <button onclick="Sloop()">Sloop</button>
+
     <p id="OtherInfo"></p>
     <p id="display_jobinfo"></p>
     <p id="display_currency"></p>
@@ -313,6 +315,10 @@
             }
         }
 
+        function Sloop() {
+            Day++
+            RefreshUI()
+        }
         // MAIN program execution
         NextWeek();
         RefreshUI();
