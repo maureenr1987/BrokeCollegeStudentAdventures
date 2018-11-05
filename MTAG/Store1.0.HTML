@@ -117,7 +117,7 @@
 
         // FUNCTION section
         function RefreshUI() { //Done
-            var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+            var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             var text = "";
             for (i = 0; i < UserInventoryItemName.length; i++) {
                 text += ItemNames[UserInventoryItemName[i]] + "<br>";
@@ -132,7 +132,7 @@
                 document.getElementById("display_currency").style.color = "white";
             }
             document.getElementById("display_inventory").innerHTML = "Inventory: <br>" + text;
-            if (Day == 7) {
+            if (Day >= 7) {
                 NextWeek();
             }
         }
@@ -199,13 +199,15 @@
         }
 
         //Inventory Functions
-        function AddToInventory(NewItem) { //Done
-            UserInventoryItemName.push(NewItem);
+        function AddToInventory(NewItemN,NewItemQ) { //Done
+            UserInventoryItemName.push(NewItemN)
+            UserInventoryQuantity.push(NewItemQ)
             RefreshUI();
         }
 
-        function RemoveToInventory(RemovedItem) { //Done
-            UserInventoryItemName.splice(RemovedItem)
+        function RemoveToInventory(RemovedItemN,RemovedItemQ) { //Done
+            UserInventoryItemName.splice(RemovedItemN)
+            UserInventoryQuantity.splice(RemovedItemQ)
             RefreshUI();
         }
 
