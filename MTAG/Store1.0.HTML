@@ -96,43 +96,27 @@
 
 
         // VARIABLES section
-        //Items Library
-        
-        function ItemList (Index, Quantity)
-        function Item (Name, Quantity, Desc) {
-            this.Name = Name;
-            this.Quantity = Quantity;
-            this.Desc = Desc;
+        //ItemsLibrary
+        function ItemInfo(IIndex, Name, Price, Desc) {
+            this.IIndex = IIndex
+            this.Name = Name
+            this.Price = Price
+            this.Desc = Desc
+
         }
-
-
-
-
-
-        var ItemNames = [
-            "Hot Pocket",
-            "Maruchan Ramen",
-            "New TV Remote",
-            "BackScraterenator 3000",
-            "Caleb",
-            "Rosetta Stone"
-        ];
-        var ItemPrice = [
-            2, 5, 20, 60, 1000, 4200
-        ];
-        var ItemDecription = [
-            "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor.",
-            "The Maruchan ramen is a very popular brand of noodles in the United-States.",
-            "Infrared All in One Remote Control",
-            "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw",
-            "If you feed him 25 cents, he'll fix your roof",
-            "REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET!!!!!!"
-        ];
+        var Library = [
+            new ItemInfo(0, "Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor."),
+            new ItemInfo(1, "Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States."),
+            new ItemInfo(2, "New TV Remote", 20, "Infrared All in One Remote Control"),
+            new ItemInfo(3, "BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw"),
+            new ItemInfo(4, "Caleb", 1000, "If you feed him 25 cents, he'll fix your roof"),
+            new ItemInfo(5, "Rosetta Stone", 4200, "REEEEEEEEEEEEEEET")
+        ]
 
         //User
         var Currency = Math.floor(Math.random() * 401) + 100;
-        var UserInventoryItemName = [];
-        var UserInventoryQuantity = [];
+        var InvIndex = [];
+        var InvQuantity = [];
         var UserJob = 0;
 
         //Time
@@ -185,10 +169,9 @@
         function RefreshUI() { //Done
             var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
             var text = "";
-            for (i = 0; i < UserInventoryItemName.length; i++) {
-                text += ItemNames[UserInventoryItemName[i]] + "<br>";
+            for (i = 0; i < InvIndex.length; i++) {
+                text += Library[InvIndex[i]]['Name'] + " " + InvQuantity[i] + "<br>";
             }
-
             document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day]
             document.getElementById("display_jobinfo").innerHTML = "Job: " + Job[UserJob];
             document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
@@ -212,22 +195,20 @@
         }
 
         function Buy() { //Done
-            var StoreInventory = [0, 1, 2, 3, 4, 5];
+            var InvStore = [0, 1, 2, 3, 4, 5];
             var text = "";
             var i;
 
             //Formats the stores stock an user input
-            for (i = 0; i < StoreInventory.length; i++) { text += (i + 1) + ". " + ItemNames[StoreInventory[i]] + " - $" + ItemPrice[StoreInventory[i]] + "\n" }
-            UserInput = prompt("Choose anything you like. \n \n" + text + (StoreInventory.length + 1) + ". Exit") - 1;
-            if (UserInput < StoreInventory.length && UserInput >= 0) {
+            for (i = 0; i < InvStore.length; i++) { text += (i + 1) + ". " + Library[InvStore[i]]['Name'] + " - $" + Library[InvStore[i]]['Price'] + "\n" }
+            UserInput = prompt("Choose anything you like. \n \n" + text + (InvStore.length + 1) + ". Exit") - 1;
+            if (UserInput < InvStore.length && UserInput >= 0) {
                 var Many = prompt("How many do you want to buy", 1)
-                if (Many >= 1 && Many <= 1000) {
-                    var Confirm = prompt(ItemNames[StoreInventory[UserInput]] + " x" + Many + " - $" + (ItemPrice[StoreInventory[UserInput]] * Many) + "\n" + ItemDecription[StoreInventory[UserInput]] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
+                if (Many > 0 && Many <= 1000) {
+                    var Confirm = prompt(Library[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Library[InvStore[UserInput]]['Price'] * Many) + "\n" + Library[InvStore[UserInput]]['Desc'] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
                     if (Confirm == 1) {
-                        Currency -= ItemPrice[StoreInventory[UserInput]] * Many;
-                        for (i = 1; i <= Many; i++) {
-                            AddToInventory(UserInput);
-                        }
+                        Currency -= Library[InvStore[UserInput]]['Price'] * Many;
+                        AddToInventory(InvStore[UserInput], Many);
                         alert("Thank you for your purchase.")
                         RefreshUI();
                     }
@@ -246,17 +227,23 @@
             var text = ""
             var i;
 
-            for (i = 0; i < UserInventoryItemName.length; i++) { text += (i + 1) + ". " + ItemNames[UserInventoryItemName[i]] + " - $" + ItemPrice[UserInventoryItemName[i]] + "\n" }
-            UserInput = prompt("Type in an items number to Sell it \n \n" + text + (UserInventorItemName.length + 1) + ". Exit") - 1;
-            if (UserInput < UserInventoryItemName.length && UserInput >= 0) {
-                var Confirm = prompt(ItemNames[UserInventoryItemName[UserInput]] + " - $" + ItemPrice[UserInventoryItemName[UserInput]] + "\n" + ItemDecription[UserInventoryItemName[UserInput]] + "\n\nAre you sure you want to sell this?\n1. Yes \n2. No")
-                if (Confirm == 1) {
-                    Currency += ItemPrice[UserInventoryItemName[UserInput]];
-                    RemoveToInventory(UserInput);
-                    alert("Uhhh. Thanks...")
-                    RefreshUI();
+            for (i = 0; i < InvIndex.length; i++) { text += (i + 1) + ". " + Library[InvIndex[i]]['Name'] + " - $" + Library[InvIndex[i]]['Price'] + "\n" }
+            UserInput = prompt("Type in an items number to Sell it \n \n" + text + (InvIndex.length + 1) + ". Exit") - 1;
+            if (UserInput < InvIndex.length && UserInput >= 0) {
+                var Many = prompt("How many do you want to sell", 1)
+                if (Many > 0 && Many <= InvQuantity[UserInput]) {
+                    var Confirm = prompt( Library[InvIndex[UserInput]]['Name'] + " - $" + (Library[InvIndex[UserInput]]['Price'] * Many) + "\n" + Library[InvIndex[UserInput]]['Desc'] + "\n\nAre you sure you want to sell this?\n1. Yes \n2. No")
+                    if (Confirm == 1) {
+                        Currency += Library[InvIndex[UserInput]]['Price'] * Many;
+                        RemoveToInventory(UserInput, Many);
+                        alert("Uhhh. Thanks...")
+                        RefreshUI();
+                    }
+                    else if (Confirm == 2) { Sell(); }
                 }
-                else if (Confirm == 2) { Sell(); }
+                else if (Many >= InvQuantity[UserInput]) {
+                    alert("Boi! You know you ain't got that many!")
+                } 
             }
             else if (UserInput == i) {
                 alert("Thank you. Come again!")
@@ -264,26 +251,33 @@
         }
 
         //Inventory Functions
-        function AddToInventory(NewItemN, NewItemQ) { //Done
-            UserInventoryItemName.push(NewItemN);
-            //UserInventoryQuantity.push(NewItemQ);
+        function AddToInventory(Item, Plus) { //Done
+            var i;
+            var Exists = false;
+            for (i = 0; i < InvIndex.length; i++) {
+                if (InvIndex[i] == Item) {
+                    InvQuantity[i] = (parseInt(InvQuantity[i]) + parseInt(Plus))
+                    Exists = true;
+                }
+            }
+            if (Exists == false) {
+                InvIndex.push(Item);
+                InvQuantity.push(Plus);
+            }
             RefreshUI();
         }
 
-        function RemoveToInventory(RemovedItemN, RemovedItemQ) { //Done
-            UserInventoryItemName.splice(RemovedItemN)
-            //UserInventoryQuantity.splice
+        function RemoveToInventory(Item, Minus) { //Done
+            InvQuantity[Item] = (parseInt(InvQuantity[Item]) - parseInt(Minus))
+            if (InvQuantity[Item] < 1) {
+                InvIndex.splice(Item);
+                InvQuantity.splice(Item);
+            }
             RefreshUI();
         }
 
         //Time Functions
-        function WeekOptions() { //Done
-            UserInput = prompt("Progress to next week. \n\nAre you you sure you want to progress now?\n1. Yes\n2. No");
-            if (UserInput == 1) { NextWeek() }
-            else { alert("Hold that thought!") }
-        }
-
-        function NextWeek() { //Done, but might be removed
+        function NextWeek() { //Done
             Week++;
             if (UserJob == 0) { alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!") }
 
