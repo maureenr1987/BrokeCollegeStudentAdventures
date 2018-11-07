@@ -4,30 +4,9 @@
 <head>
     <title>MTAG 1.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
     <style>
-        .container {
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
-        }
-        @media (min-width: 768px) {
-            .container {
-                width: 750px;
-            }
-        }
-        @media (min-width: 992px) {
-            .container {
-                width: 970px;
-            }
-        }
-        @media (min-width: 1200px) {
-            .container {
-                width: 1170px;
-            }
-        }
-
         @import url('https://fonts.googleapis.com/css?family=Roboto');
         body {
             font-family: "Roboto", sans-serif;
@@ -35,7 +14,7 @@
             color:white;
         }
         button {
-            background-color: gray;
+            background-color: #2196f3;
             border: none;
             color:white;
             padding: 12px 32px;
@@ -44,7 +23,7 @@
             margin: 0 2px;
         }
         button:hover {
-            background-color: rgb(85, 85, 85);
+            background-color: #1565c0;
         }
         .cont {
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.288), 0 3px 6px rgba(0,0,0,0.23);
@@ -53,6 +32,9 @@
             color:white;
             border-radius: 3px;
             background-color: rgb(63, 63, 63);
+        }
+        h1 {
+            padding: 0;
         }
         #buttons{
             display: flex;
@@ -64,23 +46,37 @@
             width: 100%;
             height: 100%;
         }
+        #OtherInfo {
+            margin-top: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="cont">
-            <div id="buttons">
-                <button onclick="OpenStore()">Store</button>
-                <button onclick="JobOptions()">Job Options</button>
-                <button onclick="Sloop()">Sloop</button>
+        <div class="row">
+            <div class="col-6">
+                <div class="cont">
+                    <h1>College Debt: The Game</h1>
+                    <div id="buttons">
+                        <button onclick="OpenStore()">Store</button>
+                        <button onclick="JobOptions()">Job Options</button>
+                        <button onclick="Sloop()">Sloop</button>
+                    </div>
+
+
+                    <p id="OtherInfo"></p>
+                    <p id="display_jobinfo"></p>
+                    <p id="display_currency"></p>
+                </div>
             </div>
 
+            <div class="col-6">
+                <div class="cont">
+                    <p id="display_inventory"></p>
+                </div>
 
-            <p id="OtherInfo"></p>
-            <p id="display_jobinfo"></p>
-            <p id="display_currency"></p>
-            <p id="display_inventory"></p>
+            </div>
         </div>
     </div>
 
@@ -374,6 +370,8 @@
         // MAIN program execution
         RefreshUI();
     </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
