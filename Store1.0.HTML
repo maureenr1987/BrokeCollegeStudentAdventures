@@ -69,324 +69,338 @@
                     <p id="display_jobinfo"></p>
                     <p id="display_currency"></p>
                 </div>
+            </div>
+            <div class="col-6">
+                <div class="cont">
+                    <h1>Inventory</h1>
+                    <p id="display_inventory"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <script type="text/javascript">
+    <script type="text/javascript">
 
-                    // COMMENTS SECTION
-                    /* 
-                    Programmer: Mauricio
-                    Date Last Modified: 10/31/2018
-                    Goal/Purpose: Make a presentable MTAG
-                    Status: in Progress
-                    */
+        // COMMENTS SECTION
+        /* 
+        Programmer: Mauricio
+        Date Last Modified: 10/31/2018
+        Goal/Purpose: Make a presentable MTAG
+        Status: in Progress
+        */
 
 
-                    // VARIABLES section
-                    //ItemsLibrary
-                    function ItemInfo(Name, Price, Desc) {
-                        this.Name = Name
-                        this.Price = Price
-                        this.Desc = Desc
+        // VARIABLES section
+        //ItemsLibrary
+        function ItemInfo(Name, Price, Desc) {
+            this.Name = Name
+            this.Price = Price
+            this.Desc = Desc
 
-                    }
-                    var Library = [
-                        new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor."),
-                        new ItemInfo("Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States."),
-                        new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control"),
-                        new ItemInfo("BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw"),
-                        new ItemInfo("Caleb", 1000, "If you feed him 25 cents, he'll fix your roof"),
-                        new ItemInfo("Rosetta Stone", 4200, "REEEEEEEEEEEEEEET")
-                    ]
+        }
+        var Library = [
+            new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor."),
+            new ItemInfo("Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States."),
+            new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control"),
+            new ItemInfo("BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw"),
+            new ItemInfo("Caleb", 1000, "If you feed him 25 cents, he'll fix your roof"),
+            new ItemInfo("Rosetta Stone", 4200, "REEEEEEEEEEEEEEET")
+        ]
 
-                    var ItemNames = [
-                        "Hot Pocket",
-                        "Maruchan Ramen",
-                        "New TV Remote",
-                        "BackScraterenator 3000",
-                        "Caleb",
-                        "Rosetta Stone"
-                    ];
-                    var ItemPrice = [
-                        2, 5, 20, 60, 1000, 4200
-                    ];
-                    var ItemDecription = [
-                        "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor.",
-                        "The Maruchan ramen is a very popular brand of noodles in the United-States.",
-                        "Infrared All in One Remote Control",
-                        "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw",
-                        "If you feed him 25 cents, he'll fix your roof",
-                        "REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET!!!!!!"
-                    ];
+        var ItemNames = [
+            "Hot Pocket",
+            "Maruchan Ramen",
+            "New TV Remote",
+            "BackScraterenator 3000",
+            "Caleb",
+            "Rosetta Stone"
+        ];
+        var ItemPrice = [
+            2, 5, 20, 60, 1000, 4200
+        ];
+        var ItemDecription = [
+            "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor.",
+            "The Maruchan ramen is a very popular brand of noodles in the United-States.",
+            "Infrared All in One Remote Control",
+            "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw",
+            "If you feed him 25 cents, he'll fix your roof",
+            "REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET!!!!!!"
+        ];
 
-                    //User
-                    var Currency = Math.floor(Math.random() * 401) + 100;
-                    var InvIndex = [];
-                    var InvQuantity = [];
-                    var UserJob = 0;
+        //User
+        var Currency = Math.floor(Math.random() * 401) + 100;
+        var InvIndex = [];
+        var InvQuantity = [];
+        var UserJob = 0;
 
-                    //Time
-                    var Week = 0;
-                    var Spendings = [
-                        0,
-                        215,
-                        210 + 160,
-                        100,
-                        0,
-                        300,
-                    ]
-                    var Reasons = [
-                        "",
-                        "I hope I have enough to pay the water bill.",
-                        "This week I have to pay the gas and electric.",
-                        "I have to get clothes and food for that party that everybody is talking about.",
-                        "FINALLY, a week with no expenses.",
-                        "I have to buy food fo the month."
-                    ]
-                    var Day = 1;
+        //Time
+        var Week = 0;
+        var Spendings = [
+            0,
+            215,
+            210 + 160,
+            100,
+            0,
+            300,
+        ]
+        var Reasons = [
+            "",
+            "I hope I have enough to pay the water bill.",
+            "This week I have to pay the gas and electric.",
+            "I have to get clothes and food for that party that everybody is talking about.",
+            "FINALLY, a week with no expenses.",
+            "I have to buy food fo the month."
+        ]
+        var Day = 1;
 
-                    //Employment
-                    var Job = [
-                        "Unemployed",
-                        "McDonalds",
-                        "Waiter",
-                        "Nurse",
-                        "FactoryWorker",
-                        "Scientist"
-                    ];
-                    var Salary = [
-                        0,
-                        250,
-                        Math.floor(Math.random * 200) + 200,
-                        400,
-                        500,
-                        800
-                    ]
-                    var Employability = [
-                        100,
-                        70,
-                        30,
-                        10,
-                        5,
-                        1
-                    ];
+        //Employment
+        var Job = [
+            "Unemployed",
+            "McDonalds",
+            "Waiter",
+            "Nurse",
+            "FactoryWorker",
+            "Scientist"
+        ];
+        var Salary = [
+            0,
+            250,
+            Math.floor(Math.random * 200) + 200,
+            400,
+            500,
+            800
+        ]
+        var Employability = [
+            100,
+            70,
+            30,
+            10,
+            5,
+            1
+        ];
 
-                    // FUNCTION section
-                    function RefreshUI() { //Done
-                        var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-                        var text = "";
-                        for (i = 0; i < InvIndex.length; i++) {
-                            text += Library[InvIndex[i]]['Name'] + " " + InvQuantity[i] + "<br>";
-                        }
-                        document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day]
-                        document.getElementById("display_jobinfo").innerHTML = "Job: " + Job[UserJob];
-                        document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
-                        if (Currency <= 0) {
-                            document.getElementById("display_currency").style.color = "red";
-                        } else {
-                            document.getElementById("display_currency").style.color = "white";
-                        }
-                        document.getElementById("display_inventory").innerHTML = "Inventory: <br>" + text;
-                        if (Day == 7) {
-                            NextWeek();
-                        }
-                    }
+        // FUNCTION section
+        function RefreshUI() {
+            // Update the day
+            var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day];
+            
+            // Update users job
+            document.getElementById("display_jobinfo").innerHTML = "Job: " + Job[UserJob];
+            
+            // Update Currency
+            document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
+            
+            // Change Currency Color
+            document.getElementById("display_currency").style.color = (Currency <= 0 ? "red" : "white");
+            
+            // Update Inventory
+            var inventory_buffer = "";
+            for (i = 0; i < InvIndex.length; i++) {
+                inventory_buffer += Library[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")<br>";
+            }
+            document.getElementById("display_inventory").innerHTML = inventory_buffer;
+            
+            if (Day == 7) {
+                NextWeek();
+            }
+        }
 
-                    //Store Functions
-                    function OpenStore() { //Done
-                        var UserInput = prompt("Store Owner: Hi how you doing? What do you need today\n \n1. Buy\n2. Sell\n3. Exit");
-                        if (UserInput == 1) { Buy() }
-                        else if (UserInput == 2) { Sell() }
-                        else { alert("Uhh. Have a nice day?") }
-                    }
+        //Store Functions
+        function OpenStore() {
+            var UserInput = prompt("Store Owner: Hi how you doing? What do you need today\n \n1. Buy\n2. Sell\n3. Exit");
+            if (UserInput == 1) { Buy() }
+            else if (UserInput == 2) { Sell() }
+            else { alert("Uhh. Have a nice day?") }
+        }
 
-                    function Buy() { //Done
-                        var InvStore = [0, 1, 2, 3, 4, 5];
-                        var text = "";
-                        var i;
+        function Buy() {
+            var InvStore = [0, 1, 2, 3, 4, 5];
+            var text = "";
+            var i;
 
-                        //Formats the stores stock an user input
-                        for (i = 0; i < InvStore.length; i++) { text += (i + 1) + ". " + Library[InvStore[i]]['Name'] + " - $" + Library[InvStore[i]]['Price'] + "\n" }
-                        UserInput = prompt("Choose anything you like. \n \n" + text + (InvStore.length + 1) + ". Exit") - 1;
-                        if (UserInput < InvStore.length && UserInput >= 0) {
-                            var Many = prompt("How many do you want to buy", 1)
-                            if (Many > 0 && Many <= 1000) {
-                                var Confirm = prompt(Library[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Library[InvStore[UserInput]]['Price'] * Many) + "\n" + Library[InvStore[UserInput]]['Desc'] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
-                                if (Confirm == 1) {
-                                    Currency -= Library[InvStore[UserInput]]['Price'] * Many;
-                                    AddToInventory(InvStore[UserInput], Many);
-                                    alert("Thank you for your purchase.")
-                                    RefreshUI();
-                                }
-                                else { Buy(); }
-                            }
-                            else {
-                                alert("Ummm... Where are your parents?")
-                            }
-                        }
-                        else if (UserInput == i) {
-                            alert("Thank you. Come again!")
-                        }
-                    }
-
-                    function Sell() { //Done
-                        var text = ""
-                        var i;
-
-                        for (i = 0; i < InvIndex.length; i++) { text += (i + 1) + ". " + Library[InvIndex[i]]['Name'] + " - $" + Library[InvIndex[i]]['Price'] + "\n" }
-                        UserInput = prompt("Type in an items number to Sell it \n \n" + text + (InvIndex.length + 1) + ". Exit") - 1;
-                        if (UserInput < InvIndex.length && UserInput >= 0) {
-                            var Many = prompt("How many do you want to sell", 1)
-                            if (Many > 0 && Many <= InvQuantity[UserInput]) {
-                                var Confirm = prompt(Library[InvIndex[UserInput]]['Name'] + " - $" + (Library[InvIndex[UserInput]]['Price'] * Many) + "\n" + Library[InvIndex[UserInput]]['Desc'] + "\n\nAre you sure you want to sell this?\n1. Yes \n2. No")
-                                if (Confirm == 1) {
-                                    Currency += Library[InvIndex[UserInput]]['Price'] * Many;
-                                    RemoveToInventory(UserInput, Many);
-                                    alert("Uhhh. Thanks...")
-                                    RefreshUI();
-                                }
-                                else if (Confirm == 2) { Sell(); }
-                            }
-                            else if (Many >= InvQuantity[UserInput]) {
-                                alert("Boi! You know you ain't got that many!")
-                            }
-                        }
-                        else if (UserInput == i) {
-                            alert("Thank you. Come again!")
-                        }
-                    }
-
-                    //Inventory Functions
-                    function AddToInventory(Item, Plus) { //Done
-                        var i;
-                        var Exists = false;
-                        for (i = 0; i < InvIndex.length; i++) {
-                            if (InvIndex[i] == Item) {
-                                InvQuantity[i] = (parseInt(InvQuantity[i]) + parseInt(Plus))
-                                Exists = true;
-                            }
-                        }
-                        if (Exists == false) {
-                            InvIndex.push(Item);
-                            InvQuantity.push(Plus);
-                        }
+            //Formats the stores stock an user input
+            for (i = 0; i < InvStore.length; i++) { text += (i + 1) + ". " + Library[InvStore[i]]['Name'] + " - $" + Library[InvStore[i]]['Price'] + "\n" }
+            UserInput = prompt("Choose anything you like. \n \n" + text + (InvStore.length + 1) + ". Exit") - 1;
+            if (UserInput < InvStore.length && UserInput >= 0) {
+                var Many = prompt("How many do you want to buy", 1)
+                if (Many > 0 && Many <= 1000) {
+                    var Confirm = prompt(Library[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Library[InvStore[UserInput]]['Price'] * Many) + "\n" + Library[InvStore[UserInput]]['Desc'] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
+                    if (Confirm == 1) {
+                        Currency -= Library[InvStore[UserInput]]['Price'] * Many;
+                        AddToInventory(InvStore[UserInput], Many);
+                        alert("Thank you for your purchase.")
                         RefreshUI();
                     }
+                    else { Buy(); }
+                }
+                else {
+                    alert("Ummm... Where are your parents?")
+                }
+            }
+            else if (UserInput == i) {
+                alert("Thank you. Come again!")
+            }
+        }
 
-                    function RemoveToInventory(Item, Minus) { //Done
-                        InvQuantity[Item] = (parseInt(InvQuantity[Item]) - parseInt(Minus))
-                        if (InvQuantity[Item] < 1) {
-                            InvIndex.splice(Item);
-                            InvQuantity.splice(Item);
-                        }
+        function Sell() { //Done
+            var text = ""
+            var i;
+
+            for (i = 0; i < InvIndex.length; i++) { text += (i + 1) + ". " + Library[InvIndex[i]]['Name'] + " - $" + Library[InvIndex[i]]['Price'] + "\n" }
+            UserInput = prompt("Type in an items number to Sell it \n \n" + text + (InvIndex.length + 1) + ". Exit") - 1;
+            if (UserInput < InvIndex.length && UserInput >= 0) {
+                var Many = prompt("How many do you want to sell", 1)
+                if (Many > 0 && Many <= InvQuantity[UserInput]) {
+                    var Confirm = prompt(Library[InvIndex[UserInput]]['Name'] + " - $" + (Library[InvIndex[UserInput]]['Price'] * Many) + "\n" + Library[InvIndex[UserInput]]['Desc'] + "\n\nAre you sure you want to sell this?\n1. Yes \n2. No")
+                    if (Confirm == 1) {
+                        Currency += Library[InvIndex[UserInput]]['Price'] * Many;
+                        RemoveToInventory(UserInput, Many);
+                        alert("Uhhh. Thanks...")
                         RefreshUI();
                     }
+                    else if (Confirm == 2) { Sell(); }
+                }
+                else if (Many >= InvQuantity[UserInput]) {
+                    alert("Boi! You know you ain't got that many!")
+                }
+            }
+            else if (UserInput == i) {
+                alert("Thank you. Come again!")
+            }
+        }
 
-                    //Time Functions
-                    function NextWeek() { //Done
-                        Week++;
-                        if (UserJob == 0) { alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!") }
+        //Inventory Functions
+        function AddToInventory(Item, Plus) {
+            var i;
+            var Exists = false;
+            for (i = 0; i < InvIndex.length; i++) {
+                if (InvIndex[i] == Item) {
+                    InvQuantity[i] = (parseInt(InvQuantity[i]) + parseInt(Plus))
+                    Exists = true;
+                }
+            }
+            if (Exists == false) {
+                InvIndex.push(Item);
+                InvQuantity.push(Plus);
+            }
+            RefreshUI();
+        }
 
-                        else { Currency += Salary[UserJob] }
-                        Currency -= Spendings[Week]
-                        Day = 1;
-                        alert(Reasons[Week] + "\n\nSpendings: " + (Spendings[Week]) * -1)
-                        alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob])
+        function RemoveToInventory(Item, Minus) {
+            InvQuantity[Item] = (parseInt(InvQuantity[Item]) - parseInt(Minus))
+            if (InvQuantity[Item] < 1) {
+                InvIndex.splice(Item);
+                InvQuantity.splice(Item);
+            }
+            RefreshUI();
+        }
+
+        function NextWeek() {
+            Week++;
+            if (UserJob == 0) { alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!") }
+
+            else { Currency += Salary[UserJob] }
+            Currency -= Spendings[Week]
+            Day = 1;
+            alert(Reasons[Week] + "\n\nSpendings: " + (Spendings[Week]) * -1)
+            alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob])
+            RefreshUI()
+        }
+
+        //Job Functions
+        function JobOptions() { //Done
+            UserInput = prompt("What to do?\n1. Change Job\n2. Quit Current Job \n3. Get Internship");
+            if (UserInput == 1) { Apply() }
+            else if (UserInput == 2) { Resign() }
+            else if (UserInput == 3) { Intern() }
+            else { alert("Quit wasting my time then.") }
+        }
+
+        function Apply() {
+            var i;
+            var text = "";
+
+            if (UserJob > 1) {
+                alert("You already have a job")
+            }
+            else {
+                for (i = 1; i < Job.length; i++) { text += i + ". " + Job[i] + "\n" };
+                var UserInput = prompt("Where do you want to apply?\n" + text + i + ". Cancel");
+                if (UserInput >= 1 && UserInput < i) {
+                    var Confirm = prompt("Yor chance of getting a job at " + Job[UserInput] + " is about " + Employability[UserInput] + " percent.\n\n Are you sure you want to apply?\n1. Yes\n2. No");
+                    if (Confirm == 1) {
+                        var Random = Math.floor(Math.random() * 101);
+                        if (Employability[UserInput] > Random) {
+                            UserJob = UserInput;
+                            alert("You got the job!")
+                        }
+                        else {
+                            alert("These losers don't see talent when it's right in front of them!")
+                        }
+                        Day++;
                         RefreshUI()
                     }
-
-                    //Job Functions
-                    function JobOptions() { //Done
-                        UserInput = prompt("What to do?\n1. Change Job\n2. Quit Current Job \n3. Get Internship");
-                        if (UserInput == 1) { Apply() }
-                        else if (UserInput == 2) { Resign() }
-                        else if (UserInput == 3) { Intern() }
-                        else { alert("Quit wasting my time then.") }
+                    else {
+                        alert("Whatever. It's not like I wanted to work there.")
+                        Apply()
                     }
+                }
+                else {
+                    alert("Pfffft! Who needs work anyways?")
+                }
+            }
+        }
 
-                    function Apply() { //Done
-                        var i;
-                        var text = "";
+        function Resign() { //Done
+            if (UserJob == 0) { alert("You cant get fired if you don't have a job!") }
+            else {
+                UserInput = prompt("Are you sure you want to quit your " + Job[UserJob] + " job?\n1. Yes\n2. No")
+                if (UserInput == 1) {
+                    UserJob = 0;
+                    Day++;
+                    RefreshUI();
+                }
+            }
+        }
 
-                        if (UserJob > 1) {
-                            alert("You already have a job")
-                        }
-                        else {
-                            for (i = 1; i < Job.length; i++) { text += i + ". " + Job[i] + "\n" };
-                            var UserInput = prompt("Where do you want to apply?\n" + text + i + ". Cancel");
-                            if (UserInput >= 1 && UserInput < i) {
-                                var Confirm = prompt("Yor chance of getting a job at " + Job[UserInput] + " is about " + Employability[UserInput] + " percent.\n\n Are you sure you want to apply?\n1. Yes\n2. No");
-                                if (Confirm == 1) {
-                                    var Random = Math.floor(Math.random() * 101);
-                                    if (Employability[UserInput] > Random) {
-                                        UserJob = UserInput;
-                                        alert("You got the job!")
-                                    }
-                                    else {
-                                        alert("These losers don't see talent when it's right in front of them!")
-                                    }
-                                    Day++;
-                                    RefreshUI()
-                                }
-                                else {
-                                    alert("Whatever. It's not like I wanted to work there.")
-                                    Apply()
-                                }
-                            }
-                            else {
-                                alert("Pfffft! Who needs work anyways?")
-                            }
-                        }
-                    }
-
-                    function Resign() { //Done
-                        if (UserJob == 0) { alert("You cant get fired if you don't have a job!") }
-                        else {
-                            UserInput = prompt("Are you sure you want to quit your " + Job[UserJob] + " job?\n1. Yes\n2. No")
-                            if (UserInput == 1) {
-                                UserJob = 0;
-                                Day++;
-                                RefreshUI();
-                            }
-                        }
-                    }
-
-                    function Intern() { //Done
-                        var i;
-                        text = "";
-                        for (i = 1; i < Job.length; i++) { text += i + ". " + Job[i] + "\n" }
-                        if (UserJob == 0) {
-                            UserInput = prompt("Where do you want to Intern?\n" + text + i + ". Cancel");
-                            if (UserInput >= 1 && UserInput < i) {
-                                var Confirm = prompt("If you intern at " + Job[UserInput] + " it will raise your chances of getting in by 5 percent, however it will take the rest of the day. \n\nIs this ok?\n1. Yes\n2. No");
-                                if (Confirm == 1) {
-                                    Employability[UserInput] += 5;
-                                    alert("You interned for " + Job[UserInput] + " for the rest of the day\nYour chance of getting that job next time is now " + Employability[UserInput] + " Percent");
-                                    Day++;
-                                    RefreshUI();
-                                }
-                                else {
-                                    alert("Kinda busy right now, maybe later...")
-                                }
-                            }
-                            else {
-                                alert("Is there an internship for videogames?")
-                            }
-                        }
-                        else {
-                            alert("You already have a job. Quit your current job if you want to intern")
-                        }
-                    }
-
-                    function Sloop() {
+        function Intern() { //Done
+            var i;
+            text = "";
+            for (i = 1; i < Job.length; i++) { text += i + ". " + Job[i] + "\n" }
+            if (UserJob == 0) {
+                UserInput = prompt("Where do you want to Intern?\n" + text + i + ". Cancel");
+                if (UserInput >= 1 && UserInput < i) {
+                    var Confirm = prompt("If you intern at " + Job[UserInput] + " it will raise your chances of getting in by 5 percent, however it will take the rest of the day. \n\nIs this ok?\n1. Yes\n2. No");
+                    if (Confirm == 1) {
+                        Employability[UserInput] += 5;
+                        alert("You interned for " + Job[UserInput] + " for the rest of the day\nYour chance of getting that job next time is now " + Employability[UserInput] + " Percent");
                         Day++;
                         RefreshUI();
                     }
+                    else {
+                        alert("Kinda busy right now, maybe later...")
+                    }
+                }
+                else {
+                    alert("Is there an internship for videogames?")
+                }
+            }
+            else {
+                alert("You already have a job. Quit your current job if you want to intern")
+            }
+        }
 
-                    // MAIN program execution
-                    RefreshUI();
-                </script>
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-                    crossorigin="anonymous"></script>
+        function Sloop() {
+            Day++;
+            RefreshUI();
+        }
+
+        // MAIN program execution
+        RefreshUI();
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
