@@ -103,8 +103,8 @@
 
         // COMMENTS SECTION
         /* 
-        Programmer: Mauricio, John, Jaiden, Jayson, Luis
-        Date Last Modified: 10/31/2018
+        Programmer: Mauricio, John, Jaiden, Jayson, and Luis
+        Date Last Modified: 11/08/2018
         Goal/Purpose: Make a presentable MTAG
         Status: in Progress
 
@@ -115,11 +115,20 @@
         Add more/different items to the store (More that relate to the game in progress
         Come up with a story with different (random) endings
         Add name, age, ect. from user at beginning
-
+        
+        Story
+            A Giant meteor is headed towords earth and the world will end in 1 Year.
+            Our protagonist made a bucket list of things he/she wants to do before the world ends.
         */
 
 
         // VARIABLES section
+        //User
+        var Currency = Math.floor(Math.random() * 401) + 100;
+        var InvIndex = [];
+        var InvQuantity = [];
+        var UserJob = 0;
+
         //ItemsLibrary
         function ItemInfo(Name, Price, Desc) {
             this.Name = Name
@@ -136,41 +145,25 @@
             new ItemInfo("Pamphlet", 40, "Sure you could always just grab one off of the shelf in your dorm building but this one give you +5 strength")
         ]
 
-        //User
-        var Currency = Math.floor(Math.random() * 401) + 100;
-        var InvIndex = [];
-        var InvQuantity = [];
-        var UserJob = 0;
+        //Employment
+        function JobInfo(Job, Salary, Chance) {
+            this.Job = Job
+            this.Salary = Salary
+            this.Chance = Chance
+        }
+        var Jobs = [
+            new JobInfo("Unemployed", 0, 100),
+            new JobInfo("McDonalds", 250, 60),
+            new JobInfo("Waiter", Math.floor(Math.random * 200) + 200, 45),
+            new JobInfo("Nurse", 400, 30),
+            new JobInfo("FactoryWorker", 500, 20),
+            new JobInfo("Scientist", 800, 3)
+        ]
 
         //Time
         var Day = 0;
         var Week = 0;
 
-        //Employment
-        var Job = [
-            "Unemployed",
-            "McDonalds",
-            "Waiter",
-            "Nurse",
-            "FactoryWorker",
-            "Scientist"
-        ];
-        var Salary = [
-            0,
-            250,
-            Math.floor(Math.random * 200) + 200,
-            400,
-            500,
-            800
-        ]
-        var Employability = [
-            100,
-            70,
-            30,
-            10,
-            5,
-            1
-        ];
 
         // FUNCTION section
         function RefreshUI() {
@@ -179,7 +172,7 @@
             document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day];
 
             // Update users job
-            document.getElementById("display_jobinfo").innerHTML = "Job: " + Job[UserJob];
+            document.getElementById("display_jobinfo").innerHTML = "Job: " + Jobs[UserJob]['Job'];
 
             // Update Currency
             document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
@@ -198,7 +191,8 @@
                 document.getElementById("display_inventory").innerHTML = inventory_buffer;
             }
 
-            if (Day == 7) {
+            //Check if the week ended
+            if (Day >= 7) {
                 NextWeek();
             }
         }
@@ -222,14 +216,19 @@
             if (UserInput < InvStore.length && UserInput >= 0) {
                 var Many = prompt("How many do you want to buy", 1)
                 if (Many > 0 && Many <= 1000) {
-                    var Confirm = prompt(Library[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Library[InvStore[UserInput]]['Price'] * Many) + "\n" + Library[InvStore[UserInput]]['Desc'] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
-                    if (Confirm == 1) {
-                        Currency -= Library[InvStore[UserInput]]['Price'] * Many;
-                        AddToInventory(InvStore[UserInput], Many);
-                        alert("Thank you for your purchase.")
-                        RefreshUI();
+                    if (Currency < Library[InvStore[UserInput]]['Price'] * Many) {
+                        alert("Honey you br0k3 AF.")
                     }
-                    else { Buy(); }
+                    else {
+                        var Confirm = prompt(Library[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Library[InvStore[UserInput]]['Price'] * Many) + "\n" + Library[InvStore[UserInput]]['Desc'] + "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
+                        if (Confirm == 1) {
+                            Currency -= Library[InvStore[UserInput]]['Price'] * Many;
+                            AddToInventory(InvStore[UserInput], Many);
+                            alert("Thank you for your purchase.")
+                            RefreshUI();
+                        }
+                        else { Buy(); }
+                    }
                 }
                 else {
                     alert("Ummm... Where are your parents?")
@@ -297,7 +296,7 @@
             function Excuse(Amount, Reason) {
                 this.Amount = Amount
                 this.Reason = Reason
-                this.FullExcuse = Reason + "\n\nSpendings: " + Amount
+                this.FullExcuse = Reason + "\nSpendings: " + Amount
             }
 
             var Excuses = [
@@ -314,9 +313,9 @@
 
             Currency -= Excuses[RandomExcuse]['Amount'];
 
-            alert(Excuses[RandomExcuse]['FullExcuse'] );
-            alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob] );
-            
+            alert(Excuses[RandomExcuse]['FullExcuse']);
+            alert("You earned " + Jobs[UserJob]['Salary'] + " from your job at " + Jobs[UserJob]['Job']);
+
             Week++;
             Day = 0;
             RefreshUI();
@@ -324,86 +323,92 @@
 
         //Job Functions
         function JobOptions() { //Done
-            UserInput = prompt("What to do?\n1. Change Job\n2. Quit Current Job \n3. Get Internship");
-            if (UserInput == 1) { Apply() }
-            else if (UserInput == 2) { Resign() }
-            else if (UserInput == 3) { Intern() }
-            else { alert("Quit wasting my time then.") }
-        }
+            function Apply() {
+                var i;
+                var text = "";
 
-        function Apply() {
-            var i;
-            var text = "";
-
-            if (UserJob > 1) {
-                alert("You already have a job")
-            }
-            else {
-                for (i = 1; i < Job.length; i++) { text += i + ". " + Job[i] + "\n" };
-                var UserInput = prompt("Where do you want to apply?\n" + text + i + ". Cancel");
-                if (UserInput >= 1 && UserInput < i) {
-                    var Confirm = prompt("Yor chance of getting a job at " + Job[UserInput] + " is about " + Employability[UserInput] + " percent.\n\n Are you sure you want to apply?\n1. Yes\n2. No");
-                    if (Confirm == 1) {
-                        var Random = Math.floor(Math.random() * 101);
-                        if (Employability[UserInput] > Random) {
-                            UserJob = UserInput;
-                            alert("You got the job!")
-                        }
-                        else {
-                            alert("These losers don't see talent when it's right in front of them!")
-                        }
-                        Day++;
-                        RefreshUI()
-                    }
-                    else {
-                        alert("Whatever. It's not like I wanted to work there.")
-                        Apply()
-                    }
+                if (UserJob > 1) {
+                    alert("You already have a job")
                 }
                 else {
-                    alert("Pfffft! Who needs work anyways?")
+                    for (i = 1; i < Jobs.length; i++) { text += i + ". " + Jobs[i]['Job'] + "\n" };
+                    var UserInput = prompt("Where do you want to apply?\n" + text + i + ". Cancel");
+                    if (UserInput >= 1 && UserInput < i) {
+                        var Confirm = prompt("Yor chance of getting a job at " + Jobs[UserInput]['Job'] + " is about " + Jobs[UserInput]['Chance'] + " percent.\n\n Are you sure you want to apply?\n1. Yes\n2. No");
+                        if (Confirm == 1) {
+                            var Random = Math.floor(Math.random() * 101);
+                            if (Jobs[UserInput]['Chance'] > Random) {
+                                UserJob = UserInput;
+                                alert("You got the job!")
+                            }
+                            else {
+                                alert("These losers don't see talent when it's right in front of them!")
+                            }
+                            Day++;
+                            RefreshUI()
+                        }
+                        else {
+                            alert("Whatever. It's not like I wanted to work there.")
+                            Apply()
+                        }
+                    }
+                    else {
+                        alert("Pfffft! Who needs work anyways?")
+                    }
                 }
             }
-        }
-
-        function Resign() { //Done
-            if (UserJob == 0) { alert("You cant get fired if you don't have a job!") }
-            else {
-                UserInput = prompt("Are you sure you want to quit your " + Job[UserJob] + " job?\n1. Yes\n2. No")
-                if (UserInput == 1) {
-                    UserJob = 0;
-                    Day++;
-                    RefreshUI();
-                }
-            }
-        }
-
-        function Intern() { //Done
-            var i;
-            text = "";
-            for (i = 1; i < Job.length; i++) { text += i + ". " + Job[i] + "\n" }
-            if (UserJob == 0) {
-                UserInput = prompt("Where do you want to Intern?\n" + text + i + ". Cancel");
-                if (UserInput >= 1 && UserInput < i) {
-                    var Confirm = prompt("If you intern at " + Job[UserInput] + " it will raise your chances of getting in by 5 percent, however it will take the rest of the day. \n\nIs this ok?\n1. Yes\n2. No");
-                    if (Confirm == 1) {
-                        Employability[UserInput] += 5;
-                        alert("You interned for " + Job[UserInput] + " for the rest of the day\nYour chance of getting that job next time is now " + Employability[UserInput] + " Percent");
+            function Resign() { //Done
+                if (UserJob == 0) { alert("You cant get fired if you don't have a job!") }
+                else {
+                    UserInput = prompt("Are you sure you want to quit your " + Jobs[UserJob]['Job'] + " job?\n1. Yes\n2. No")
+                    if (UserInput == 1) {
+                        UserJob = 0;
                         Day++;
                         RefreshUI();
                     }
+                }
+            }
+            function Intern() { //Done
+                var i;
+                text = "";
+                for (i = 1; i < Jobs.length; i++) { text += i + ". " + Jobs[i]['Job'] + "\n" }
+                if (UserJob == 0) {
+                    UserInput = prompt("Where do you want to Intern?\n" + text + i + ". Cancel");
+                    if (UserInput >= 1 && UserInput < i) {
+                        var Confirm = prompt("If you intern at " + Jobs[UserInput]['Job'] + " it will raise your chances of getting in by 5 percent, however it will take the rest of the day. \n\nIs this ok?\n1. Yes\n2. No");
+                        if (Confirm == 1) {
+                            Jobs[UserInput]['Chance'] += 5;
+                            alert("You interned for " + Jobs[UserInput]['Job'] + " for the rest of the day\nYour chance of getting that job next time is now " + Jobs[UserInput]['Chance'] + " Percent");
+                            Day++;
+                            RefreshUI();
+                        }
+                        else {
+                            alert("Kinda busy right now, maybe later...")
+                        }
+                    }
                     else {
-                        alert("Kinda busy right now, maybe later...")
+                        alert("Is there an internship for videogames?")
                     }
                 }
                 else {
-                    alert("Is there an internship for videogames?")
+                    alert("You already have a job. Quit your current job if you want to intern")
                 }
             }
+
+            if (UserJob == 0) {
+                UserInput = prompt("What to do?\n\n1. Find Work \n2. Get Internship");
+                if (UserInput == 1) { Apply() }
+                else if (UserInput == 2) { Intern() }
+                else { alert("Quit wasting my time then.") }
+            }
             else {
-                alert("You already have a job. Quit your current job if you want to intern")
+                UserInput = prompt("What to do?\n1. Quit Current Job");
+                if (UserInput == 1) { Resign() }
+                else { alert("Quit wasting my time then.") }
             }
         }
+
+        //TimeFunctions
 
         function Sloop() {
             Day++;
@@ -413,9 +418,9 @@
         // MAIN program execution
         RefreshUI();
     </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous">
-    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous">
+        </script>
 </body>
+
 </html>
