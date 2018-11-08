@@ -99,6 +99,16 @@
         </div>
     </div>
 
+    <P>Checklist:</P>
+    Add Calendar<br>
+    Add Months<br>
+    Add past week 5<br>
+    Add Intro story<br>
+    Add more/different items to the store (More that relate to the game in progress)<br>
+    Come up with a story with different (random) endings<br>
+    Add name, age, ect. from user at beginning<br>
+
+
     <script type="text/javascript">
 
         // COMMENTS SECTION
@@ -124,7 +134,8 @@
             new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control"),
             new ItemInfo("BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw"),
             new ItemInfo("Caleb", 1000, "If you feed him 25 cents, he'll fix your roof"),
-            new ItemInfo("Rosetta Stone", 4200, "REEEEEEEEEEEEEEET")
+            new ItemInfo("Rosetta Stone", 4200, "REEEEEEEEEEEEEEET"),
+            new ItemInfo("Pamphlet", 40, "Sure you could always just grab one off of the shelf in your dorm building but this one give you +5 strength")
         ]
 
         var ItemNames = [
@@ -162,6 +173,13 @@
             100,
             0,
             300,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+
         ]
         var Reasons = [
             "",
@@ -169,7 +187,13 @@
             "This week I have to pay the gas and electric.",
             "I have to get clothes and food for that party that everybody is talking about.",
             "FINALLY, a week with no expenses.",
-            "I have to buy food fo the month."
+            "I have to buy food fo the month.",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
         ]
         var Day = 1;
 
@@ -239,7 +263,7 @@
         }
 
         function Buy() {
-            var InvStore = [0, 1, 2, 3, 4, 5];
+            var InvStore = [0, 1, 2, 3, 4, 5, 6];
             var text = "";
             var i;
 
