@@ -125,7 +125,6 @@
             this.Name = Name
             this.Price = Price
             this.Desc = Desc
-
         }
         var Library = [
             new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor."),
@@ -164,37 +163,8 @@
         var UserJob = 0;
 
         //Time
+        var Day = 0;
         var Week = 0;
-        var Spendings = [
-            0,
-            215,
-            210 + 160,
-            100,
-            0,
-            300,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-
-        ]
-        var Reasons = [
-            "",
-            "I hope I have enough to pay the water bill.",
-            "This week I have to pay the gas and electric.",
-            "I have to get clothes and food for that party that everybody is talking about.",
-            "FINALLY, a week with no expenses.",
-            "I have to buy food fo the month.",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-        ]
-        var Day = 1;
 
         //Employment
         var Job = [
@@ -344,15 +314,31 @@
         }
 
         function NextWeek() {
-            var excuseNumberFive = Math.floor(Math.random() * 5)
-            Week++;
-            if (UserJob == 0) { alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!") }
+            function Excuse(Amount, Reason) {
+                this.Amount = Amount
+                this.Reason = Reason
+                this.FullExcuse = Reason + "\n\nSpendings: " + Amount
+            }
 
+            var Excuses = [
+                new Excuse(215, "I hope I have enough to pay the water bill."),
+                new Excuse(370, "This week I have to pay the gas and electric."),
+                new Excuse(100, "I have to get clothes and food for that party that everybody is talking about."),
+                new Excuse(0, "What?! A week with no expenses!"),
+                new Excuse(300, "I have to buy food fo the month."),
+            ]
+            var RandomExcuse = Math.floor(Math.random() * 5)
+
+            if (UserJob == 0) { alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!") }
             else { Currency += Salary[UserJob] }
-            Currency -= Spendings[excuseNumberFive];
-            Day = 1;
-            alert(Reasons[excuseNumberFive] + "\n\nSpendings: " + (Spendings[excuseNumberFive]) * -1);
-            alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob]);
+
+            Currency -= Excuses[RandomExcuse]['Amount'];
+
+            alert(Excuses[RandomExcuse]['FullExcuse'] );
+            alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob] );
+            
+            Week++;
+            Day = 0;
             RefreshUI();
         }
 
