@@ -49,6 +49,18 @@
         #OtherInfo {
             margin-top: 10px;
         }
+        .footer {
+            bottom: 0;
+            background-color:rgb(63,63,63);
+            width: 100%;
+            color: white;
+            text-align: center;
+        }
+        #pot {
+            color:greenyellow;
+            text-decoration: none;
+            cursor:text;
+        }
     </style>
 </head>
 
@@ -74,6 +86,14 @@
                 <div class="cont">
                     <h1>Inventory</h1>
                     <p id="display_inventory"></p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="footer cont">
+                    <h6>The <a href="#" id="pot">Pot</a> Squad &copy; 2018</h6>
+                    <h6>Document Last Updated:
+                        <script>document.write(document.lastModified)</script>
+                    </h6>
                 </div>
             </div>
         </div>
@@ -184,23 +204,27 @@
             // Update the day
             var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day];
-            
+
             // Update users job
             document.getElementById("display_jobinfo").innerHTML = "Job: " + Job[UserJob];
-            
+
             // Update Currency
             document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
-            
+
             // Change Currency Color
             document.getElementById("display_currency").style.color = (Currency <= 0 ? "red" : "white");
-            
+
             // Update Inventory
             var inventory_buffer = "";
             for (i = 0; i < InvIndex.length; i++) {
                 inventory_buffer += Library[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")<br>";
             }
-            document.getElementById("display_inventory").innerHTML = inventory_buffer;
-            
+            if (InvIndex.length == 0) {
+                document.getElementById("display_inventory").innerHTML = "Your inventory is empty!";
+            } else {
+                document.getElementById("display_inventory").innerHTML = inventory_buffer;
+            }
+
             if (Day == 7) {
                 NextWeek();
             }
@@ -297,15 +321,16 @@
         }
 
         function NextWeek() {
+            var excuseNumberFive = Math.floor(Math.random() * 5)
             Week++;
             if (UserJob == 0) { alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!") }
 
             else { Currency += Salary[UserJob] }
-            Currency -= Spendings[Week]
+            Currency -= Spendings[excuseNumberFive];
             Day = 1;
-            alert(Reasons[Week] + "\n\nSpendings: " + (Spendings[Week]) * -1)
-            alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob])
-            RefreshUI()
+            alert(Reasons[excuseNumberFive] + "\n\nSpendings: " + (Spendings[excuseNumberFive]) * -1);
+            alert("You earned " + Salary[UserJob] + " from your job at " + Job[UserJob]);
+            RefreshUI();
         }
 
         //Job Functions
