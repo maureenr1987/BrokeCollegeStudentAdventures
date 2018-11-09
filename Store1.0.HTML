@@ -67,7 +67,7 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-6">
+            <div class="container">
                 <div class="cont">
                     <h1>College Debt: The Game</h1>
                     <div id="buttons">
@@ -82,7 +82,7 @@
                     <p id="display_currency"></p>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="container">
                 <div class="cont">
                     <h1>Inventory</h1>
                     <p id="display_inventory"></p>
@@ -168,6 +168,7 @@
         function RefreshUI() {
             // Update the day
             var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var Months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day];
 
             // Update users job
@@ -303,10 +304,12 @@
                 new Excuse(215, "I hope I have enough to pay the water bill."),
                 new Excuse(370, "This week I have to pay the gas and electric."),
                 new Excuse(100, "I have to get clothes and food for that party that everybody is talking about."),
-                new Excuse(0, "What?! A week with no expenses!"),
-                new Excuse(300, "I have to buy food fo the month."),
+                new Excuse(  0, "What?! A week with no expenses! Is a storm coming?"),
+                new Excuse(500, "I have to buy food fo the whole month, because i'm too lazy to go every week"),
+                new Excuse(300, "That truck isn't going to fix itself."),
+                new Excuse( 90, "Phone bills are such a pain in the arse")
             ]
-            var RandomExcuse = Math.floor(Math.random() * 5)
+            var RandomExcuse = Math.floor(Math.random() * 7)
 
             if (UserJob == 0) { alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!") }
             else { Currency += Salary[UserJob] }
