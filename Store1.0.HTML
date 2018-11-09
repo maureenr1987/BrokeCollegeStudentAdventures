@@ -218,7 +218,7 @@
         var Jobs = [
             new JobInfo("Unemployed", 0, 100),
             new JobInfo("McDonalds", 250, 60),
-            new JobInfo("Waiter", Math.floor(Math.random * 200) + 200, 45),
+            new JobInfo("Waiter", (Math.floor(Math.random() * 200) + 200) , 45),
             new JobInfo("Nurse", 400, 30),
             new JobInfo("FactoryWorker", 500, 20),
             new JobInfo("Scientist", 800, 3)
@@ -416,7 +416,7 @@
             if (UserJob == 0) {
                 alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!")
             } else {
-                Currency += Salary[UserJob]
+                Currency += Jobs[UserJob]['Salary']
             }
 
             Currency -= Excuses[RandomExcuse]['Amount'];
