@@ -81,6 +81,7 @@
                     <p id="display_jobinfo"></p>
                     <p id="display_currency"></p>
                 </div>
+
             </div>
             <div class="container">
                 <div class="cont">
@@ -98,7 +99,7 @@
             </div>
         </div>
     </div>
-
+    <p id="display_calendar"></p>
     <script type="text/javascript">
 
         // COMMENTS SECTION
@@ -187,7 +188,7 @@
             }
             if (InvIndex.length == 0) {
                 document.getElementById("display_inventory").innerHTML = "Your inventory is empty!";
-            } 
+            }
             else {
                 document.getElementById("display_inventory").innerHTML = inventory_buffer;
             }
@@ -196,7 +197,26 @@
             if (Day >= 7) {
                 NextWeek();
             }
+            MakeCalendar()
         }
+
+        function MakeCalendar(){
+            var i;
+            var calendar_buffer = "";
+            var DaysInMonth = 30;
+
+            for (i = 1; i <= DaysInMonth; i++) {
+                if (i % 7 == 0) {
+                    calendar_buffer += " " + i + " <br>";
+                }
+                else {
+                    calendar_buffer += " " + i + " ";
+                }
+            }
+            document.getElementById("display_calendar").innerHTML = "Shitty Calendar: <br>" + calendar_buffer;
+        }
+            
+        
 
         //Store Functions
         function OpenStore() {
@@ -304,10 +324,10 @@
                 new Excuse(215, "I hope I have enough to pay the water bill."),
                 new Excuse(370, "This week I have to pay the gas and electric."),
                 new Excuse(100, "I have to get clothes and food for that party that everybody is talking about."),
-                new Excuse(  0, "What?! A week with no expenses! Is a storm coming?"),
+                new Excuse(0, "What?! A week with no expenses! Is a storm coming?"),
                 new Excuse(500, "I have to buy food fo the whole month, because i'm too lazy to go every week"),
                 new Excuse(300, "That truck isn't going to fix itself."),
-                new Excuse( 90, "Phone bills are such a pain in the arse")
+                new Excuse(90, "Phone bills are such a pain in the arse")
             ]
             var RandomExcuse = Math.floor(Math.random() * 7)
 
@@ -425,4 +445,5 @@
         crossorigin="anonymous">
         </script>
 </body>
+
 </html>
