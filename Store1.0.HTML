@@ -257,20 +257,16 @@
             var calendar_buffer = "";
 
             for (i = FirstInMonth[Month] - FirstInMonth[Month] % 7; i <= FirstInMonth[Month] + 42; i++) {
-
                 if ( i > FirstInMonth[Month] && i < DaysInMonth[Month] + FirstInMonth[Month] + 1 ) {
                     calendar_buffer += "<div class='item'>" + ( i - FirstInMonth[Month] ) + "</div>";
                 }
                 else {
                     calendar_buffer += "<div class='item'> </div>";
                 }
-                
                 if ( i % 7 == 0 ) {
                     calendar_buffer += '</div><div class="calendar-row">';
                 }
             }
-            
-            
             document.getElementById("display_calendar").innerHTML = calendar_buffer;
             document.getElementById("display_date").innerHTML = DayNames[DayWeek] + " " + MonthNames[Month] + " " + DayMonth + " " + Year
         }
@@ -381,7 +377,7 @@
             RefreshUI();
         }
 
-        function NextWeek() {
+        function PayDay() {
             function Excuse(Amount, Reason) {
                 this.Amount = Amount
                 this.Reason = Reason
@@ -409,10 +405,6 @@
 
             alert(Excuses[RandomExcuse]['FullExcuse']);
             alert("You earned " + Jobs[UserJob]['Salary'] + " from your job at " + Jobs[UserJob]['Job']);
-
-            Week++;
-            Day = 0;
-            RefreshUI();
         }
 
         //Job Functions
@@ -519,6 +511,11 @@
 
         function IncrementDay() {
             Day365 ++;
+
+        //Get Paid and Pay Bills
+            if (Day365 % 7 == 6 ){
+                PayDay();
+            }
 
         //Set Month
             var p;
