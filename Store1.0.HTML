@@ -512,12 +512,12 @@
         function IncrementDay() {
             Day365 ++;
 
-        //Get Paid and Pay Bills
+            //Get Paid and Pay Bills
             if (Day365 % 7 == 6 ){
                 PayDay();
             }
 
-        //Set Month
+            //Set Month
             var p;
             for ( i = 0; i < 12; i++ ) {
                 if ( Day365 >= FirstInMonth[i] && Day365 <= DaysInMonth[i] + FirstInMonth[i] - 1 ) {
@@ -525,17 +525,17 @@
                 }
             }
 
-        //Set Day out of month
+            //Set Day out of month
             DayMonth = Day365;
             for( i = 0; i <= Month; i++ ) {
                 DayMonth -= DaysInMonth[i]
             }
             DayMonth += DaysInMonth[Month]
 
-        //Set weekday
+            //Set weekday
                 DayWeek = Day365 % 7
 
-        //ResetYear
+            //ResetYear
             if (Day365 > 365) {
                 Day365 = 0;
                 Year++;
