@@ -95,7 +95,7 @@
                     <div id="buttons">
                         <button onclick="OpenStore()">Store</button>
                         <button onclick="JobOptions()">Job Options</button>
-                        <button onclick="Sloop()">Sloop</button>
+                        <button onclick="IncrementDay()">Sloop</button>
                     </div>
 
 
@@ -113,7 +113,9 @@
                 <div class="cont">
                     <h1>Shitty calendar</h1>
                     <div class="calendar">
-                        <div class="calendar-title">November</div>
+                        <div class="calendar-title">
+                            <p id="display_date"></p>
+                        </div>
                         <div class="calendar-header calendar-row">
                             <div class="item">S</div>
                             <div class="item">M</div>
@@ -193,20 +195,13 @@
             this.Desc = Desc
         }
         var Library = [
-            new ItemInfo("Hot Pocket", 2,
-                "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor."
-            ),
-            new ItemInfo("Maruchan Ramen", 5,
-                "The Maruchan ramen is a very popular brand of noodles in the United-States."),
+            new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor."),
+            new ItemInfo("Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States."),
             new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control"),
-            new ItemInfo("BackScraterenator 3000", 60,
-                "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw"
-            ),
+            new ItemInfo("BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw"),
             new ItemInfo("Caleb", 1000, "If you feed him 25 cents, he'll fix your roof"),
             new ItemInfo("Rosetta Stone", 4200, "REEEEEEEEEEEEEEET"),
-            new ItemInfo("Pamphlet", 40,
-                "Sure you could always just grab one off of the shelf in your dorm building but this one give you +5 strength"
-            )
+            new ItemInfo("Pamphlet", 40, "Sure you could always just grab one off of the shelf in your dorm building but this one give you +5 strength")
         ]
 
         //Employment
@@ -225,19 +220,17 @@
         ]
 
         //Time
-        var Day = 1;
-        var Week = 0;
+        var Day365 = 1;
+        var DayMonth = 1;
+        var DayWeek = 1;
+        var Month = 0;
+        var DaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        var FirstInMonth = [1, 32, 60, 91, 121, 152, 182, 213, 243, 274, 305, 335, 365];
+        var Year = 2047;
 
 
         // FUNCTION section
         function RefreshUI() {
-            // Update the day
-            var DaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            var Months = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
-                "October", "November", "December"
-            ];
-            document.getElementById("OtherInfo").innerHTML = "Week: " + Week + " - " + DaysOfWeek[Day];
-
             // Update users job
             document.getElementById("display_jobinfo").innerHTML = "Job: " + Jobs[UserJob]['Job'];
 
@@ -258,36 +251,29 @@
                 document.getElementById("display_inventory").innerHTML = inventory_buffer;
             }
 
-            //Check if the week ended
-            if (Day >= 7) {
-                NextWeek();
-            }
-
-            MakeCalendar()
-        }
-
-        function MakeCalendar() {
+            //MakeCalendar
+            var DayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             var calendar_buffer = "";
-            var DaysInMonth = 30;
-            calendar_buffer += '<div class="calendar-row"><div class="item"></div>';
 
-            for (i = 1; i <= DaysInMonth; i++) {
-                if(i % 7 == 0){
+            for (i = FirstInMonth[Month] - FirstInMonth[Month] % 7; i <= FirstInMonth[Month] + 42; i++) {
+
+                if ( i > FirstInMonth[Month] && i < DaysInMonth[Month] + FirstInMonth[Month] + 1 ) {
+                    calendar_buffer += "<div class='item'>" + ( i - FirstInMonth[Month] ) + "</div>";
+                }
+                else {
+                    calendar_buffer += "<div class='item'> </div>";
+                }
+                
+                if ( i % 7 == 0 ) {
                     calendar_buffer += '</div><div class="calendar-row">';
                 }
-
-                calendar_buffer += "<div class='item'>" + i + "</div>";
             }
-            for(i = 0; i <= 3; i++){
-                calendar_buffer += "<div class='item'></div>";
-            }
-            calendar_buffer += "</div>";
-
-
+            
+            
             document.getElementById("display_calendar").innerHTML = calendar_buffer;
+            document.getElementById("display_date").innerHTML = DayNames[DayWeek] + " " + MonthNames[Month] + " " + DayMonth + " " + Year
         }
-
-
 
         //Store Functions
         function OpenStore() {
@@ -454,7 +440,7 @@
                             } else {
                                 alert("These losers don't see talent when it's right in front of them!")
                             }
-                            Day++;
+                            IncrementDay();
                             RefreshUI()
                         } else {
                             alert("Whatever. It's not like I wanted to work there.")
@@ -474,7 +460,7 @@
                         " job?\n1. Yes\n2. No")
                     if (UserInput == 1) {
                         UserJob = 0;
-                        Day++;
+                        IncrementDay();
                         RefreshUI();
                     }
                 }
@@ -497,7 +483,7 @@
                             alert("You interned for " + Jobs[UserInput]['Job'] +
                                 " for the rest of the day\nYour chance of getting that job next time is now " +
                                 Jobs[UserInput]['Chance'] + " Percent");
-                            Day++;
+                                IncrementDay();
                             RefreshUI();
                         } else {
                             alert("Kinda busy right now, maybe later...")
@@ -531,8 +517,32 @@
 
         //TimeFunctions
 
-        function Sloop() {
-            Day++;
+        function IncrementDay() {
+            Day365 ++;
+
+        //Set Month
+            var p;
+            for ( i = 0; i < 12; i++ ) {
+                if ( Day365 >= FirstInMonth[i] && Day365 <= DaysInMonth[i] + FirstInMonth[i] - 1 ) {
+                    Month = i;
+                }
+            }
+
+        //Set Day out of month
+            DayMonth = Day365;
+            for( i = 0; i <= Month; i++ ) {
+                DayMonth -= DaysInMonth[i]
+            }
+            DayMonth += DaysInMonth[Month]
+
+        //Set weekday
+                DayWeek = Day365 % 7
+
+        //ResetYear
+            if (Day365 > 365) {
+                Day365 = 0;
+                Year++;
+            }
             RefreshUI();
         }
 
