@@ -111,7 +111,7 @@
             <!-- Shitty calendar Start -->
             <div class="col-6">
                 <div class="cont">
-                    <h1>Shitty calendar</h1>
+                    <h1>Calendar</h1>
                     <div class="calendar">
                         <div class="calendar-title">
                             <p id="display_date"></p>
@@ -258,7 +258,13 @@
 
             for (i = FirstInMonth[Month] - FirstInMonth[Month] % 7; i <= FirstInMonth[Month] + 42; i++) {
                 if ( i > FirstInMonth[Month] && i < DaysInMonth[Month] + FirstInMonth[Month] + 1 ) {
-                    calendar_buffer += "<div class='item'>" + ( i - FirstInMonth[Month] ) + "</div>";
+                    if ( i - 1 == Day365 ) {
+                        calendar_buffer += "<div class='item'>-XXX-</div>";
+                    }
+                    else {
+                        calendar_buffer += "<div class='item'>" + ( i - FirstInMonth[Month] ) + "</div>";
+                    }
+                    
                 }
                 else {
                     calendar_buffer += "<div class='item'> </div>";
