@@ -82,6 +82,10 @@
             flex: 1;
             text-align: center;
         }
+        #calendarNumber {
+            color:#2196f3;
+
+        }
     </style>
 </head>
 
@@ -261,7 +265,7 @@
             for (i = FirstInMonth[Month] - FirstInMonth[Month] % 7; i <= FirstInMonth[Month] + 42; i++) {
                 if ( i > FirstInMonth[Month] && i < DaysInMonth[Month] + FirstInMonth[Month] + 1 ) {
                     if ( i - 1 == Day365 ) {
-                        calendar_buffer += "<div class='item'>-XXX-</div>";
+                        calendar_buffer += "<div class='item' id='calendarNumber'> -" + (i - FirstInMonth[Month]) + "-</div>";
                     }
                     else {
                         calendar_buffer += "<div class='item'>" + ( i - FirstInMonth[Month] ) + "</div>";
