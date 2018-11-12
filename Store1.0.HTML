@@ -68,11 +68,11 @@
             display: block;
             height: 40px;
             line-height: 40px;
-            background-color: black;
+            background-color: #2196f3;
             text-align: center;
         }
         .calendar .calendar-header{
-            background-color: #424242;
+            background-color: #1565c0;
         }
         .calendar .calendar-row{
             display: flex;
@@ -103,7 +103,7 @@
                     <div id="buttons">
                         <button onclick="OpenStore()">Store</button>
                         <button onclick="JobOptions()">Job Options</button>
-                        <button onclick="IncrementDay()">Sloop</button>
+                        <button onclick="IncrementDay()">Sleep</button>
                     </div>
                     <p id="OtherInfo"></p>
                     <p id="display_jobinfo"></p>
@@ -280,7 +280,7 @@
                 }
             }
             document.getElementById("display_calendar").innerHTML = calendar_buffer;
-            document.getElementById("display_date").innerHTML = DayNames[DayWeek] + " " + MonthNames[Month] + " " + DayMonth + " " + Year
+            document.getElementById("display_date").innerHTML = DayNames[DayWeek] + " " + MonthNames[Month] + " " + DayMonth + " " + Year;
         }
 
         //Store Functions
