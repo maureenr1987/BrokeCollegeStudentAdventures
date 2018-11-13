@@ -201,13 +201,16 @@
             this.Desc = Desc
         }
         var Library = [
-            new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor."),
-            new ItemInfo("Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States."),
-            new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control"),
-            new ItemInfo("BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw"),
-            new ItemInfo("Caleb", 1000, "If you feed him 25 cents, he'll fix your roof"),
-            new ItemInfo("Rosetta Stone", 4200, "REEEEEEEEEEEEEEET"),
-            new ItemInfo("Pamphlet", 40, "Sure you could always just grab one off of the shelf in your dorm building but this one give you +5 strength")
+            new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. +5 health"),
+            new ItemInfo("Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States. +15 health"),
+            new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control. I guess you could throw it at somebdy? +5 attack"),
+            new ItemInfo("BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. Use it to poke people, it probably hurts. +15 attack"),
+            new ItemInfo("Caleb", 250, "If you feed him 25 cents, he'll fix your roof. +10 to max health because I didn't know what else to do with him"),
+            new ItemInfo("Rosetta Stone", 10000, "REEEEEEEEEEEEEEET. Good luck trying to afford it"),
+            new ItemInfo("Rusty Sword", 100, "I found this in the dumpster out back so now im gonna sell it to you and make a huge profit. +30 attack"),
+            new ItemInfo("Plastic shield", 20, "Here's this shield I stole from my neighbors kid. +5 defense"),
+            new ItemInfo("Wooden shield", 50, "This state of the art sheid was made with some drift wood that I found. It's not my problem if it breaks. +15 defense"),
+            new ItemInfo("Spork", 100, "Spork, now with 40% more spoon. Heals you fully")
         ]
 
         //Employment
@@ -296,7 +299,7 @@
         }
 
         function Buy() {
-            var InvStore = [0, 1, 2, 3, 4, 5, 6];
+            var InvStore = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
             var text = "";
             var i;
 
