@@ -390,4 +390,10 @@ function IncrementDay() {
 // MAIN program execution
 RefreshUI();
 var userName = prompt("What's your name?");
+var userGender = prompt("Your gender?");
 document.getElementById("idName").innerHTML = userName;
+document.getElementById("display_gender").innerHTML = userGender;
+if (userGender != "Male" || userGender != "Female"){
+    alert("That's not a gender, by the way.");
+    document.getElementById("display_gender").innerHTML = "Unspecified";
+}
