@@ -44,7 +44,10 @@ var Levels = [
     new Level(12, 6, 6, 6, 30),
     new Level(14, 7, 7, 7, 40),
     new Level(18, 8, 8, 8, 50),
-    new Level(20, 9, 9, 9, 60)
+    new Level(20, 9, 9, 9, 60),
+    new Level(22, 10, 10, 10, 70),
+    new Level(24, 11, 11, 11, 80),
+    new Level(26, 12, 12, 12, 90),
 ];
 
 //Characters
@@ -58,9 +61,14 @@ this.ExperienceCurrent = 0
 
 }
 var People = [ //Note User is always index 0
-    new CharacterInfo("Yeah", "Male", 1, "src/idpic.jpg"),
-    new CharacterInfo("Fest", "Male", 2, "src/images.jpg"),
-    new CharacterInfo("Swift", "Female", 3, "src/images (1).jpg")
+    new CharacterInfo("Yeah", "Male", 1, "src/Sponge.jpg"),
+    new CharacterInfo("Fest", "Male", 2, "src/Squid.jpg"),
+    new CharacterInfo("Swift", "Male", 3, "src/Patrick.jpg"),
+    new CharacterInfo("Roush", "Female", 4, "src/Sandy.jpg"),
+    new CharacterInfo("Grub", "Male", 5, "src/Krab.jpg"),
+    new CharacterInfo("Anvil", "Male", 6, "src/Plankton.jpg"),
+    new CharacterInfo("Applesauce", "Unknown", 7, "src/Gary.jpg"),
+    new CharacterInfo("Gravestone", "Female", 8, "src/Puff.jpg"),
 ]
 
 
@@ -438,7 +446,7 @@ function IncrementDay() {
 
 //Combat
 function StartBattle() {
-    Opponent = Math.floor(Math.random() * 2) + 1
+    Opponent = Math.floor(Math.random() * 7) + 1
     RefreshUI();
 }
 
