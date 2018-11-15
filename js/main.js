@@ -26,13 +26,51 @@ var InvIndex = [];
 var InvQuantity = [];
 var UserJob = 0;
 
-//ItemsLibrary
+
+//Battle
+var Opponent = 2
+
+//Levels
+function Level (HTH, ATK, DEF, SPD, EXP){
+    this.Health = HTH
+    this.Attack = ATK
+    this.Defense = DEF
+    this.Speed = SPD
+    this.Experience = EXP
+}
+var Levels = [
+    new Level(0, 0, 0, 0, 10),
+    new Level(10, 5, 5, 5, 20),
+    new Level(12, 6, 6, 6, 30),
+    new Level(14, 7, 7, 7, 40),
+    new Level(18, 8, 8, 8, 50),
+    new Level(20, 9, 9, 9, 60)
+];
+
+//Characters
+function CharacterInfo(Name, Gender, Level, Icon) {
+this.Name = Name
+this.Gender = Gender
+this.Level = Level
+this.Icon = Icon
+this.HealthCurrent = Levels[Level]['Health']
+this.ExperienceCurrent = 0
+
+}
+var People = [ //Note User is always index 0
+    new CharacterInfo("Yeah", "Male", 1, "src/idpic.jpg"),
+    new CharacterInfo("Fest", "Male", 2, "src/images.jpg"),
+    new CharacterInfo("Swift", "Female", 3, "src/images (1).jpg")
+]
+
+
+//Items
 function ItemInfo(Name, Price, Desc) {
     this.Name = Name
     this.Price = Price
     this.Desc = Desc
 }
-var Library = [
+var Items = [
     new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. +5 health"),
     new ItemInfo("Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States. +15 health"),
     new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control. I guess you could throw it at somebdy? +5 attack"),
@@ -73,18 +111,18 @@ var Year = 2047;
 // FUNCTION section
 function RefreshUI() {
     // Update users job
-    document.getElementById("display_jobinfo").innerHTML = "Job: " + Jobs[UserJob]['Job'];
+    document.getElementById("display_userjobinfo").innerHTML = "Job: " + Jobs[UserJob]['Job'];
 
     // Update Currency
-    document.getElementById("display_currency").innerHTML = "Currency: $" + Currency;
+    document.getElementById("display_usercurrency").innerHTML = "Currency: $" + Currency;
 
     // Change Currency Color
-    document.getElementById("display_currency").style.color = (Currency <= 0 ? "red" : "white");
+    document.getElementById("display_usercurrency").style.color = (Currency <= 0 ? "red" : "white");
 
     // Update Inventory
     var inventory_buffer = "";
     for (i = 0; i < InvIndex.length; i++) {
-        inventory_buffer += Library[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")<br>";
+        inventory_buffer += Items[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")<br>";
     }
     if (InvIndex.length == 0) {
         document.getElementById("display_inventory").innerHTML = "Your inventory is empty!";
@@ -116,6 +154,13 @@ function RefreshUI() {
     }
     document.getElementById("display_calendar").innerHTML = calendar_buffer;
     document.getElementById("display_date").innerHTML = DayNames[DayWeek] + " " + MonthNames[Month] + " " + DayMonth + " " + Year;
+    document.getElementById("display_userstats").innerHTML = "HTH - " + People[0]['HealthCurrent'] + " / " + Levels[People[0]['Level'] ] ['Health'] + "<br>ATK - " + Levels[People[0]['Level']]['Attack'] +  "<br>DEF - " + Levels[People[0]['Level']]['Defense'] +  "<br>SPD - " + Levels[People[0]['Level']]['Speed']
+
+    //NPCRefresh
+    document.getElementById("display_NPCname").innerHTML = People[Opponent]['Name']
+    document.getElementById("display_NPCgender").innerHTML = "Gender: " + People[Opponent]['Gender']
+    document.getElementById("display_NPCStats").innerHTML = "Level - " + People[Opponent]['Level'] + "<br>HTH - " + Levels[People[Opponent]['Level']]['Health'] + " / "+ People[Opponent]['HealthCurrent']
+    document.getElementById("NPCIcon").src = People[Opponent]['Icon']
 }
 
 //Store Functions
@@ -137,20 +182,20 @@ function Buy() {
 
     //Formats the stores stock an user input
     for (i = 0; i < InvStore.length; i++) {
-        text += (i + 1) + ". " + Library[InvStore[i]]['Name'] + " - $" + Library[InvStore[i]]['Price'] + "\n"
+        text += (i + 1) + ". " + Items[InvStore[i]]['Name'] + " - $" + Items[InvStore[i]]['Price'] + "\n"
     }
     UserInput = prompt("Choose anything you like. \n \n" + text + (InvStore.length + 1) + ". Exit") - 1;
     if (UserInput < InvStore.length && UserInput >= 0) {
         var Many = prompt("How many do you want to buy", 1)
         if (Many > 0 && Many <= 1000) {
-            if (Currency < Library[InvStore[UserInput]]['Price'] * Many) {
+            if (Currency < Items[InvStore[UserInput]]['Price'] * Many) {
                 alert("Honey you br0k3 AF.")
             } else {
-                var Confirm = prompt(Library[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Library[
-                    InvStore[UserInput]]['Price'] * Many) + "\n" + Library[InvStore[UserInput]]['Desc'] +
+                var Confirm = prompt(Items[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Items[
+                    InvStore[UserInput]]['Price'] * Many) + "\n" + Items[InvStore[UserInput]]['Desc'] +
                     "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
                 if (Confirm == 1) {
-                    Currency -= Library[InvStore[UserInput]]['Price'] * Many;
+                    Currency -= Items[InvStore[UserInput]]['Price'] * Many;
                     AddToInventory(InvStore[UserInput], Many);
                     alert("Thank you for your purchase.")
                     RefreshUI();
@@ -171,19 +216,19 @@ function Sell() { //Done
     var i;
 
     for (i = 0; i < InvIndex.length; i++) {
-        text += (i + 1) + ". " + Library[InvIndex[i]]['Name'] + " - $" + Library[InvIndex[i]]['Price'] + "\n"
+        text += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " - $" + Items[InvIndex[i]]['Price'] + "\n"
     }
     UserInput = prompt("Type in an items number to Sell it \n \n" + text + (InvIndex.length + 1) + ". Exit") -
         1;
     if (UserInput < InvIndex.length && UserInput >= 0) {
         var Many = prompt("How many do you want to sell", 1)
         if (Many > 0 && Many <= InvQuantity[UserInput]) {
-            var Confirm = prompt(Library[InvIndex[UserInput]]['Name'] + " - $" + (Library[InvIndex[UserInput]][
+            var Confirm = prompt(Items[InvIndex[UserInput]]['Name'] + " - $" + (Items[InvIndex[UserInput]][
                 'Price'
-            ] * Many) + "\n" + Library[InvIndex[UserInput]]['Desc'] +
+            ] * Many) + "\n" + Items[InvIndex[UserInput]]['Desc'] +
                 "\n\nAre you sure you want to sell this?\n1. Yes \n2. No")
             if (Confirm == 1) {
-                Currency += Library[InvIndex[UserInput]]['Price'] * Many;
+                Currency += Items[InvIndex[UserInput]]['Price'] * Many;
                 RemoveToInventory(UserInput, Many);
                 alert("Uhhh. Thanks...")
                 RefreshUI();
@@ -390,13 +435,49 @@ function IncrementDay() {
     RefreshUI();
 }
 
+
+//Combat
+function StartBattle() {
+    Opponent = Math.floor(Math.random() * 2) + 1
+    RefreshUI();
+}
+
+function Fight(){
+    alert("Rip, Not done yet...")
+}
+
+function Bag(){
+    var inventory_buffer = "Doesn't work yet<br>";
+    for (i = 0; i < InvIndex.length; i++) {
+        inventory_buffer += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")\n";
+    }
+    if (InvIndex.length == 0) {
+        alert("Your inventory is empty!")
+    } else {
+        var Choose = prompt(inventory_buffer ) - 1
+    }
+}
+
+function Run(){
+    var EscapeChance = Math.floor(Math.random()*100)
+    if (EscapeChance <= 20 ) {
+        alert("You got away safely")
+        RefreshUI();
+    }
+    else {
+        alert("You couldn't get away")
+    }
+}
+
 // MAIN program execution
 RefreshUI();
-var userName = prompt("What's your name?");
-var userGender = prompt("Your gender?");
-document.getElementById("idName").innerHTML = userName;
-document.getElementById("display_gender").innerHTML = userGender;
-if (userGender.toLowerCase() != "male" && userGender.toLowerCase() != "female"){
+People[0]['Name'] = prompt("What's your name?", "bob");
+People[0]['Gender'] = prompt("Your gender?");
+document.getElementById("display_username").innerHTML = People[0]['Name'];
+
+
+if (People[0]['Gender'].toLowerCase() != "male" && People[0]['Gender'].toLowerCase() != "female"){
     alert("That's not a gender, by the way.");
-    document.getElementById("display_gender").innerHTML = "Unspecified";
+    People[0]['Gender'] = "Unknown" 
 }
+document.getElementById("display_usergender").innerHTML = "Gender: " + People[0]['Gender']

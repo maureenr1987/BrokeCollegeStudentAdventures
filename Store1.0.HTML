@@ -10,27 +10,6 @@
 
 <body>
     <div class="container">
-
-        <!-- ID Card Start -->
-        <div class="row">
-            <div class="col-6">
-                <div class="cont">
-                    <h3>Broke Boi College Card</h3>
-                    <div class="idInfo">
-                        <div id="idImage"><img height="125px" src="src/idpic.jpg" alt=""></div>
-
-                        <div class="idStats">
-                            <p id="idName"></p>
-                            <p id="display_gender"></p>
-                            <p id="display_userStats"></p>
-                            <p id="display_jobinfo"></p>
-                            <p id="display_currency"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Main Window Start -->
         <div class="row">
             <div class="col-12">
@@ -84,6 +63,73 @@
                 </div>
             </div>
             <!-- Inventory End -->
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="cont">
+                    <button onclick="StartBattle()">StartRandomBattle</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ID Card Start -->
+        <div class="row">
+            <div class="col-6">
+                <div class="cont">
+                    <h3>Broke Boi College Card</h3>
+                    <div class="idInfo">
+                        <div id="idImage"><img id="UserIcon" height="125px" src="src/idpic.jpg" alt=""></div>
+
+                        <div class="idStats">
+                            <p id="display_username"></p>
+                            <p id="display_usergender"></p>
+                            <p id="display_userjobinfo"></p>
+                            <p id="display_usercurrency"></p>
+                        </div>
+                        <div>-------</div>
+                        <div>
+                            Player Stats
+                            <p id="display_userstats"></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="cont">
+                    <h3>Broke Boi College Card</h3>
+                    <div class="idInfo">
+                        <div id="idImage"><img id="NPCIcon" height="125px" src="src/images.jpg" alt=""></div>
+
+                        <div class="idStats">
+                            <p id="display_NPCname"></p>
+                            <p id="display_NPCgender"></p>
+                        </div>
+                        <div>-------</div>
+                        <div>
+                            NPC Stats
+                            <p id="display_NPCStats"></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- ID Card End-->
+        <div class="row">
+            <div class="col-12">
+                <div class="cont">
+                    What will you do?
+                    <div id="buttons">
+                        <button onclick="Fight()">Fight</button>
+                        <button onclick="Bag()">Bag</button>
+                        <button onclick="Run()">Run</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Footer Start -->
