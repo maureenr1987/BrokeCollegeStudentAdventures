@@ -48,6 +48,11 @@ var Levels = [
     new Level(22, 10, 10, 10, 70),
     new Level(24, 11, 11, 11, 80),
     new Level(26, 12, 12, 12, 90),
+    new Level(28, 13, 13, 13, 100),
+    new Level(30, 14, 14, 14, 110),
+    new Level(32, 15, 15, 15, 120),
+    new Level(34, 16, 16, 16, 130),
+    new Level(36, 17, 17, 17, 140),
 ];
 
 //Characters
@@ -68,7 +73,12 @@ var People = [ //Note User is always index 0
     new CharacterInfo("Grub", "Male", 5, "src/Krab.jpg"),
     new CharacterInfo("Anvil", "Male", 6, "src/Plankton.jpg"),
     new CharacterInfo("Applesauce", "Unknown", 7, "src/Gary.jpg"),
-    new CharacterInfo("Gravestone", "Female", 8, "src/Puff.jpg"),
+    new CharacterInfo("Slate", "Female", 8, "src/Puff.jpg"),
+    new CharacterInfo("Grease", "Female", 9, "src/Whale.jpg"),
+    new CharacterInfo("Boxtroll", "Alpha Male", 10, "src/Squid2.jpg"),
+    new CharacterInfo("Bling King", "Male", 11, "src/King.jpg"),
+    new CharacterInfo("Lenses", "Male", 12, "src/Lobster.jpg"),
+    new CharacterInfo("Dummy", "Female", 13, "src/Computer.jpg"),
 ]
 
 
@@ -446,7 +456,7 @@ function IncrementDay() {
 
 //Combat
 function StartBattle() {
-    Opponent = Math.floor(Math.random() * 7) + 1
+    Opponent = Math.floor(Math.random() * 12) + 1
     RefreshUI();
 }
 
