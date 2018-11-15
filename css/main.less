@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: #333;
+    color: white;
+}
+
+button {
+    background-color: #2196f3;
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    cursor: pointer;
+    transition: 200ms ease;
+    margin: 0 2px;
+    &:hover {
+        background-color: #1565c0;
+    }
+}
+
+h1 {
+    padding: 0;
+}
+
+.cont {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.288), 0 3px 6px rgba(0, 0, 0, 0.23);
+    margin: 10px auto;
+    padding: 16px 14px;
+    color: white;
+    border-radius: 3px;
+    background-color: rgb(63, 63, 63);
+    overflow: hidden;
+}
+
+.idInfo {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    #idName {
+        margin: 0;
+        font-size: 30px;
+    }
+
+    #idImage {
+        border: 2px solid #2196f3;
+    }
+
+    .idStats {
+        padding-left: 20px;
+    }
+    p {
+        margin: 0;
+    }
+}
+
+#buttons {
+    display: flex;
+}
+
+#buttons button {
+    display: block;
+    flex-grow: 1;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+#OtherInfo {
+    margin-top: 10px;
+}
+
+.footer {
+    bottom: 0;
+    background-color: rgb(63, 63, 63);
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+
+#pot {
+    color: greenyellow;
+    text-decoration: none;
+    cursor: text;
+}
+
+.calendar {
+    display: block;
+}
+
+.calendar .calendar-title {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    background-color: #2196f3;
+    text-align: center;
+}
+
+.calendar .calendar-header {
+    background-color: #1565c0;
+}
+
+.calendar .calendar-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.calendar .item {
+    flex: 1;
+    text-align: center;
+}
+
+#calendarNumber {
+    color: #2196f3;
+}
