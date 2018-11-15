@@ -44,7 +44,8 @@ var Levels = [
     new Level(12, 6, 6, 6, 30),
     new Level(14, 7, 7, 7, 40),
     new Level(18, 8, 8, 8, 50),
-    new Level(20, 9, 9, 9, 60)
+    new Level(20, 9, 9, 9, 60),
+    new Level(22, 10, 10, 10, 70),
 ];
 
 //Characters
@@ -75,7 +76,7 @@ var Items = [
     new ItemInfo("Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States. +15 health"),
     new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control. I guess you could throw it at somebdy? +5 attack"),
     new ItemInfo("BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. Use it to poke people, it probably hurts. +15 attack"),
-    new ItemInfo("Caleb", 250, "If you feed him 25 cents, he'll fix your roof. +10 to max health because I didn't know what else to do with him"),
+    new ItemInfo("Caleb", 250, "+1 to your level"),
     new ItemInfo("Rosetta Stone", 10000, "REEEEEEEEEEEEEEET. Good luck trying to afford it"),
     new ItemInfo("Rusty Sword", 100, "I found this in the dumpster out back so now im gonna sell it to you and make a huge profit. +30 attack"),
     new ItemInfo("Plastic shield", 20, "Here's this shield I stole from my neighbors kid. +5 defense"),
