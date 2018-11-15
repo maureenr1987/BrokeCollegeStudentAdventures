@@ -154,12 +154,12 @@ function RefreshUI() {
     }
     document.getElementById("display_calendar").innerHTML = calendar_buffer;
     document.getElementById("display_date").innerHTML = DayNames[DayWeek] + " " + MonthNames[Month] + " " + DayMonth + " " + Year;
-    document.getElementById("display_userstats").innerHTML = "HTH - " + People[0]['HealthCurrent'] + " / " + Levels[People[0]['Level'] ] ['Health'] + "<br>ATK - " + Levels[People[0]['Level']]['Attack'] +  "<br>DEF - " + Levels[People[0]['Level']]['Defense'] +  "<br>SPD - " + Levels[People[0]['Level']]['Speed']
+    document.getElementById("display_userstats").innerHTML = "Level - " + People[0]['Level'] + "<br>HP - " + People[0]['HealthCurrent'] + " / " + Levels[People[0]['Level'] ] ['Health'] + "<br>ATK - " + Levels[People[0]['Level']]['Attack'] +  "<br>DEF - " + Levels[People[0]['Level']]['Defense'] +  "<br>SPD - " + Levels[People[0]['Level']]['Speed']
 
     //NPCRefresh
     document.getElementById("display_NPCname").innerHTML = People[Opponent]['Name']
     document.getElementById("display_NPCgender").innerHTML = "Gender: " + People[Opponent]['Gender']
-    document.getElementById("display_NPCStats").innerHTML = "Level - " + People[Opponent]['Level'] + "<br>HTH - " + Levels[People[Opponent]['Level']]['Health'] + " / "+ People[Opponent]['HealthCurrent']
+    document.getElementById("display_NPCStats").innerHTML = "Level - " + People[Opponent]['Level'] + "<br>HP - " + Levels[People[Opponent]['Level']]['Health'] + " / "+ People[Opponent]['HealthCurrent']
     document.getElementById("NPCIcon").src = People[Opponent]['Icon']
 }
 
