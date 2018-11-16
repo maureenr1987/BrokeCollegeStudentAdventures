@@ -67,6 +67,13 @@ var Levels = [
     new Level(32, 15, 15, 15, 120),
     new Level(34, 16, 16, 16, 130),
     new Level(36, 17, 17, 17, 140),
+    new Level(38, 18, 18, 18, 150),
+    new Level(40, 19, 19, 19, 160),
+    new Level(42, 20, 20, 20, 170),
+    new Level(44, 21, 21, 21, 180),
+    new Level(46, 22, 22, 22, 190),
+    new Level(48, 23, 23, 23, 200),
+    new Level(50, 24, 24, 24, 210),
 ];
 
 //Characters
@@ -85,20 +92,29 @@ function CharacterInfo(Name, Gender, Level, Icon, Moves) {
     }
     this.MovesPP = MovesPP
 }
+
 var UserCharacterInfo = new CharacterInfo("Yeah", "Male", 5, "src/Sponge.jpg", [0, 1, 2, 3]);
-var People = [
-    new CharacterInfo("Fest", "Male", 2, "src/Squid.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Swift", "Male", 3, "src/Patrick.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Roush", "Female", 4, "src/Sandy.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Grub", "Male", 5, "src/Krab.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Anvil", "Male", 6, "src/Plankton.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Redpop", "Unknown", 7, "src/Gary.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Slate", "Female", 8, "src/Puff.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Grease", "Female", 9, "src/Whale.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Septa", "Alpha Male", 10, "src/Squid2.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Tambo", "Male", 11, "src/King.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Lenses", "Male", 12, "src/Lobster.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Dummy", "Female", 13, "src/Computer.jpg", [0, 1, 2, 3]),
+
+var People = [ //Note User is always index 0
+    new CharacterInfo("Fest", "Male", 2, "src/Squid.jpg"),
+    new CharacterInfo("Swift", "Male", 3, "src/Patrick.jpg"),
+    new CharacterInfo("Roush", "Female", 4, "src/Sandy.jpg"),
+    new CharacterInfo("Grub", "Male", 5, "src/Krab.jpg"),
+    new CharacterInfo("Anvil", "Male", 6, "src/Plankton.jpg"),
+    new CharacterInfo("Applesauce", "Unknown", 7, "src/Gary.jpg"),
+    new CharacterInfo("Slate", "Female", 8, "src/Puff.jpg"),
+    new CharacterInfo("Grease", "Female", 9, "src/Whale.jpg"),
+    new CharacterInfo("Boxtroll", "Alpha Male", 10, "src/Squid2.jpg"),
+    new CharacterInfo("Bling King", "Male", 11, "src/King.jpg"),
+    new CharacterInfo("Lenses", "Male", 12, "src/Lobster.jpg"),
+    new CharacterInfo("Dummy", "Female", 13, "src/Computer.jpg"),
+    new CharacterInfo("MY LEG!", "Male", 14, "src/myLeg.jpg"),
+    new CharacterInfo("Ghost", "Male", 15, "src/Flying.jpg"),
+    new CharacterInfo("Whoosh", "Male", 16, "src/Parrot.jpg"),
+    new CharacterInfo("Flop", "Male", 17, "src/Fish.jpg"),
+    new CharacterInfo("Fish", "Female", 18, "src/Grandma.jpg"),
+    new CharacterInfo("Thicc", "Male", 19, "src/Boy.jpg"),
+    new CharacterInfo("4-eyes", "Female", 20, "src/Man.jpg"),
 ]
 
 
@@ -477,8 +493,8 @@ function IncrementDay() {//Done
 }
 
 //Combat
-function StartBattle() {//Needs Fix
-    Opponent = Math.floor(Math.random() * 12)
+function StartBattle() {
+    Opponent = Math.floor(Math.random() * 20)
     RefreshUI();
 }
 
