@@ -31,9 +31,10 @@ var UserJob = 0;
 var Opponent = 5
 
 //Attacks
-function AttackInfo(Name, Accuracy, PP) {
+function AttackInfo(Name, Accuracy, Power, PP) {
     this.Name = Name
     this.Accuracy = Accuracy
+    this.Power = Power
     this.pp = PP
 }
 var Attacks = [
@@ -475,7 +476,6 @@ function IncrementDay() {//Done
     RefreshUI();
 }
 
-
 //Combat
 function StartBattle() {//Needs Fix
     Opponent = Math.floor(Math.random() * 12)
@@ -483,8 +483,7 @@ function StartBattle() {//Needs Fix
 }
 
 function DamageCalc (Perpetrator, Victim, Attack){//Needs Fix
-    return (( 2 * Perpetrator['Level']  / 5 + 2 ) * Attacks[Attack]['Power'] * Levels[Perpetrator['Level']]['Attack'] / Levels[Victim['Level']]['Defense'] / 30 /50 + 2 );
-    //* (300 / (Math.floor(Math.random() * 15 ) + 85)) ;
+    return Math.floor ((( 2 * Perpetrator['Level']  / 5 + 2 ) * Attacks[Attack]['Power'] * Levels[Perpetrator['Level']]['Attack'] / Levels[Victim['Level']]['Defense'] / 30 /50 + 2 ) * (300 / (Math.floor(Math.random() * 15 ) + 85))) ;
 }
 
 function Fight() {//Needs Fix
@@ -548,12 +547,10 @@ function Run() {//Not Even Close
 
 // MAIN program execution
 
-//UserCharacterInfo['Name'] = prompt("What's your name?", "Mendo");
-//UserCharacterInfo['Gender'] = prompt("Your gender?");
-
-//if (UserCharacterInfo['Gender'].toLowerCase() != "male" && UserCharacterInfo['Gender'].toLowerCase() != "female") {
-//    alert("That's not a gender, by the way.");
-//    UserCharacterInfo['Gender'] = "Unknown"
-//}
-
+UserCharacterInfo['Name'] = prompt("What's your name?", "Mendo");
+UserCharacterInfo['Gender'] = prompt("Your gender?");
+if (UserCharacterInfo['Gender'].toLowerCase() != "male" && UserCharacterInfo['Gender'].toLowerCase() != "female") {
+    alert("That's not a gender, by the way.");
+    UserCharacterInfo['Gender'] = "Unknown"
+}
 RefreshUI();
