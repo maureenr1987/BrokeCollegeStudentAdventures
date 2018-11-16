@@ -28,10 +28,23 @@ var UserJob = 0;
 
 
 //Battle
-var Opponent = 2
+var Opponent = 5
+
+//Attacks
+function AttackInfo(Name, Accuracy, PP) {
+    this.Name = Name
+    this.Accuracy = Accuracy
+    this.pp = PP
+}
+var Attacks = [
+    new AttackInfo("Tackle", 40, 100, 35),
+    new AttackInfo("BulletPunch", 50, 95, 30),
+    new AttackInfo("SuperKick", 90, 70, 10),
+    new AttackInfo("Bash", 80, 80, 10)
+]
 
 //Levels
-function Level (HTH, ATK, DEF, SPD, EXP){
+function Level(HTH, ATK, DEF, SPD, EXP) {
     this.Health = HTH
     this.Attack = ATK
     this.Defense = DEF
@@ -39,46 +52,52 @@ function Level (HTH, ATK, DEF, SPD, EXP){
     this.Experience = EXP
 }
 var Levels = [
-    new Level(0, 0, 0, 0, 10),
+    new Level(0, 0, 0, 0, 10), //Placeholder 0
     new Level(10, 5, 5, 5, 20),
     new Level(12, 6, 6, 6, 30),
     new Level(14, 7, 7, 7, 40),
     new Level(18, 8, 8, 8, 50),
-    new Level(20, 9, 9, 9, 60),
+    new Level(20, 9, 9, 9, 60), //Level 5
     new Level(22, 10, 10, 10, 70),
     new Level(24, 11, 11, 11, 80),
     new Level(26, 12, 12, 12, 90),
     new Level(28, 13, 13, 13, 100),
-    new Level(30, 14, 14, 14, 110),
+    new Level(30, 14, 14, 14, 110), //Level 10
     new Level(32, 15, 15, 15, 120),
     new Level(34, 16, 16, 16, 130),
     new Level(36, 17, 17, 17, 140),
 ];
 
 //Characters
-function CharacterInfo(Name, Gender, Level, Icon) {
-this.Name = Name
-this.Gender = Gender
-this.Level = Level
-this.Icon = Icon
-this.HealthCurrent = Levels[Level]['Health']
-this.ExperienceCurrent = 0
-
+function CharacterInfo(Name, Gender, Level, Icon, Moves) {
+    this.Name = Name
+    this.Gender = Gender
+    this.Level = Level
+    this.Icon = Icon
+    this.HealthCurrent = Levels[Level]['Health']
+    this.ExperienceCurrent = 0
+    this.Move = Moves
+    var MovesPP = [];
+    for (i = 0; i < 4; i++) {
+        if ( Moves[i] != null )
+        MovesPP.push(Attacks[Moves[i]]['pp'])
+    }
+    this.MovesPP = MovesPP
 }
-var People = [ //Note User is always index 0
-    new CharacterInfo("Yeah", "Male", 1, "src/Sponge.jpg"),
-    new CharacterInfo("Fest", "Male", 2, "src/Squid.jpg"),
-    new CharacterInfo("Swift", "Male", 3, "src/Patrick.jpg"),
-    new CharacterInfo("Roush", "Female", 4, "src/Sandy.jpg"),
-    new CharacterInfo("Grub", "Male", 5, "src/Krab.jpg"),
-    new CharacterInfo("Anvil", "Male", 6, "src/Plankton.jpg"),
-    new CharacterInfo("Applesauce", "Unknown", 7, "src/Gary.jpg"),
-    new CharacterInfo("Slate", "Female", 8, "src/Puff.jpg"),
-    new CharacterInfo("Grease", "Female", 9, "src/Whale.jpg"),
-    new CharacterInfo("Boxtroll", "Alpha Male", 10, "src/Squid2.jpg"),
-    new CharacterInfo("Bling King", "Male", 11, "src/King.jpg"),
-    new CharacterInfo("Lenses", "Male", 12, "src/Lobster.jpg"),
-    new CharacterInfo("Dummy", "Female", 13, "src/Computer.jpg"),
+var UserCharacterInfo = new CharacterInfo("Yeah", "Male", 5, "src/Sponge.jpg", [0, 1, 2, 3]);
+var People = [
+    new CharacterInfo("Fest", "Male", 2, "src/Squid.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Swift", "Male", 3, "src/Patrick.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Roush", "Female", 4, "src/Sandy.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Grub", "Male", 5, "src/Krab.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Anvil", "Male", 6, "src/Plankton.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Redpop", "Unknown", 7, "src/Gary.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Slate", "Female", 8, "src/Puff.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Grease", "Female", 9, "src/Whale.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Septa", "Alpha Male", 10, "src/Squid2.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Tambo", "Male", 11, "src/King.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Lenses", "Male", 12, "src/Lobster.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Dummy", "Female", 13, "src/Computer.jpg", [0, 1, 2, 3]),
 ]
 
 
@@ -127,7 +146,11 @@ var Year = 2047;
 
 
 // FUNCTION section
-function RefreshUI() {
+function RefreshUI() {//Gets Constantly Updated
+    //Users Name and Gender
+    document.getElementById("display_username").innerHTML = UserCharacterInfo['Name'];
+    document.getElementById("display_usergender").innerHTML = "Gender: " + UserCharacterInfo['Gender']
+
     // Update users job
     document.getElementById("display_userjobinfo").innerHTML = "Job: " + Jobs[UserJob]['Job'];
 
@@ -161,7 +184,6 @@ function RefreshUI() {
             else {
                 calendar_buffer += "<div class='item'>" + (i - FirstInMonth[Month]) + "</div>";
             }
-
         }
         else {
             calendar_buffer += "<div class='item'> </div>";
@@ -172,17 +194,17 @@ function RefreshUI() {
     }
     document.getElementById("display_calendar").innerHTML = calendar_buffer;
     document.getElementById("display_date").innerHTML = DayNames[DayWeek] + " " + MonthNames[Month] + " " + DayMonth + " " + Year;
-    document.getElementById("display_userstats").innerHTML = "Level - " + People[0]['Level'] + "<br>HP - " + People[0]['HealthCurrent'] + " / " + Levels[People[0]['Level'] ] ['Health'] + "<br>ATK - " + Levels[People[0]['Level']]['Attack'] +  "<br>DEF - " + Levels[People[0]['Level']]['Defense'] +  "<br>SPD - " + Levels[People[0]['Level']]['Speed']
+    document.getElementById("display_userstats").innerHTML = "Level - " + UserCharacterInfo['Level'] + "<br>HP - " + UserCharacterInfo['HealthCurrent'] + " / " + Levels[UserCharacterInfo['Level']]['Health'] + "<br>ATK - " + Levels[UserCharacterInfo['Level']]['Attack'] + "<br>DEF - " + Levels[UserCharacterInfo['Level']]['Defense'] + "<br>SPD - " + Levels[UserCharacterInfo['Level']]['Speed']
 
     //NPCRefresh
     document.getElementById("display_NPCname").innerHTML = People[Opponent]['Name']
     document.getElementById("display_NPCgender").innerHTML = "Gender: " + People[Opponent]['Gender']
-    document.getElementById("display_NPCStats").innerHTML = "Level - " + People[Opponent]['Level'] + "<br>HP - " + Levels[People[Opponent]['Level']]['Health'] + " / "+ People[Opponent]['HealthCurrent']
+    document.getElementById("display_NPCStats").innerHTML = "Level - " + People[Opponent]['Level'] + "<br>HP - " + People[Opponent]['HealthCurrent'] + " / " + Levels[People[Opponent]['Level']]['Health'] 
     document.getElementById("NPCIcon").src = People[Opponent]['Icon']
 }
 
 //Store Functions
-function OpenStore() {
+function OpenStore() {//Done
     var UserInput = prompt("Store Owner: Hi how you doing? What do you need today\n \n1. Buy\n2. Sell\n3. Exit");
     if (UserInput == 1) {
         Buy()
@@ -193,7 +215,7 @@ function OpenStore() {
     }
 }
 
-function Buy() {
+function Buy() {//Done
     var InvStore = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     var text = "";
     var i;
@@ -262,7 +284,7 @@ function Sell() { //Done
 }
 
 //Inventory Functions
-function AddToInventory(Item, Plus) {
+function AddToInventory(Item, Plus) {//Done
     var i;
     var Exists = false;
     for (i = 0; i < InvIndex.length; i++) {
@@ -278,7 +300,7 @@ function AddToInventory(Item, Plus) {
     RefreshUI();
 }
 
-function RemoveToInventory(Item, Minus) {
+function RemoveToInventory(Item, Minus) {//Done
     InvQuantity[Item] = (parseInt(InvQuantity[Item]) - parseInt(Minus))
     if (InvQuantity[Item] < 1) {
         InvIndex.splice(Item);
@@ -287,7 +309,7 @@ function RemoveToInventory(Item, Minus) {
     RefreshUI();
 }
 
-function PayDay() {
+function PayDay() {//Done
     function Excuse(Amount, Reason) {
         this.Amount = Amount
         this.Reason = Reason
@@ -418,7 +440,7 @@ function JobOptions() { //Done
 }
 
 //TimeFunctions
-function IncrementDay() {
+function IncrementDay() {//Done
     Day365++;
 
     //Get Paid and Pay Bills
@@ -455,16 +477,53 @@ function IncrementDay() {
 
 
 //Combat
-function StartBattle() {
-    Opponent = Math.floor(Math.random() * 12) + 1
+function StartBattle() {//Needs Fix
+    Opponent = Math.floor(Math.random() * 12)
     RefreshUI();
 }
 
-function Fight(){
-    alert("Rip, Not done yet...")
+function DamageCalc (Perpetrator, Victim, Attack){//Needs Fix
+    return (( 2 * Perpetrator['Level']  / 5 + 2 ) * Attacks[Attack]['Power'] * Levels[Perpetrator['Level']]['Attack'] / Levels[Victim['Level']]['Defense'] / 30 /50 + 2 );
+    //* (300 / (Math.floor(Math.random() * 15 ) + 85)) ;
 }
 
-function Bag(){
+function Fight() {//Needs Fix
+    var text = "";
+    for (i = 0; i < 4; i++) {
+        text += (i + 1) + ". " + Attacks[UserCharacterInfo ['Move'][i]]['Name'] + "\n"
+    }
+
+    var UserInput = prompt(text) - 1;
+    var Random = Math.floor(Math.random()*4)
+    if ( Levels[People[Opponent]['Level']]['Speed'] > Levels[UserCharacterInfo['Level']]['Speed'] ) { //If your opponent is faster
+        
+        alert( People[Opponent]['Name'] + " Used " + Attacks[Random]['Name'] )
+        UserCharacterInfo['HealthCurrent'] -= DamageCalc( People[Opponent], UserCharacterInfo, Random );
+
+        if ( UserCharacterInfo['HealthCurrent'] > 0 ) { //If you survived
+            alert( UserCharacterInfo['Name'] + " used " + Attacks[UserInput]['Name'] )
+            People[Opponent]['HealthCurrent'] -= DamageCalc( UserCharacterInfo, People[Opponent], UserInput );
+        }
+        else { //You didn't survive
+            alert("You Died...")
+        }
+    }
+    else if ( Levels[People[Opponent]['Level']]['Speed'] <= Levels[UserCharacterInfo['Level']]['Speed'] ) { //If your opponent is slower
+        alert( UserCharacterInfo['Name'] + " used " + Attacks[UserInput]['Name'] )
+        People[Opponent]['HealthCurrent'] -= DamageCalc( UserCharacterInfo, People[Opponent], UserInput );
+
+        if ( People[Opponent]['HealthCurrent'] > 0 ) { //If you opponent survived
+            alert( People[Opponent]['Name'] + " Used " + Attacks[Random]['Name'] )
+        UserCharacterInfo['HealthCurrent'] -= DamageCalc( People[Opponent], UserCharacterInfo, Random );
+        }
+        else { //Your Opponent didn't survive
+            alert( People[Opponent]['Name'] + " Died...")
+        }
+    }
+    RefreshUI();
+}
+    
+function Bag() {//Not Even Close
     var inventory_buffer = "Doesn't work yet<br>";
     for (i = 0; i < InvIndex.length; i++) {
         inventory_buffer += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")\n";
@@ -472,13 +531,13 @@ function Bag(){
     if (InvIndex.length == 0) {
         alert("Your inventory is empty!")
     } else {
-        var Choose = prompt(inventory_buffer ) - 1
+        var Choose = prompt(inventory_buffer) - 1
     }
 }
 
-function Run(){
-    var EscapeChance = Math.floor(Math.random()*100)
-    if (EscapeChance <= 20 ) {
+function Run() {//Not Even Close
+    var EscapeChance = Math.floor(Math.random() * 100)
+    if (EscapeChance <= 20) {
         alert("You got away safely")
         RefreshUI();
     }
@@ -488,14 +547,13 @@ function Run(){
 }
 
 // MAIN program execution
+
+//UserCharacterInfo['Name'] = prompt("What's your name?", "Mendo");
+//UserCharacterInfo['Gender'] = prompt("Your gender?");
+
+//if (UserCharacterInfo['Gender'].toLowerCase() != "male" && UserCharacterInfo['Gender'].toLowerCase() != "female") {
+//    alert("That's not a gender, by the way.");
+//    UserCharacterInfo['Gender'] = "Unknown"
+//}
+
 RefreshUI();
-People[0]['Name'] = prompt("What's your name?", "bob");
-People[0]['Gender'] = prompt("Your gender?");
-document.getElementById("display_username").innerHTML = People[0]['Name'];
-
-
-if (People[0]['Gender'].toLowerCase() != "male" && People[0]['Gender'].toLowerCase() != "female"){
-    alert("That's not a gender, by the way.");
-    People[0]['Gender'] = "Unknown" 
-}
-document.getElementById("display_usergender").innerHTML = "Gender: " + People[0]['Gender']
