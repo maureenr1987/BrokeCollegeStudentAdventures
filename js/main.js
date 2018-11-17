@@ -1,17 +1,9 @@
-
 // COMMENTS SECTION
 /* 
-Programmer: Mauricio, John, Jaiden, Jayson, and Luis
+Programmer: Mauricio, John, Jaiden, Jayson, Creighton, and Luis
 Date Last Modified: 11/08/2018
 Goal/Purpose: Make a presentable MTAG
 Status: in Progress
-
-Checklist:
-Add Calendar 
-Add Months
-Add more/different items to the store (More that relate to the game in progress
-Come up with a story with different (random) endings
-Add name, age, ect. from user at beginning
 
 Story
 A Giant meteor is headed towords earth and the world will end in 1 Year.
@@ -26,6 +18,8 @@ var InvIndex = [0, 1, 2];
 var InvQuantity = [12, 5, 8];
 var UserJob = 0;
 
+//Gamemode
+var Gamemode = "Standard";
 
 //Battle
 var Opponent = 12;
@@ -164,6 +158,36 @@ var Year = 2047;
 
 // FUNCTION section
 function RefreshUI() {//Gets Constantly Updated
+    //Removes Excess HP
+    if ( People[0]['HealthCurrent'] > Levels[People[0]['Level']]['Health'] ) {
+        People[0]['HealthCurrent'] = Levels[People[0]['Level']]['Health'];
+    }
+
+    //Levels Up character
+    if ( People[0]['ExperienceCurrent'] > Levels[People[0]['Level']]['Experience'] ) {
+        People[0]['Level']++
+        People[0]['ExperienceCurrent'] = 0;
+        alert(" Congrats! You are now Level " + People[0]['Level'] )
+    }
+
+    //Set Game mode
+    switch (Gamemode) {
+        case "Standard":
+            document.getElementById("MainHeader").hidden = false;
+            document.getElementById("Calendar").hidden = false;
+            document.getElementById("Inventory").hidden = false;
+            document.getElementById("NPCProfile").hidden = true;
+            document.getElementById("BattleOptions").hidden = true;
+            break;
+        case "Battle":
+            document.getElementById("MainHeader").hidden = true;
+            document.getElementById("Calendar").hidden = true;
+            document.getElementById("Inventory").hidden = true;
+            document.getElementById("NPCProfile").hidden = false;
+            document.getElementById("BattleOptions").hidden = false;
+            break;
+    }
+
     // Update users job
     document.getElementById("display_userjobinfo").innerHTML = "Job: " + Jobs[UserJob]['Job'];
 
@@ -208,7 +232,7 @@ function RefreshUI() {//Gets Constantly Updated
     //Users Name and Gender
     document.getElementById("display_username").innerHTML = People[0]['Name'];
     document.getElementById("display_usergender").innerHTML = "Gender: " + People[0]['Gender'];
-    document.getElementById("display_userstats").innerHTML = "Level: " + People[0]['Level'] + "<br>HP: " + People[0]['HealthCurrent'] + " / " + Levels[People[0]['Level']]['Health'] + "<br>ATK: " + Levels[People[0]['Level']]['Attack'] + "<br>DEF: " + Levels[People[0]['Level']]['Defense'] + "<br>SPD: " + Levels[People[0]['Level']]['Speed'];
+    document.getElementById("display_userstats").innerHTML = "Level: " + People[0]['Level'] + "<br>HP: " + People[0]['HealthCurrent'] + " / " + Levels[People[0]['Level']]['Health'] + "<br>ATK: " + Levels[People[0]['Level']]['Attack'] + "<br>DEF: " + Levels[People[0]['Level']]['Defense'] + "<br>SPD: " + Levels[People[0]['Level']]['Speed'] + "<br>EXP: " + People[0]['ExperienceCurrent'] + " / " + Levels[People[0]['Level']]['Experience'];
 
 
     //NPCRefresh
@@ -572,8 +596,9 @@ function RandomEncounter() {//Done
         new CharacterInfo("Thicc", "Male", 19, "src/Boy.jpg", [0, 1, 2, 3]),
         new CharacterInfo("4-eyes", "Female", 20, "src/Man.jpg", [0, 1, 2, 3]),
     ];
-    
+
     Opponent = Math.floor(Math.random() * 19) + 1;
+    Gamemode = "Battle";
     RefreshUI();
 }
 
@@ -583,51 +608,71 @@ function Fight() {//Done
         text += (i + 1) + ". " + Attacks[People[0]['Move'][i]]['Name'] + "\n"
     }
     var UserInput = prompt(text) - 1;
+    if (UserInput >= 0 && UserInput < 4) {
 
-    //If your opponent is faster
-    if (Levels[People[Opponent]['Level']]['Speed'] > Levels[People[0]['Level']]['Speed']) {
-        OpponentAttacks();
-        if (People[0]['HealthCurrent'] > 0) { //If you survived
-            UserAttacks(UserInput);
-        }
-        else { //You didn't survive
-            alert("You Died...")
-        }
-    }
-
-    //If your opponent is slower
-    else if (Levels[People[Opponent]['Level']]['Speed'] < Levels[People[0]['Level']]['Speed']) {
-        UserAttacks(UserInput);
-        if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
-            OpponentAttacks();
-        }
-        else { //Your Opponent didn't survive
-            alert(People[Opponent]['Name'] + " Died...")
-        }
-    }
-
-    //If you and your opponents speed is equal
-    else if (Levels[People[Opponent]['Level']]['Speed'] == Levels[People[0]['Level']]['Speed']) {
-        if (Math.random() <= .5) {
+        //If your opponent is faster
+        if (Levels[People[Opponent]['Level']]['Speed'] > Levels[People[0]['Level']]['Speed']) {
             OpponentAttacks();
             if (People[0]['HealthCurrent'] > 0) { //If you survived
                 UserAttacks(UserInput);
+                if (People[Opponent]['HealthCurrent'] < 0) {
+                    alert(People[Opponent]['Name'] + " Died...");
+                    EndBattle();
+                }
             }
             else { //You didn't survive
-                alert("You Died...")
+                alert("You Died...");
+                EndBattle();
             }
         }
-        else {
+        //If you are faster
+        else if (Levels[People[Opponent]['Level']]['Speed'] < Levels[People[0]['Level']]['Speed']) {
             UserAttacks(UserInput);
             if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
                 OpponentAttacks();
+                if (People[0]['HealthCurrent'] < 0) {
+                    alert("You Died...");
+                    EndBattle();
+                }
             }
             else { //Your Opponent didn't survive
                 alert(People[Opponent]['Name'] + " Died...")
+                EndBattle();
             }
         }
+        //If you and your opponents speed is equal
+        else if (Levels[People[Opponent]['Level']]['Speed'] == Levels[People[0]['Level']]['Speed']) {
+            if (Math.random() <= .5) {
+                OpponentAttacks();
+                if (People[0]['HealthCurrent'] > 0) { //If you survived
+                    UserAttacks(UserInput);
+                    if (People[Opponent]['HealthCurrent'] < 0) {
+                        alert(People[Opponent]['Name'] + " Died...");
+                        EndBattle();
+                    }
+                }
+                else { //You didn't survive
+                    alert("You Died...");
+                    EndBattle();
+                }
+            }
+            else {
+                UserAttacks(UserInput);
+                if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
+                    OpponentAttacks();
+                    if (People[0]['HealthCurrent'] < 0) {
+                        alert("You Died...");
+                        EndBattle();
+                    }
+                }
+                else { //Your Opponent didn't survive
+                    alert(People[Opponent]['Name'] + " Died...")
+                    EndBattle();
+                }
+            }
+        }
+        RefreshUI();
     }
-    RefreshUI();
 }
 
 function Bag() {//Done
@@ -637,14 +682,15 @@ function Bag() {//Done
     }
     else {
         alert(People[Opponent]['Name'] + " Died...")
+        EndBattle();
     }
     RefreshUI();
 }
 
 function Run() {//Done
-    var EscapeChance = Math.floor(Math.random() * 100)
-    if (EscapeChance <= 20) {
+    if ( ( Math.random() * 100) + 1 <= 33 ) {
         alert("You got away safely")
+        Gamemode = "Standard";
         RefreshUI();
     }
     else {
@@ -652,11 +698,31 @@ function Run() {//Done
         OpponentAttacks();
         if (People[0]['HealthCurrent'] < 0) {
             alert("You Died...")
+            EndBattle();
         }
-
     }
     RefreshUI();
 }
+
+function EndBattle() {
+    //if you opponent died
+    if (People[Opponent]['HealthCurrent'] < 1) {
+        //Gives EXP
+        People[0]['ExperienceCurrent'] += People[Opponent]['Level'];
+    }
+
+    //if you died
+    else if (People[0]['HealthCurrent'] < 1) {
+        People[0]['HealthCurrent'] = Levels[People[0]['Level']]['Health'];
+        IncrementDay();
+
+        Currency -= 1000;
+        alert("This is for your hopital bills \nCurrency -$1000");
+    }
+    Gamemode = "Standard";
+    RefreshUI();
+}
+
 
 function DamageCalc(Perpetrator, Victim, Attack) {//Done
     return Math.floor(((2 * Perpetrator['Level'] / 5 + 2) * Attacks[Attack]['Power'] * Levels[Perpetrator['Level']]['Attack'] / Levels[Victim['Level']]['Defense'] / 30 / 50 + 2) * (300 / (Math.floor(Math.random() * 15) + 85)));

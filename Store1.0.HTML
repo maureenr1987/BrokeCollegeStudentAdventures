@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <!-- Main Window Start -->
-        <div class="row">
+        <div class="row" id="MainHeader">
             <div class="col-12">
                 <div class="cont">
                     <h1>Life: The Game</h1>
@@ -30,9 +30,32 @@
         <!-- Main Window End -->
 
         <div class="row">
-            <!-- Shitty calendar Start -->
             <div class="col-6">
+            <!-- Player Licence Start -->
                 <div class="cont">
+                    <h3>DriversLicense</h3>
+                    <div class="idInfo">
+                        <div id="idImage"><img id="UserIcon" height="125px" src="src/Sponge.jpg" alt=""></div>
+
+                        <div class="idStats">
+                            <h2>
+                                <p id="display_username"></p>
+                            </h2>
+                            <p id="display_usergender"></p>
+                            <p id="display_userjobinfo"></p>
+                            <p id="display_usercurrency"></p>
+                        </div>
+                        <div>-------</div>
+                        <div>
+                            <p id="display_userstats"></p>
+                        </div>
+
+                    </div>
+                </div>
+            <!-- Player Licence End-->
+
+            <!-- Shitty Calendar Start -->
+                <div class="cont" id="Calendar">
                     <h1>Calendar</h1>
                     <div class="calendar">
                         <div class="calendar-title">
@@ -50,14 +73,34 @@
                         <div id="display_calendar">
                         </div>
                     </div>
-
                 </div>
             </div>
             <!-- Shitty calendar End -->
 
-            <!-- Inventory Start -->
+
             <div class="col-6">
-                <div class="cont">
+            <!-- NPC Licence Start -->
+                <div class="cont" id="NPCProfile">
+                    <h3>DriversLicense</h3>
+                    <div class="idInfo">
+                        <div id="idImage"><img id="NPCIcon" height="125px" src="src/Sponge.jpg" alt=""></div>
+                        <div class="idStats">
+                            <h2>
+                                <p id="display_NPCname"></p>
+                            </h2>
+                            <p id="display_NPCgender"></p>
+                        </div>
+                        <div>-------</div>
+                        <div>
+                            <p id="display_NPCStats"></p>
+                        </div>
+
+                    </div>
+                </div>
+            <!-- NPC Licence End -->
+
+            <!-- Inventory Start-->
+                <div class="cont" id="Inventory">
                     <h1>Inventory</h1>
                     <p id="display_inventory"></p>
                     <button onclick="UseItem()">UseItem</button>
@@ -66,60 +109,8 @@
             <!-- Inventory End -->
         </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="cont">
-                    <button onclick="RandomEncounter()">RandomEncounter</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ID Card Start -->
-        <div class="row">
-            <div class="col-6">
-                <div class="cont">
-                    <h3>DriversLicense</h3>
-                    <div class="idInfo">
-                        <div id="idImage"><img id="UserIcon" height="125px" src="src/Sponge.jpg" alt=""></div>
-
-                        <div class="idStats">
-                            <h2><p id="display_username"></p></h2>
-                            <p id="display_usergender"></p>
-                            <p id="display_userjobinfo"></p>
-                            <p id="display_usercurrency"></p>
-                        </div>
-                        <div>-------</div>
-                        <div>
-                            Player Stats
-                            <p id="display_userstats"></p>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-6">
-                <div class="cont">
-                    <h3>DriversLicense</h3>
-                    <div class="idInfo">
-                        <div id="idImage"><img id="NPCIcon" height="125px" src="src/Sponge.jpg" alt=""></div>
-                        <div class="idStats">
-                            <h2><p id="display_NPCname"></p></h2>
-                            <p id="display_NPCgender"></p>
-                        </div>
-                        <div>-------</div>
-                        <div>
-                            NPC Stats
-                            <p id="display_NPCStats"></p>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- ID Card End-->
-        <div class="row">
+        <!-- Battle Options Start-->
+        <div class="row" id="BattleOptions">
             <div class="col-12">
                 <div class="cont">
                     What will you do?
@@ -131,6 +122,17 @@
                 </div>
             </div>
         </div>
+        <!-- Battle Options End-->
+
+        <!-- Random Encounter Start -->
+        <div class="row">
+            <div class="col-12">
+                <div class="cont">
+                    <button onclick="RandomEncounter()">RandomEncounter</button>
+                </div>
+            </div>
+        </div>
+        <!-- Random Encounter End -->
 
         <!-- Footer Start -->
         <div class="row">
