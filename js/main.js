@@ -739,27 +739,28 @@ function OpponentAttacks() {//Done
     People[0]['HealthCurrent'] -= DamageCalc(People[Opponent], People[0], Random);
 }
 
-//StartUp
+//Gets the player information ready for the rest of the game
 function StartUp() {//Done
-    People[0]['Name'] = prompt("What's your name?", "Mendo");
-
-    var Gender = prompt("What is your gender? \n1. Male \n2. Female \n3. Other");
+    do{
+        People[0]['Name'] = prompt("What's your name?");
+    }while(!People[0]["Name"]);
+    while(Gender != 1 && Gender != 2){
+        var Gender = prompt("What is your gender? \n1. Male \n2. Female \n3. Other");
+        if(Gender == 3){
+            alert("Don't be silly, there are no other genders")
+        }
+        if(!Gender){
+            alert("We have a shy one. Kinky!")
+        }
+    }
     if (Gender == 1) {
         People[0]['Gender'] = "Male"
     }
     else if (Gender == 2) {
         People[0]['Gender'] = "Female"
     }
-    else if (Gender == 3) {
-        alert("Don't be silly, there are no other genders")
-        StartUp();
-    }
-    else {
-        alert("We have a shy one. Kinky!")
-        People[0]['Gender'] = "Unknown"
-    }
-    RefreshUI();
 }
 
 // MAIN program execution
 StartUp();
+RefreshUI();
