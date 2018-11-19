@@ -113,10 +113,12 @@ var People = [ //Note User is always index 0
 
 
 //Items
-function ItemInfo(Name, Price, Desc) {
-    this.Name = Name
-    this.Price = Price
-    this.Desc = Desc
+class ItemInfo{
+    constructor(Name, Price, Desc){
+        this.Name = Name
+        this.Price = Price
+        this.Desc = Desc
+    }
 }
 var Items = [
     new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. +5 health"),
