@@ -389,7 +389,7 @@ function UseItem() {//Not Even Close
             break;
 
         case "New TV Remote":
-            alert(People[0]['Name'] + "used the TV Remote")
+            alert(People[0]['Name'] + " used the TV Remote")
             if (Opponent == 12) {
                 alert("You her turned off ")
                 People[Opponent]['HealthCurrent'] = 0
@@ -419,19 +419,19 @@ function UseItem() {//Not Even Close
             break;
 
         case "Rusty Sword":
-             alert(People[0]['Name'] + "sword is used")
+             alert(People[0]['Name'] + " sword is used")
              People[Opponent]['HealthCurrent'] -= 20
              RemoveToInventory(Choose, 1)
             break;
 
         case "Plastic shield":
-             alert(People[0]['Name'] + "shield is used")
+             alert(People[0]['Name'] + " shield is used")
              Levels[People[0]['Level']]['Defense'] += 2
              RemoveToInventory(Choose, 1)
             break;
 
         case "Wooden shield":
-            alert(People[0]['Name'] + "shield is used")
+            alert(People[0]['Name'] + " shield is used")
              Levels[People[0]['Level']]['Defense'] += 2
              RemoveToInventory(Choose, 1)
              break;
@@ -441,8 +441,6 @@ function UseItem() {//Not Even Close
             People[0]['HealthCurrent'] += 70
              RemoveToInventory(Choose, 1)
              break;
-
-
     }
     RefreshUI();
 }
