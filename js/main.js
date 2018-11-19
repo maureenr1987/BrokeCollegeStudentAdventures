@@ -395,7 +395,7 @@ function UseItem() {//Not Even Close
                 People[Opponent]['HealthCurrent'] = 0
             }
             else {
-                alert("But nothing happedned")
+                alert("But nothing happend")
             }
             RemoveToInventory(Choose, 1)
             break;
