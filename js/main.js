@@ -47,27 +47,27 @@ function Level(HTH, ATK, DEF, SPD, EXP) {
     this.Experience = EXP
 }
 var Levels = [
-    new Level(0, 0, 0, 0, 10), //Placeholder 0
-    new Level(10, 5, 5, 5, 20),
-    new Level(12, 6, 6, 6, 30),
-    new Level(14, 7, 7, 7, 40),
-    new Level(18, 8, 8, 8, 50),
-    new Level(20, 9, 9, 9, 60), //Level 5
-    new Level(22, 10, 10, 10, 70),
-    new Level(24, 11, 11, 11, 80),
-    new Level(26, 12, 12, 12, 90),
-    new Level(28, 13, 13, 13, 100),
-    new Level(30, 14, 14, 14, 110), //Level 10
-    new Level(32, 15, 15, 15, 120),
-    new Level(34, 16, 16, 16, 130),
-    new Level(36, 17, 17, 17, 140),
-    new Level(38, 18, 18, 18, 150),
-    new Level(40, 19, 19, 19, 160),
-    new Level(42, 20, 20, 20, 170),
-    new Level(44, 21, 21, 21, 180),
-    new Level(46, 22, 22, 22, 190),
-    new Level(48, 23, 23, 23, 200),
-    new Level(50, 24, 24, 24, 210),
+    new Level(0, 0, 0, 0, 1), //Placeholder 0
+    new Level(10, 5, 5, 5, 5),
+    new Level(12, 6, 6, 6, 10),
+    new Level(14, 7, 7, 7, 15),
+    new Level(18, 8, 8, 8, 20),
+    new Level(20, 9, 9, 9, 25), //Level 5
+    new Level(22, 10, 10, 10, 30),
+    new Level(24, 11, 11, 11, 35),
+    new Level(26, 12, 12, 12, 40),
+    new Level(28, 13, 13, 13, 45),
+    new Level(30, 14, 14, 14, 50), //Level 10
+    new Level(32, 15, 15, 15, 55),
+    new Level(34, 16, 16, 16, 60),
+    new Level(36, 17, 17, 17, 65),
+    new Level(38, 18, 18, 18, 70),
+    new Level(40, 19, 19, 19, 75),
+    new Level(42, 20, 20, 20, 80),
+    new Level(44, 21, 21, 21, 85),
+    new Level(46, 22, 22, 22, 90),
+    new Level(48, 23, 23, 23, 95),
+    new Level(50, 24, 24, 24, 100),
 ];
 
 //Characters
