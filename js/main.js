@@ -381,7 +381,7 @@ function UseItem() {//Not Even Close
             break;
 
         case "Maruchan Ramen":
-            alert(People[0]['Name'] + " ate a Hot Pocket. It was very tasty")
+            alert(People[0]['Name'] + " ate the soup. It was very tasty")
             People[0]['HealthCurrent'] += 10
             RemoveToInventory(Choose, 1)
             break;
@@ -397,6 +397,49 @@ function UseItem() {//Not Even Close
             }
             RemoveToInventory(Choose, 1)
             break;
+
+        case "BackScraterenator 3000":
+            alert(People[0]['Name'] + " scratched back! feels good!")
+            People[0]['HealthCurrent'] += 12
+            RemoveToInventory(Choose, 1)
+            break;
+
+        case "Caleb":
+             alert(People[0]['Name'] + " roof is fixed!")
+             People[0]['HealthCurrent'] += 10
+             RemoveToInventory(Choose, 1)
+             break;
+
+        case "Rosetta Stone":
+             alert(People[0]['Name'] + " good job normie!")
+             People[0]['ExperienceCurrent'] += 50
+            RemoveToInventory(Choose, 1)
+            break;
+
+        case "Rusty Sword":
+             alert(People[0]['Name'] + "sword is used")
+             People[Opponent]['HealthCurrent'] -= 20
+             RemoveToInventory(Choose, 1)
+            break;
+
+        case "Plastic shield":
+             alert(People[0]['Name'] + "shield is used")
+             Levels[People[0]['Level']]['Defense'] += 2
+             RemoveToInventory(Choose, 1)
+            break;
+
+        case "Wooden shield":
+            alert(People[0]['Name'] + "shield is used")
+             Levels[People[0]['Level']]['Defense'] += 2
+             RemoveToInventory(Choose, 1)
+             break;
+
+        case "Spork":
+             alert(People[0]['Name'] + " good job normie!")
+            People[0]['HealthCurrent'] += 70
+             RemoveToInventory(Choose, 1)
+             break;
+
 
     }
     RefreshUI();
