@@ -14,8 +14,8 @@ Our protagonist made a bucket list of things he/she wants to do before the world
 // VARIABLES section
 //User
 var Currency = Math.floor(Math.random() * 401) + 100;
-var InvIndex = [0, 1, 2];
-var InvQuantity = [12, 5, 8];
+var InvIndex = [];
+var InvQuantity = [];
 var UserJob = 0;
 
 //Gamemode
