@@ -260,6 +260,7 @@ function RefreshUI() {//Gets Constantly Updated
         bucketlist_buffer += "Done - Purchase a rosetta stone <br>";
         BucketlistCheck.push(true)
     }
+
     //Do you have big money
     if (Currency >= 10000) {
         bucketlist_buffer += "Done - Get 10,000 Dollars <br>"
@@ -281,7 +282,7 @@ function RefreshUI() {//Gets Constantly Updated
     document.getElementById("BucketList").innerHTML = bucketlist_buffer;
 
     var AllTrue = true;
-    for ( i = 1 ; i > bucketlist_buffer.length; i++ ) {
+    for (i = 1; i < bucketlist_buffer.length; i++) {
         if (BucketlistCheck[i] == false ) {
             AllTrue = false;
         }
@@ -525,8 +526,7 @@ function JobOptions() { //Done
     }
 
     function Resign() { //Done
-        UserInput = prompt("Are you sure you want to quit your " + Jobs[UserJob]['Job'] +
-            " job?\n1. Yes\n2. No")
+        UserInput = prompt("Are you sure you want to quit your " + Jobs[UserJob]['Job'] + " job?\n1. Yes\n2. No")
         if (UserInput == 1) {
             alert("You quit your job at " + Jobs[UserJob]['Job']);
             UserJob = 0;
