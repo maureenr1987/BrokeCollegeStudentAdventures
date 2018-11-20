@@ -40,12 +40,14 @@ var Attacks = [
 ]
 
 //Levels
-function Level(HTH, ATK, DEF, SPD, EXP) {
-    this.Health = HTH
-    this.Attack = ATK
-    this.Defense = DEF
-    this.Speed = SPD
-    this.Experience = EXP
+class Level {
+    constructor(HTH, ATK, DEF, SPD, EXP) {
+        this.Health = HTH
+        this.Attack = ATK
+        this.Defense = DEF
+        this.Speed = SPD
+        this.Experience = EXP
+    }
 }
 var Levels = [
     new Level(0, 0, 0, 0, 1), //Placeholder 0
@@ -72,16 +74,17 @@ var Levels = [
 ];
 
 //Characters
-function CharacterInfo(Name, Gender, Level, Icon, Moves) {
-    this.Name = Name
-    this.Gender = Gender
-    this.Level = Level
-    this.Icon = Icon
-    this.HealthCurrent = Levels[Level]['Health']
-    this.ExperienceCurrent = 0
-    this.Move = Moves
+class CharacterInfo {
+    constructor(Name, Gender, Level, Icon, Moves) {
+        this.Name = Name
+        this.Gender = Gender
+        this.Level = Level
+        this.Icon = Icon
+        this.HealthCurrent = Levels[Level]['Health']
+        this.ExperienceCurrent = 0
+        this.Move = Moves
+    }
 }
-
 var People = [ //Note User is always index 0
     new CharacterInfo("Yeah", "Male", 1, "src/Sponge.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Fest", "Male", 2, "src/Squid.jpg", [0, 1, 2, 3]),
@@ -114,23 +117,25 @@ class ItemInfo {
     }
 }
 var Items = [
-    new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. +5 health"),
-    new ItemInfo("Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States. +15 health"),
-    new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control. I guess you could throw it at somebdy? +5 attack"),
-    new ItemInfo("BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. Use it to poke people, it probably hurts. +15 attack"),
-    new ItemInfo("Caleb", 250, "If you feed him 25 cents, he'll fix your roof. +10 to max health because I didn't know what else to do with him"),
-    new ItemInfo("Rosetta Stone", 10000, "REEEEEEEEEEEEEEET. Good luck trying to afford it"),
-    new ItemInfo("Rusty Sword", 100, "I found this in the dumpster out back so now im gonna sell it to you and make a huge profit. +30 attack"),
-    new ItemInfo("Plastic shield", 20, "Here's this shield I stole from my neighbors kid. +5 defense"),
-    new ItemInfo("Wooden shield", 50, "This state of the art sheid was made with some drift wood that I found. It's not my problem if it breaks. +15 defense"),
-    new ItemInfo("Spork", 100, "Spork, now with 40% more spoon. Heals you fully")
+    new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. +5 health. Restores 10HP."),
+    new ItemInfo("Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States. +15 health. Restores 20HP."),
+    new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control. I guess you could throw it at somebdy?"),
+    new ItemInfo("BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. Use it to poke people, it probably hurts."),
+    new ItemInfo("Caleb", 250, "If you feed him 25 cents, he'll fix your roof. +10 to max health because I didn't know what else to do with him."),
+    new ItemInfo("Rosetta Stone", 10000, "REEEEEEEEEEEEEEET. Good luck trying to afford it. Levels you up instantly."),
+    new ItemInfo("Rusty Sword", 100, "I found this in the dumpster out back so now im gonna sell it to you and make a huge profit."),
+    new ItemInfo("Plastic shield", 20, "Here's this shield I stole from my neighbors kid. +5 defense."),
+    new ItemInfo("Wooden shield", 50, "This state of the art sheid was made with some drift wood that I found. It's not my problem if it breaks."),
+    new ItemInfo("Spork", 100, "Spork, now with 40% more spoon. Heals you fully.")
 ]
 
 //Employment
-function JobInfo(Job, Salary, Chance) {
-    this.Job = Job
-    this.Salary = Salary
-    this.Chance = Chance
+class JobInfo {
+    constructor(Job, Salary, Chance) {
+        this.Job = Job
+        this.Salary = Salary
+        this.Chance = Chance
+    }
 }
 var Jobs = [
     new JobInfo("Unemployed", 0, 100),
@@ -283,11 +288,11 @@ function RefreshUI() {//Gets Constantly Updated
 
     var AllTrue = true;
     for (i = 1; i < bucketlist_buffer.length; i++) {
-        if (BucketlistCheck[i] == false ) {
+        if (BucketlistCheck[i] == false) {
             AllTrue = false;
         }
     }
-    if (AllTrue == true ) {
+    if (AllTrue == true) {
         alert("Nice You won!")
     }
 }
@@ -426,13 +431,13 @@ function UseItem() {//Not Even Close
     switch (Items[InvIndex[Choose]]['Name']) {
         case "Hot Pocket":
             alert(People[0]['Name'] + " ate a Hot Pocket. It was very tasty")
-            People[0]['HealthCurrent'] += 5
+            People[0]['HealthCurrent'] += 10
             RemoveToInventory(Choose, 1)
             break;
 
         case "Maruchan Ramen":
             alert(People[0]['Name'] + " ate the soup. It was very tasty")
-            People[0]['HealthCurrent'] += 10
+            People[0]['HealthCurrent'] += 20
             RemoveToInventory(Choose, 1)
             break;
 
@@ -462,7 +467,7 @@ function UseItem() {//Not Even Close
 
         case "Rosetta Stone":
             alert(People[0]['Name'] + " good job normie!")
-            People[0]['ExperienceCurrent'] += 50
+            People[0]['Level']++
             RemoveToInventory(Choose, 1)
             break;
 
@@ -474,19 +479,19 @@ function UseItem() {//Not Even Close
 
         case "Plastic shield":
             alert(People[0]['Name'] + " shield is used")
-            Levels[People[0]['Level']]['Defense'] += 2
+            //People[0]['HealthCurrent'] += 2
             RemoveToInventory(Choose, 1)
             break;
 
         case "Wooden shield":
             alert(People[0]['Name'] + " shield is used")
-            Levels[People[0]['Level']]['Defense'] += 2
+            //Levels[People[0]['Level']]['Defense'] += 2
             RemoveToInventory(Choose, 1)
             break;
 
         case "Spork":
             alert(People[0]['Name'] + " good job normie!")
-            People[0]['HealthCurrent'] += 70
+            //People[0]['HealthCurrent'] += 70
             RemoveToInventory(Choose, 1)
             break;
     }
