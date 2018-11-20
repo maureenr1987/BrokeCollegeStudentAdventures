@@ -416,7 +416,7 @@ function RemoveToInventory(Item, Minus) {//Done
     RefreshUI();
 }
 
-function UseItem() {//Not Even Close
+function UseItem() {//Done
     var inventory_buffer = "Use an Item? \n";
     for (i = 0; i < InvIndex.length; i++) {
         inventory_buffer += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")\n";
@@ -812,8 +812,13 @@ function EndBattle() {
     //if you opponent died
     if (People[Opponent]['HealthCurrent'] < 1) {
         //Gives EXP
-        alert("You got " + People[Opponent]['Level'] + "Experience")
+        alert("You got " + People[Opponent]['Level'] + " Experience")
         People[0]['ExperienceCurrent'] += People[Opponent]['Level'];
+
+        var PrizeMoney = Math.floor(Math.random() * 300) + 100;
+        Currency += PrizeMoney;
+        alert("You stole $" + PrizeMoney + " from " + People[Opponent]['Name'])
+
     }
 
     //if you died
@@ -842,7 +847,7 @@ function UseAttack(Perpetrator, Victim, Attack) {//Done
     if (Perpetrator != 0) {
         var Attack = Math.floor(Math.random() * 4)
     }
-    alert(People[0]['Name'] + " used " + Attacks[Attack]['Name'])
+    alert(People[Perpetrator]['Name'] + " used " + Attacks[Attack]['Name'])
 
     //Attacks
     switch (Attacks[Attack]['Name']) {
