@@ -173,6 +173,7 @@ function RefreshUI() {//Gets Constantly Updated
             document.getElementById("Inventory").hidden = false;
             document.getElementById("NPCProfile").hidden = true;
             document.getElementById("BattleOptions").hidden = true;
+            document.getElementById("BucketListCont").hidden = false;
             break;
         case "Battle":
             document.getElementById("buttons").hidden = true;
@@ -180,6 +181,7 @@ function RefreshUI() {//Gets Constantly Updated
             document.getElementById("Inventory").hidden = true;
             document.getElementById("NPCProfile").hidden = false;
             document.getElementById("BattleOptions").hidden = false;
+            document.getElementById("BucketListCont").hidden = true;
             break;
     }
 
@@ -238,6 +240,55 @@ function RefreshUI() {//Gets Constantly Updated
     document.getElementById("display_NPCgender").innerHTML = "Gender: " + People[Opponent]['Gender'];
     document.getElementById("display_NPCStats").innerHTML = "Level: " + People[Opponent]['Level'] + "<br>HP: " + People[Opponent]['HealthCurrent'] + " / " + Levels[People[Opponent]['Level']]['Health'];
     document.getElementById("NPCIcon").src = People[Opponent]['Icon'];
+
+    //Update BucketList
+    //Do you have rossetta stone
+    var bucketlist_buffer = "";
+    var BucketlistCheck = [];
+    var Exists = false;
+
+    for (i = 0; i < InvIndex.length; i++) {
+        if (InvIndex[i] == 5) {
+            Exists = true;
+        }
+    }
+    if (Exists == false) {
+        bucketlist_buffer += "____ - Purchase a rosetta stone <br>";
+        BucketlistCheck.push(false)
+    }
+    else {
+        bucketlist_buffer += "Done - Purchase a rosetta stone <br>";
+        BucketlistCheck.push(true)
+    }
+    //Do you have big money
+    if (Currency >= 10000) {
+        bucketlist_buffer += "Done - Get 10,000 Dollars <br>"
+        BucketlistCheck.push(true)
+    }
+    else {
+        bucketlist_buffer += "____ - Get 10,000 Dollars <br>"
+        BucketlistCheck.push(false)
+    }
+    //Do you have big flex?
+    if (People[0]['Level'] > 9) {
+        bucketlist_buffer += "Done - Become level 10"
+        BucketlistCheck.push(true)
+    }
+    else {
+        bucketlist_buffer += "____ - Become level 10"
+        BucketlistCheck.push(false)
+    }
+    document.getElementById("BucketList").innerHTML = bucketlist_buffer;
+
+    var AllTrue = true;
+    for ( i = 1 ; i > bucketlist_buffer.length; i++ ) {
+        if (BucketlistCheck[i] == false ) {
+            AllTrue = false;
+        }
+    }
+    if (AllTrue == true ) {
+        alert("Nice You won!")
+    }
 }
 
 //Store Functions
@@ -756,6 +807,7 @@ function EndBattle() {
     //if you opponent died
     if (People[Opponent]['HealthCurrent'] < 1) {
         //Gives EXP
+        alert("You got " + People[Opponent]['Level'] + "Experience")
         People[0]['ExperienceCurrent'] += People[Opponent]['Level'];
     }
 
