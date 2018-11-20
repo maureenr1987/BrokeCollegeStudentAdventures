@@ -1,9 +1,17 @@
+
 // COMMENTS SECTION
 /* 
-Programmer: Mauricio, John, Jaiden, Jayson, Creighton, and Luis
+Programmer: Mauricio, John, Jaiden, Jayson, and Luis
 Date Last Modified: 11/08/2018
 Goal/Purpose: Make a presentable MTAG
 Status: in Progress
+
+Checklist:
+Add Calendar 
+Add Months
+Add more/different items to the store (More that relate to the game in progress
+Come up with a story with different (random) endings
+Add name, age, ect. from user at beginning
 
 Story
 A Giant meteor is headed towords earth and the world will end in 1 Year.
@@ -14,33 +22,16 @@ Our protagonist made a bucket list of things he/she wants to do before the world
 // VARIABLES section
 //User
 var Currency = Math.floor(Math.random() * 401) + 100;
-var InvIndex = [0, 1, 2];
-var InvQuantity = [12, 5, 8];
+var InvIndex = [];
+var InvQuantity = [];
 var UserJob = 0;
 
-//Gamemode
-var Gamemode = "Standard";
 
 //Battle
-var Opponent = 12;
-
-//Attacks
-class AttackInfo {
-    constructor(Name, Accuracy, Power) {
-        this.Name = Name
-        this.Accuracy = Accuracy
-        this.Power = Power
-    }
-}
-var Attacks = [
-    new AttackInfo("Tackle", 40, 100),
-    new AttackInfo("BulletPunch", 50, 95),
-    new AttackInfo("SuperKick", 90, 70),
-    new AttackInfo("Bash", 80, 80)
-]
+var Opponent = 2
 
 //Levels
-function Level(HTH, ATK, DEF, SPD, EXP) {
+function Level (HTH, ATK, DEF, SPD, EXP){
     this.Health = HTH
     this.Attack = ATK
     this.Defense = DEF
@@ -48,70 +39,54 @@ function Level(HTH, ATK, DEF, SPD, EXP) {
     this.Experience = EXP
 }
 var Levels = [
-    new Level(0, 0, 0, 0, 1), //Placeholder 0
-    new Level(10, 5, 5, 5, 5),
-    new Level(12, 6, 6, 6, 10),
-    new Level(14, 7, 7, 7, 15),
-    new Level(18, 8, 8, 8, 20),
-    new Level(20, 9, 9, 9, 25), //Level 5
-    new Level(22, 10, 10, 10, 30),
-    new Level(24, 11, 11, 11, 35),
-    new Level(26, 12, 12, 12, 40),
-    new Level(28, 13, 13, 13, 45),
-    new Level(30, 14, 14, 14, 50), //Level 10
-    new Level(32, 15, 15, 15, 55),
-    new Level(34, 16, 16, 16, 60),
-    new Level(36, 17, 17, 17, 65),
-    new Level(38, 18, 18, 18, 70),
-    new Level(40, 19, 19, 19, 75), //Level 15
-    new Level(42, 20, 20, 20, 80),
-    new Level(44, 21, 21, 21, 85),
-    new Level(46, 22, 22, 22, 90),
-    new Level(48, 23, 23, 23, 95),
-    new Level(50, 24, 24, 24, 100), //Level 20
+    new Level(0, 0, 0, 0, 10),
+    new Level(10, 5, 5, 5, 20),
+    new Level(12, 6, 6, 6, 30),
+    new Level(14, 7, 7, 7, 40),
+    new Level(18, 8, 8, 8, 50),
+    new Level(20, 9, 9, 9, 60),
+    new Level(22, 10, 10, 10, 70),
+    new Level(24, 11, 11, 11, 80),
+    new Level(26, 12, 12, 12, 90),
+    new Level(28, 13, 13, 13, 100),
+    new Level(30, 14, 14, 14, 110),
+    new Level(32, 15, 15, 15, 120),
+    new Level(34, 16, 16, 16, 130),
+    new Level(36, 17, 17, 17, 140),
 ];
 
 //Characters
-function CharacterInfo(Name, Gender, Level, Icon, Moves) {
-    this.Name = Name
-    this.Gender = Gender
-    this.Level = Level
-    this.Icon = Icon
-    this.HealthCurrent = Levels[Level]['Health']
-    this.ExperienceCurrent = 0
-    this.Move = Moves
-}
+function CharacterInfo(Name, Gender, Level, Icon) {
+this.Name = Name
+this.Gender = Gender
+this.Level = Level
+this.Icon = Icon
+this.HealthCurrent = Levels[Level]['Health']
+this.ExperienceCurrent = 0
 
+}
 var People = [ //Note User is always index 0
-    new CharacterInfo("Yeah", "Male", 1, "src/Sponge.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Fest", "Male", 2, "src/Squid.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Swift", "Male", 3, "src/Patrick.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Roush", "Female", 4, "src/Sandy.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Grub", "Male", 5, "src/Krab.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Anvil", "Male", 6, "src/Plankton.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Tub", "Unknown", 7, "src/Gary.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Slate", "Female", 8, "src/Puff.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Grease", "Female", 9, "src/Whale.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Glib", "Alpha Male", 10, "src/Squid2.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Scald", "Male", 11, "src/King.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Lenses", "Male", 12, "src/Lobster.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Boop", "Female", 13, "src/Computer.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Drip", "Male", 14, "src/myLeg.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Ghost", "Male", 15, "src/Flying.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Matte", "Male", 16, "src/Parrot.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Flop", "Male", 17, "src/Fish.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Fish", "Female", 18, "src/Grandma.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Thicc", "Male", 19, "src/Boy.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Whey", "Female", 20, "src/Man.jpg", [0, 1, 2, 3]),
-];
+    new CharacterInfo("Yeah", "Male", 1, "src/Sponge.jpg"),
+    new CharacterInfo("Fest", "Male", 2, "src/Squid.jpg"),
+    new CharacterInfo("Swift", "Male", 3, "src/Patrick.jpg"),
+    new CharacterInfo("Roush", "Female", 4, "src/Sandy.jpg"),
+    new CharacterInfo("Grub", "Male", 5, "src/Krab.jpg"),
+    new CharacterInfo("Anvil", "Male", 6, "src/Plankton.jpg"),
+    new CharacterInfo("Applesauce", "Unknown", 7, "src/Gary.jpg"),
+    new CharacterInfo("Slate", "Female", 8, "src/Puff.jpg"),
+    new CharacterInfo("Grease", "Female", 9, "src/Whale.jpg"),
+    new CharacterInfo("Boxtroll", "Alpha Male", 10, "src/Squid2.jpg"),
+    new CharacterInfo("Bling King", "Male", 11, "src/King.jpg"),
+    new CharacterInfo("Lenses", "Male", 12, "src/Lobster.jpg"),
+    new CharacterInfo("Dummy", "Female", 13, "src/Computer.jpg"),
+]
+
 
 //Items
-class ItemInfo {
-    constructor(Name, Price, Desc) {
-        this.Name = Name
-        this.Price = Price
-        this.Desc = Desc
-    }
+function ItemInfo(Name, Price, Desc) {
+    this.Name = Name
+    this.Price = Price
+    this.Desc = Desc
 }
 var Items = [
     new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. +5 health"),
@@ -152,64 +127,32 @@ var Year = 2047;
 
 
 // FUNCTION section
-function RefreshUI() {//Gets Constantly Updated
-    //Removes Excess HP
-    if (People[0]['HealthCurrent'] > Levels[People[0]['Level']]['Health']) {
-        People[0]['HealthCurrent'] = Levels[People[0]['Level']]['Health'];
-    }
-
-    //Levels Up character
-    if (People[0]['ExperienceCurrent'] > Levels[People[0]['Level']]['Experience']) {
-        People[0]['Level']++
-        People[0]['ExperienceCurrent'] = 0;
-        alert(" Congrats! You are now Level " + People[0]['Level'])
-    }
-
-    //Set Game mode
-    switch (Gamemode) {
-        case "Standard":
-            document.getElementById("buttons").hidden = false;
-            document.getElementById("Calendar").hidden = false;
-            document.getElementById("Inventory").hidden = false;
-            document.getElementById("NPCProfile").hidden = true;
-            document.getElementById("BattleOptions").hidden = true;
-            document.getElementById("BucketListCont").hidden = false;
-            break;
-        case "Battle":
-            document.getElementById("buttons").hidden = true;
-            document.getElementById("Calendar").hidden = true;
-            document.getElementById("Inventory").hidden = true;
-            document.getElementById("NPCProfile").hidden = false;
-            document.getElementById("BattleOptions").hidden = false;
-            document.getElementById("BucketListCont").hidden = true;
-            break;
-    }
-
+function RefreshUI() {
     // Update users job
     document.getElementById("display_userjobinfo").innerHTML = "Job: " + Jobs[UserJob]['Job'];
 
-    // Update Currency and Currency Color
+    // Update Currency
     document.getElementById("display_usercurrency").innerHTML = "Currency: $" + Currency;
+
+    // Change Currency Color
     document.getElementById("display_usercurrency").style.color = (Currency <= 0 ? "red" : "white");
 
-    // Refresh Inventory
+    // Update Inventory
     var inventory_buffer = "";
     for (i = 0; i < InvIndex.length; i++) {
         inventory_buffer += Items[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")<br>";
     }
     if (InvIndex.length == 0) {
         document.getElementById("display_inventory").innerHTML = "Your inventory is empty!";
-        document.getElementById("UseItemButton").hidden = true;
     } else {
         document.getElementById("display_inventory").innerHTML = inventory_buffer;
-        document.getElementById("UseItemButton").hidden = false;
-
     }
 
     //MakeCalendar
     var DayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var calendar_buffer = "";
+
     for (i = FirstInMonth[Month] - FirstInMonth[Month] % 7; i <= FirstInMonth[Month] + 42; i++) {
         if (i > FirstInMonth[Month] && i < DaysInMonth[Month] + FirstInMonth[Month] + 1) {
             if (i - 1 == Day365) {
@@ -218,6 +161,7 @@ function RefreshUI() {//Gets Constantly Updated
             else {
                 calendar_buffer += "<div class='item'>" + (i - FirstInMonth[Month]) + "</div>";
             }
+
         }
         else {
             calendar_buffer += "<div class='item'> </div>";
@@ -228,73 +172,18 @@ function RefreshUI() {//Gets Constantly Updated
     }
     document.getElementById("display_calendar").innerHTML = calendar_buffer;
     document.getElementById("display_date").innerHTML = DayNames[DayWeek] + " " + MonthNames[Month] + " " + DayMonth + " " + Year;
-
-    //Users Name and Gender
-    document.getElementById("display_username").innerHTML = People[0]['Name'];
-    document.getElementById("display_usergender").innerHTML = "Gender: " + People[0]['Gender'];
-    document.getElementById("display_userstats").innerHTML = "Level: " + People[0]['Level'] + "<br>HP: " + People[0]['HealthCurrent'] + " / " + Levels[People[0]['Level']]['Health'] + "<br>ATK: " + Levels[People[0]['Level']]['Attack'] + "<br>DEF: " + Levels[People[0]['Level']]['Defense'] + "<br>SPD: " + Levels[People[0]['Level']]['Speed'] + "<br>EXP: " + People[0]['ExperienceCurrent'] + " / " + Levels[People[0]['Level']]['Experience'];
-
+    document.getElementById("display_userstats").innerHTML = "Level - " + People[0]['Level'] + "<br>HP - " + People[0]['HealthCurrent'] + " / " + Levels[People[0]['Level'] ] ['Health'] + "<br>ATK - " + Levels[People[0]['Level']]['Attack'] +  "<br>DEF - " + Levels[People[0]['Level']]['Defense'] +  "<br>SPD - " + Levels[People[0]['Level']]['Speed']
 
     //NPCRefresh
-    document.getElementById("display_NPCname").innerHTML = People[Opponent]['Name'];
-    document.getElementById("display_NPCgender").innerHTML = "Gender: " + People[Opponent]['Gender'];
-    document.getElementById("display_NPCStats").innerHTML = "Level: " + People[Opponent]['Level'] + "<br>HP: " + People[Opponent]['HealthCurrent'] + " / " + Levels[People[Opponent]['Level']]['Health'];
-    document.getElementById("NPCIcon").src = People[Opponent]['Icon'];
-
-    //Update BucketList
-    //Do you have rossetta stone
-    var bucketlist_buffer = "";
-    var BucketlistCheck = [];
-    var Exists = false;
-
-    for (i = 0; i < InvIndex.length; i++) {
-        if (InvIndex[i] == 5) {
-            Exists = true;
-        }
-    }
-    if (Exists == false) {
-        bucketlist_buffer += "____ - Purchase a rosetta stone <br>";
-        BucketlistCheck.push(false)
-    }
-    else {
-        bucketlist_buffer += "Done - Purchase a rosetta stone <br>";
-        BucketlistCheck.push(true)
-    }
-
-    //Do you have big money
-    if (Currency >= 10000) {
-        bucketlist_buffer += "Done - Get 10,000 Dollars <br>"
-        BucketlistCheck.push(true)
-    }
-    else {
-        bucketlist_buffer += "____ - Get 10,000 Dollars <br>"
-        BucketlistCheck.push(false)
-    }
-    //Do you have big flex?
-    if (People[0]['Level'] > 9) {
-        bucketlist_buffer += "Done - Become level 10"
-        BucketlistCheck.push(true)
-    }
-    else {
-        bucketlist_buffer += "____ - Become level 10"
-        BucketlistCheck.push(false)
-    }
-    document.getElementById("BucketList").innerHTML = bucketlist_buffer;
-
-    var AllTrue = true;
-    for (i = 1; i < bucketlist_buffer.length; i++) {
-        if (BucketlistCheck[i] == false ) {
-            AllTrue = false;
-        }
-    }
-    if (AllTrue == true ) {
-        alert("Nice You won!")
-    }
+    document.getElementById("display_NPCname").innerHTML = People[Opponent]['Name']
+    document.getElementById("display_NPCgender").innerHTML = "Gender: " + People[Opponent]['Gender']
+    document.getElementById("display_NPCStats").innerHTML = "Level - " + People[Opponent]['Level'] + "<br>HP - " + Levels[People[Opponent]['Level']]['Health'] + " / "+ People[Opponent]['HealthCurrent']
+    document.getElementById("NPCIcon").src = People[Opponent]['Icon']
 }
 
 //Store Functions
-function OpenStore() {//Done
-    var UserInput = prompt("Store Owner: Hi how you doing? What do you need today\n \n1. Buy\n2. Sell");
+function OpenStore() {
+    var UserInput = prompt("Store Owner: Hi how you doing? What do you need today\n \n1. Buy\n2. Sell\n3. Exit");
     if (UserInput == 1) {
         Buy()
     } else if (UserInput == 2) {
@@ -304,7 +193,7 @@ function OpenStore() {//Done
     }
 }
 
-function Buy() {//Done
+function Buy() {
     var InvStore = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     var text = "";
     var i;
@@ -313,11 +202,13 @@ function Buy() {//Done
     for (i = 0; i < InvStore.length; i++) {
         text += (i + 1) + ". " + Items[InvStore[i]]['Name'] + " - $" + Items[InvStore[i]]['Price'] + "\n"
     }
-    UserInput = prompt("Choose anything you like. \n \n" + text) - 1;
+    UserInput = prompt("Choose anything you like. \n \n" + text + (InvStore.length + 1) + ". Exit") - 1;
     if (UserInput < InvStore.length && UserInput >= 0) {
         var Many = prompt("How many do you want to buy", 1)
         if (Many > 0 && Many <= 1000) {
-            if (Currency > Items[InvStore[UserInput]]['Price'] * Many) {
+            if (Currency < Items[InvStore[UserInput]]['Price'] * Many) {
+                alert("Honey you br0k3 AF.")
+            } else {
                 var Confirm = prompt(Items[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Items[
                     InvStore[UserInput]]['Price'] * Many) + "\n" + Items[InvStore[UserInput]]['Desc'] +
                     "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
@@ -326,21 +217,14 @@ function Buy() {//Done
                     AddToInventory(InvStore[UserInput], Many);
                     alert("Thank you for your purchase.")
                     RefreshUI();
-                }
-                else {
-                    alert("Did you suddenly realize you're broke?")
+                } else {
                     Buy();
                 }
             }
-            else {
-                alert("Get your broke a$$ outta here!")
-            }
-        }
-        else {
+        } else {
             alert("Ummm... Where are your parents?")
         }
-    }
-    else {
+    } else if (UserInput == i) {
         alert("Thank you. Come again!")
     }
 }
@@ -352,7 +236,7 @@ function Sell() { //Done
     for (i = 0; i < InvIndex.length; i++) {
         text += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " - $" + Items[InvIndex[i]]['Price'] + "\n"
     }
-    UserInput = prompt("Type in an items number to Sell it \n \n" + text) -
+    UserInput = prompt("Type in an items number to Sell it \n \n" + text + (InvIndex.length + 1) + ". Exit") -
         1;
     if (UserInput < InvIndex.length && UserInput >= 0) {
         var Many = prompt("How many do you want to sell", 1)
@@ -366,27 +250,19 @@ function Sell() { //Done
                 RemoveToInventory(UserInput, Many);
                 alert("Uhhh. Thanks...")
                 RefreshUI();
-            }
-            else {
-                alert("Damn. I really wanted that one.")
+            } else if (Confirm == 2) {
                 Sell();
             }
-        }
-        else if (Many >= InvQuantity[UserInput]) {
+        } else if (Many >= InvQuantity[UserInput]) {
             alert("Boi! You know you ain't got that many!")
-            Sell();
         }
-        else {
-            alert("Do you need anything? Sir.")
-        }
-    }
-    else {
+    } else if (UserInput == i) {
         alert("Thank you. Come again!")
     }
 }
 
 //Inventory Functions
-function AddToInventory(Item, Plus) {//Done
+function AddToInventory(Item, Plus) {
     var i;
     var Exists = false;
     for (i = 0; i < InvIndex.length; i++) {
@@ -402,7 +278,7 @@ function AddToInventory(Item, Plus) {//Done
     RefreshUI();
 }
 
-function RemoveToInventory(Item, Minus) {//Done
+function RemoveToInventory(Item, Minus) {
     InvQuantity[Item] = (parseInt(InvQuantity[Item]) - parseInt(Minus))
     if (InvQuantity[Item] < 1) {
         InvIndex.splice(Item);
@@ -411,86 +287,34 @@ function RemoveToInventory(Item, Minus) {//Done
     RefreshUI();
 }
 
-function UseItem() {//Not Even Close
-    var inventory_buffer = "Use an Item? \n";
-    for (i = 0; i < InvIndex.length; i++) {
-        inventory_buffer += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")\n";
-    }
-    if (InvIndex.length == 0) {
-        alert("Your inventory is empty!")
-    }
-    else {
-        var Choose = prompt(inventory_buffer) - 1
+function PayDay() {
+    function Excuse(Amount, Reason) {
+        this.Amount = Amount
+        this.Reason = Reason
+        this.FullExcuse = Reason + "\nSpendings: " + Amount
     }
 
-    switch (Items[InvIndex[Choose]]['Name']) {
-        case "Hot Pocket":
-            alert(People[0]['Name'] + " ate a Hot Pocket. It was very tasty")
-            People[0]['HealthCurrent'] += 5
-            RemoveToInventory(Choose, 1)
-            break;
+    var Excuses = [
+        new Excuse(215, "I hope I have enough to pay the water bill."),
+        new Excuse(370, "This week I have to pay the gas and electric."),
+        new Excuse(100, "I have to get clothes and food for that party that everybody is talking about."),
+        new Excuse(0, "What?! A week with no expenses! Is a storm coming?"),
+        new Excuse(500, "I have to buy food fo the whole month, because i'm too lazy to go every week"),
+        new Excuse(300, "That truck isn't going to fix itself."),
+        new Excuse(90, "Phone bills are such a pain in the arse")
+    ]
+    var RandomExcuse = Math.floor(Math.random() * 7)
 
-        case "Maruchan Ramen":
-            alert(People[0]['Name'] + " ate the soup. It was very tasty")
-            People[0]['HealthCurrent'] += 10
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "New TV Remote":
-            alert(People[0]['Name'] + " used the TV Remote")
-            if (Opponent == 12) {
-                alert("You her turned off ")
-                People[Opponent]['HealthCurrent'] = 0
-            }
-            else {
-                alert("But nothing happend")
-            }
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "BackScraterenator 3000":
-            alert(People[0]['Name'] + " scratched back! feels good!")
-            People[0]['HealthCurrent'] += 12
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "Caleb":
-            alert(People[0]['Name'] + " roof is fixed!")
-            People[0]['HealthCurrent'] += 10
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "Rosetta Stone":
-            alert(People[0]['Name'] + " good job normie!")
-            People[0]['ExperienceCurrent'] += 50
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "Rusty Sword":
-            alert(People[0]['Name'] + " sword is used")
-            People[Opponent]['HealthCurrent'] -= 20
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "Plastic shield":
-            alert(People[0]['Name'] + " shield is used")
-            Levels[People[0]['Level']]['Defense'] += 2
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "Wooden shield":
-            alert(People[0]['Name'] + " shield is used")
-            Levels[People[0]['Level']]['Defense'] += 2
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "Spork":
-            alert(People[0]['Name'] + " good job normie!")
-            People[0]['HealthCurrent'] += 70
-            RemoveToInventory(Choose, 1)
-            break;
+    if (UserJob == 0) {
+        alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!")
+    } else {
+        Currency += Jobs[UserJob]['Salary']
     }
-    RefreshUI();
+
+    Currency -= Excuses[RandomExcuse]['Amount'];
+
+    alert(Excuses[RandomExcuse]['FullExcuse']);
+    alert("You earned " + Jobs[UserJob]['Salary'] + " from your job at " + Jobs[UserJob]['Job']);
 }
 
 //Job Functions
@@ -498,46 +322,49 @@ function JobOptions() { //Done
     function Apply() { //Done
         var i;
         var text = "";
-        for (i = 1; i < Jobs.length; i++) {
-            text += i + ". " + Jobs[i]['Job'] + "\n"
-        };
-        var UserInput = prompt("Where do you want to apply?\n" + text + i + ". Cancel");
-        if (UserInput >= 1 && UserInput < i) {
-            var Confirm = prompt("Yor chance of getting a job at " + Jobs[UserInput]['Job'] + " is about " + Jobs[UserInput]['Chance'] + " percent.\n\n Are you sure you want to apply?\n1. Yes\n2. No");
-            if (Confirm == 1) {
-                var Random = Math.floor(Math.random() * 101);
-                if (Jobs[UserInput]['Chance'] > Random) {
-                    UserJob = UserInput;
-                    alert("You got the job!")
+
+        if (UserJob > 1) {
+            alert("You already have a job")
+        } else {
+            for (i = 1; i < Jobs.length; i++) {
+                text += i + ". " + Jobs[i]['Job'] + "\n"
+            };
+            var UserInput = prompt("Where do you want to apply?\n" + text + i + ". Cancel");
+            if (UserInput >= 1 && UserInput < i) {
+                var Confirm = prompt("Yor chance of getting a job at " + Jobs[UserInput]['Job'] + " is about " +
+                    Jobs[UserInput]['Chance'] +
+                    " percent.\n\n Are you sure you want to apply?\n1. Yes\n2. No");
+                if (Confirm == 1) {
+                    var Random = Math.floor(Math.random() * 101);
+                    if (Jobs[UserInput]['Chance'] > Random) {
+                        UserJob = UserInput;
+                        alert("You got the job!")
+                    } else {
+                        alert("These losers don't see talent when it's right in front of them!")
+                    }
+                    IncrementDay();
+                    RefreshUI()
                 } else {
-                    alert("These losers don't see talent when it's right in front of them!")
+                    alert("Whatever. It's not like I wanted to work there.")
+                    Apply()
                 }
-                IncrementDay();
-                RefreshUI()
+            } else {
+                alert("Pfffft! Who needs work anyways?")
             }
-            else {
-                alert("Whatever. It's not like I wanted to work there.")
-                Apply()
-            }
-        }
-        else {
-            alert("Pfffft! Who needs work anyways?")
         }
     }
 
     function Resign() { //Done
-        UserInput = prompt("Are you sure you want to quit your " + Jobs[UserJob]['Job'] + " job?\n1. Yes\n2. No")
-        if (UserInput == 1) {
-            alert("You quit your job at " + Jobs[UserJob]['Job']);
-            UserJob = 0;
-            IncrementDay();
-            RefreshUI();
-        }
-        else if (UserInput == 2) {
-            alert("Yeah, I think I'm set.")
-        }
-        else {
-            alert("To work or to not work. Hmmmmm...")
+        if (UserJob == 0) {
+            alert("You cant get fired if you don't have a job!")
+        } else {
+            UserInput = prompt("Are you sure you want to quit your " + Jobs[UserJob]['Job'] +
+                " job?\n1. Yes\n2. No")
+            if (UserInput == 1) {
+                UserJob = 0;
+                IncrementDay();
+                RefreshUI();
+            }
         }
     }
 
@@ -547,23 +374,27 @@ function JobOptions() { //Done
         for (i = 1; i < Jobs.length; i++) {
             text += i + ". " + Jobs[i]['Job'] + "\n"
         }
-        UserInput = prompt("Where do you want to Intern?\n" + text);
-        if (UserInput >= 1 && UserInput < i) {
-            var Confirm = prompt("If you intern at " + Jobs[UserInput]['Job'] + " it will raise your chances of getting in by 5 percent, however it will take the rest of the day. \n\nIs this ok?\n1. Yes\n2. No");
-            if (Confirm == 1) {
-                Jobs[UserInput]['Chance'] += 5;
-                alert("You interned for " + Jobs[UserInput]['Job'] +
-                    " for the rest of the day\nYour chance of getting that job next time is now " +
-                    Jobs[UserInput]['Chance'] + " Percent");
-                IncrementDay();
-                RefreshUI();
+        if (UserJob == 0) {
+            UserInput = prompt("Where do you want to Intern?\n" + text + i + ". Cancel");
+            if (UserInput >= 1 && UserInput < i) {
+                var Confirm = prompt("If you intern at " + Jobs[UserInput]['Job'] +
+                    " it will raise your chances of getting in by 5 percent, however it will take the rest of the day. \n\nIs this ok?\n1. Yes\n2. No"
+                );
+                if (Confirm == 1) {
+                    Jobs[UserInput]['Chance'] += 5;
+                    alert("You interned for " + Jobs[UserInput]['Job'] +
+                        " for the rest of the day\nYour chance of getting that job next time is now " +
+                        Jobs[UserInput]['Chance'] + " Percent");
+                    IncrementDay();
+                    RefreshUI();
+                } else {
+                    alert("Kinda busy right now, maybe later...")
+                }
+            } else {
+                alert("Is there an internship for videogames?")
             }
-            else {
-                alert("Kinda busy right now, maybe later...")
-            }
-        }
-        else {
-            alert("I think I left my stove on at home...")
+        } else {
+            alert("You already have a job. Quit your current job if you want to intern")
         }
     }
 
@@ -576,8 +407,7 @@ function JobOptions() { //Done
         } else {
             alert("Quit wasting my time then.")
         }
-    }
-    else {
+    } else {
         UserInput = prompt("What to do?\n1. Quit Current Job");
         if (UserInput == 1) {
             Resign()
@@ -587,55 +417,13 @@ function JobOptions() { //Done
     }
 }
 
-//Payment Functions
-function PayBills() {//Done
-    function Excuse(Amount, Reason) {
-        this.Amount = Amount
-        this.Reason = Reason
-        this.FullExcuse = Reason + "\nYou spent $" + Amount
-    }
-    var Excuses = [
-        new Excuse(215, "I hope I have enough to pay the water bill."),
-        new Excuse(370, "I have to pay the gas and electric."),
-        new Excuse(100, "I have to get clothes and food for that party that everybody is talking about."),
-        new Excuse(0, "No bills to pay?! Is a storm coming?"),
-        new Excuse(250, "Today, I'm going to by 50 Maruchan Ramen, just because."),
-        new Excuse(300, "That truck isn't going to fix itself."),
-        new Excuse(90, "Phone bills are such a pain in the ass"),
-        new Excuse(25, "I need to renew my world of warcraft subscription")
-    ]
-    var RandomExcuse = Math.floor(Math.random() * 8)
-    alert(Excuses[RandomExcuse]['FullExcuse']);
-    Currency -= Excuses[RandomExcuse]['Amount'];
-}
-
-function PayDay() {//Done
-    if (UserJob == 0) {
-        alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!")
-    }
-    if (UserJob > 0) {
-        Currency += Jobs[UserJob]['Salary']
-        alert("You earned $" + Jobs[UserJob]['Salary'] + " from your job at " + Jobs[UserJob]['Job']);
-    }
-}
-
 //TimeFunctions
-function IncrementDay() {//Done
+function IncrementDay() {
     Day365++;
 
     //Get Paid and Pay Bills
     if (Day365 % 7 == 6) {
         PayDay();
-    }
-    if (Day365 % 14 == 13) {
-        PayBills();
-    }
-    if (Math.floor(Math.random() * 100) + 1 <= 10) {
-        PayBills();
-    }
-
-    if (Math.floor(Math.random() * 100) + 1 <= 20) {
-        RandomEncounter();
     }
 
     //Set Month
@@ -665,226 +453,49 @@ function IncrementDay() {//Done
     RefreshUI();
 }
 
+
 //Combat
-function RandomEncounter() {//Done
-    //Resets NPC's
-    var RandomLevel = People[0]['Level'] + Math.floor(Math.random() * 4) - 2;
-    if (RandomLevel < 1) {
-        RandomLevel = 1;
-    }
-    People = [ //Note User is always index 0
-        People[0],
-        new CharacterInfo("Fest", "Male", RandomLevel, "src/Squid.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Swift", "Male", RandomLevel, "src/Patrick.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Roush", "Female", RandomLevel, "src/Sandy.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Grub", "Male", RandomLevel, "src/Krab.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Anvil", "Male", RandomLevel, "src/Plankton.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Applesauce", "Unknown", RandomLevel, "src/Gary.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Slate", "Female", RandomLevel, "src/Puff.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Grease", "Female", RandomLevel, "src/Whale.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Boxtroll", "Alpha Male", RandomLevel, "src/Squid2.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Bling King", "Male", RandomLevel, "src/King.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Lenses", "Male", RandomLevel, "src/Lobster.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Dummy", "Female", RandomLevel, "src/Computer.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("MY LEG!", "Male", RandomLevel, "src/myLeg.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Ghost", "Male", RandomLevel, "src/Flying.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Whoosh", "Male", RandomLevel, "src/Parrot.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Flop", "Male", RandomLevel, "src/Fish.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Fish", "Female", RandomLevel, "src/Grandma.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Thicc", "Male", RandomLevel, "src/Boy.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("4-eyes", "Female", RandomLevel, "src/Man.jpg", [0, 1, 2, 3]),
-    ];
-
-    Opponent = Math.floor(Math.random() * 19) + 1;
-    alert("A wild " + People[Opponent]['Name'] + " has appeared.")
-    Gamemode = "Battle";
+function StartBattle() {
+    Opponent = Math.floor(Math.random() * 12) + 1
     RefreshUI();
 }
 
-function Fight() {//Done
-    var text = "";
-    for (i = 0; i < 4; i++) {
-        text += (i + 1) + ". " + Attacks[People[0]['Move'][i]]['Name'] + "\n"
-    }
-    var UserInput = prompt(text) - 1;
-    if (UserInput >= 0 && UserInput < 4) {
+function Fight(){
+    alert("Rip, Not done yet...")
+}
 
-        //If your opponent is faster
-        if (Levels[People[Opponent]['Level']]['Speed'] > Levels[People[0]['Level']]['Speed']) {
-            UseAttack(Opponent, 0, 0); //Opponent attacks
-            if (People[0]['HealthCurrent'] > 0) { //If you survived
-                UseAttack(0, Opponent, UserInput);
-                if (People[Opponent]['HealthCurrent'] < 0) {
-                    alert(People[Opponent]['Name'] + " Died...");
-                    EndBattle();
-                }
-            }
-            else { //You didn't survive
-                alert("You Died...");
-                EndBattle();
-            }
-        }
-        //If you are faster
-        else if (Levels[People[Opponent]['Level']]['Speed'] < Levels[People[0]['Level']]['Speed']) {
-            UseAttack(0, Opponent, UserInput);
-            if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
-                UseAttack(Opponent, 0, 0); //Opponent attacks
-                if (People[0]['HealthCurrent'] < 0) {
-                    alert("You Died...");
-                    EndBattle();
-                }
-            }
-            else { //Your Opponent didn't survive
-                alert(People[Opponent]['Name'] + " Died...")
-                EndBattle();
-            }
-        }
-        //If you and your opponents speed is equal
-        else if (Levels[People[Opponent]['Level']]['Speed'] == Levels[People[0]['Level']]['Speed']) {
-            if (Math.random() <= .5) {
-                UseAttack(Opponent, 0, 0); //Opponent attacks
-                if (People[0]['HealthCurrent'] > 0) { //If you survived
-                    UseAttack(0, Opponent, UserInput);
-                    if (People[Opponent]['HealthCurrent'] < 0) {
-                        alert(People[Opponent]['Name'] + " Died...");
-                        EndBattle();
-                    }
-                }
-                else { //You didn't survive
-                    alert("You Died...");
-                    EndBattle();
-                }
-            }
-            else {
-                UseAttack(0, Opponent, UserInput);
-                if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
-                    UseAttack(Opponent, 0, 0); //Opponent attacks
-                    if (People[0]['HealthCurrent'] < 0) {
-                        alert("You Died...");
-                        EndBattle();
-                    }
-                }
-                else { //Your Opponent didn't survive
-                    alert(People[Opponent]['Name'] + " Died...")
-                    EndBattle();
-                }
-            }
-        }
-        RefreshUI();
+function Bag(){
+    var inventory_buffer = "Doesn't work yet<br>";
+    for (i = 0; i < InvIndex.length; i++) {
+        inventory_buffer += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")\n";
+    }
+    if (InvIndex.length == 0) {
+        alert("Your inventory is empty!")
+    } else {
+        var Choose = prompt(inventory_buffer ) - 1
     }
 }
 
-function Bag() {//Done
-    UseItem();
-    if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
-        UseAttack(Opponent, 0, 0); //Opponent attacks
-    }
-    else {
-        alert(People[Opponent]['Name'] + " Died...")
-        EndBattle();
-    }
-    RefreshUI();
-}
-
-function Run() {//Done
-    if (Math.random() <= .33) {
+function Run(){
+    var EscapeChance = Math.floor(Math.random()*100)
+    if (EscapeChance <= 20 ) {
         alert("You got away safely")
-        Gamemode = "Standard";
         RefreshUI();
     }
     else {
         alert("You couldn't get away")
-        UseAttack(Opponent, 0, 0); //Opponent attacks
-        if (People[0]['HealthCurrent'] < 0) {
-            alert("You Died...")
-            EndBattle();
-        }
-    }
-    RefreshUI();
-}
-
-function EndBattle() {
-    //if you opponent died
-    if (People[Opponent]['HealthCurrent'] < 1) {
-        //Gives EXP
-        alert("You got " + People[Opponent]['Level'] + "Experience")
-        People[0]['ExperienceCurrent'] += People[Opponent]['Level'];
-    }
-
-    //if you died
-    else if (People[0]['HealthCurrent'] < 1) {
-        People[0]['HealthCurrent'] = Levels[People[0]['Level']]['Health'];
-        IncrementDay();
-
-        Currency -= 1000;
-        alert("This is for your hopital bills \nCurrency -$1000");
-    }
-    Gamemode = "Standard";
-    RefreshUI();
-}
-
-function DamageCalc(Perpetrator, Victim, Attack) {//Done
-    var Random = (Math.floor(Math.random() * 30) + 85) / 100;
-    var Critical = 1;
-    if (Math.floor(Math.random() * 100) + 1 <= 10) {
-        Critical = 2;
-        alert("It's a critical hit! That's alotta damage!")
-    }
-    return Math.floor(((2 * People[Perpetrator]['Level'] / 5 + 2) * Attacks[Attack]['Power'] * Levels[People[Perpetrator]['Level']]['Attack'] / Levels[People[Victim]['Level']]['Defense'] / 30 / 50 + 2) * Random) * Critical;
-}
-
-function UseAttack(Perpetrator, Victim, Attack) {//Done
-    if (Perpetrator != 0) {
-        var Attack = Math.floor(Math.random() * 4)
-    }
-    alert(People[0]['Name'] + " used " + Attacks[Attack]['Name'])
-
-    //Attacks
-    switch (Attacks[Attack]['Name']) {
-        case "Tackle":
-            People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
-            break;
-
-        case "BulletPunch":
-            People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
-            break;
-
-        case "SuperKick":
-            People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
-            break;
-
-        case "Bash":
-            People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
-            break;
-    }
-
-
-
-    //(People[Opponent], People[0], Random)
-}
-
-//Gets the player information ready for the rest of the game
-function StartUp() {//Done
-    do {
-        People[0]['Name'] = prompt("What's your name?");
-    } while (!People[0]["Name"]);
-    while (Gender != 1 && Gender != 2) {
-        var Gender = prompt("What is your gender? \n1. Male \n2. Female \n3. Other");
-        if (Gender == 3) {
-            alert("Don't be silly, there are no other genders")
-        }
-        if (!Gender) {
-            alert("We have a shy one. Kinky!")
-        }
-    }
-    if (Gender == 1) {
-        People[0]['Gender'] = "Male"
-    }
-    else if (Gender == 2) {
-        People[0]['Gender'] = "Female"
     }
 }
 
 // MAIN program execution
-StartUp();
 RefreshUI();
+People[0]['Name'] = prompt("What's your name?", "bob");
+People[0]['Gender'] = prompt("Your gender?");
+document.getElementById("display_username").innerHTML = People[0]['Name'];
+
+
+if (People[0]['Gender'].toLowerCase() != "male" && People[0]['Gender'].toLowerCase() != "female"){
+    alert("That's not a gender, by the way.");
+    People[0]['Gender'] = "Unknown" 
+}
+document.getElementById("display_usergender").innerHTML = "Gender: " + People[0]['Gender']
