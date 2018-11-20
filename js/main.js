@@ -25,17 +25,18 @@ var Gamemode = "Standard";
 var Opponent = 12;
 
 //Attacks
-function AttackInfo(Name, Accuracy, Power, PP) {
-    this.Name = Name
-    this.Accuracy = Accuracy
-    this.Power = Power
-    this.pp = PP
+class AttackInfo {
+    constructor(Name, Accuracy, Power) {
+        this.Name = Name
+        this.Accuracy = Accuracy
+        this.Power = Power
+    }
 }
 var Attacks = [
-    new AttackInfo("Tackle", 40, 100, 35),
-    new AttackInfo("BulletPunch", 50, 95, 30),
-    new AttackInfo("SuperKick", 90, 70, 10),
-    new AttackInfo("Bash", 80, 80, 10)
+    new AttackInfo("Tackle", 40, 100),
+    new AttackInfo("BulletPunch", 50, 95),
+    new AttackInfo("SuperKick", 90, 70),
+    new AttackInfo("Bash", 80, 80)
 ]
 
 //Levels
@@ -62,12 +63,12 @@ var Levels = [
     new Level(34, 16, 16, 16, 60),
     new Level(36, 17, 17, 17, 65),
     new Level(38, 18, 18, 18, 70),
-    new Level(40, 19, 19, 19, 75),
+    new Level(40, 19, 19, 19, 75), //Level 15
     new Level(42, 20, 20, 20, 80),
     new Level(44, 21, 21, 21, 85),
     new Level(46, 22, 22, 22, 90),
     new Level(48, 23, 23, 23, 95),
-    new Level(50, 24, 24, 24, 100),
+    new Level(50, 24, 24, 24, 100), //Level 20
 ];
 
 //Characters
@@ -79,42 +80,34 @@ function CharacterInfo(Name, Gender, Level, Icon, Moves) {
     this.HealthCurrent = Levels[Level]['Health']
     this.ExperienceCurrent = 0
     this.Move = Moves
-    var MovesPP = [];
-    for (i = 0; i < 4; i++) {
-        if (Moves[i] != null)
-            MovesPP.push(Attacks[Moves[i]]['pp'])
-    }
-    this.MovesPP = MovesPP
 }
 
-
 var People = [ //Note User is always index 0
-    new CharacterInfo("Yeah", "Male", 10, "src/Sponge.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Yeah", "Male", 1, "src/Sponge.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Fest", "Male", 2, "src/Squid.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Swift", "Male", 3, "src/Patrick.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Roush", "Female", 4, "src/Sandy.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Grub", "Male", 5, "src/Krab.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Anvil", "Male", 6, "src/Plankton.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Applesauce", "Unknown", 7, "src/Gary.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Tub", "Unknown", 7, "src/Gary.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Slate", "Female", 8, "src/Puff.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Grease", "Female", 9, "src/Whale.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Boxtroll", "Alpha Male", 10, "src/Squid2.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Bling King", "Male", 11, "src/King.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Glib", "Alpha Male", 10, "src/Squid2.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Scald", "Male", 11, "src/King.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Lenses", "Male", 12, "src/Lobster.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Dummy", "Female", 13, "src/Computer.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("MY LEG!", "Male", 14, "src/myLeg.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Boop", "Female", 13, "src/Computer.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Drip", "Male", 14, "src/myLeg.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Ghost", "Male", 15, "src/Flying.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("Whoosh", "Male", 16, "src/Parrot.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Matte", "Male", 16, "src/Parrot.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Flop", "Male", 17, "src/Fish.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Fish", "Female", 18, "src/Grandma.jpg", [0, 1, 2, 3]),
     new CharacterInfo("Thicc", "Male", 19, "src/Boy.jpg", [0, 1, 2, 3]),
-    new CharacterInfo("4-eyes", "Female", 20, "src/Man.jpg", [0, 1, 2, 3]),
+    new CharacterInfo("Whey", "Female", 20, "src/Man.jpg", [0, 1, 2, 3]),
 ];
 
-
 //Items
-class ItemInfo{
-    constructor(Name, Price, Desc){
+class ItemInfo {
+    constructor(Name, Price, Desc) {
         this.Name = Name
         this.Price = Price
         this.Desc = Desc
@@ -161,28 +154,28 @@ var Year = 2047;
 // FUNCTION section
 function RefreshUI() {//Gets Constantly Updated
     //Removes Excess HP
-    if ( People[0]['HealthCurrent'] > Levels[People[0]['Level']]['Health'] ) {
+    if (People[0]['HealthCurrent'] > Levels[People[0]['Level']]['Health']) {
         People[0]['HealthCurrent'] = Levels[People[0]['Level']]['Health'];
     }
 
     //Levels Up character
-    if ( People[0]['ExperienceCurrent'] > Levels[People[0]['Level']]['Experience'] ) {
+    if (People[0]['ExperienceCurrent'] > Levels[People[0]['Level']]['Experience']) {
         People[0]['Level']++
         People[0]['ExperienceCurrent'] = 0;
-        alert(" Congrats! You are now Level " + People[0]['Level'] )
+        alert(" Congrats! You are now Level " + People[0]['Level'])
     }
 
     //Set Game mode
     switch (Gamemode) {
         case "Standard":
-            document.getElementById("MainHeader").hidden = false;
+            document.getElementById("buttons").hidden = false;
             document.getElementById("Calendar").hidden = false;
             document.getElementById("Inventory").hidden = false;
             document.getElementById("NPCProfile").hidden = true;
             document.getElementById("BattleOptions").hidden = true;
             break;
         case "Battle":
-            document.getElementById("MainHeader").hidden = true;
+            document.getElementById("buttons").hidden = true;
             document.getElementById("Calendar").hidden = true;
             document.getElementById("Inventory").hidden = true;
             document.getElementById("NPCProfile").hidden = false;
@@ -204,8 +197,11 @@ function RefreshUI() {//Gets Constantly Updated
     }
     if (InvIndex.length == 0) {
         document.getElementById("display_inventory").innerHTML = "Your inventory is empty!";
+        document.getElementById("UseItemButton").hidden = true;
     } else {
         document.getElementById("display_inventory").innerHTML = inventory_buffer;
+        document.getElementById("UseItemButton").hidden = false;
+
     }
 
     //MakeCalendar
@@ -407,40 +403,40 @@ function UseItem() {//Not Even Close
             break;
 
         case "Caleb":
-             alert(People[0]['Name'] + " roof is fixed!")
-             People[0]['HealthCurrent'] += 10
-             RemoveToInventory(Choose, 1)
-             break;
+            alert(People[0]['Name'] + " roof is fixed!")
+            People[0]['HealthCurrent'] += 10
+            RemoveToInventory(Choose, 1)
+            break;
 
         case "Rosetta Stone":
-             alert(People[0]['Name'] + " good job normie!")
-             People[0]['ExperienceCurrent'] += 50
+            alert(People[0]['Name'] + " good job normie!")
+            People[0]['ExperienceCurrent'] += 50
             RemoveToInventory(Choose, 1)
             break;
 
         case "Rusty Sword":
-             alert(People[0]['Name'] + " sword is used")
-             People[Opponent]['HealthCurrent'] -= 20
-             RemoveToInventory(Choose, 1)
+            alert(People[0]['Name'] + " sword is used")
+            People[Opponent]['HealthCurrent'] -= 20
+            RemoveToInventory(Choose, 1)
             break;
 
         case "Plastic shield":
-             alert(People[0]['Name'] + " shield is used")
-             Levels[People[0]['Level']]['Defense'] += 2
-             RemoveToInventory(Choose, 1)
+            alert(People[0]['Name'] + " shield is used")
+            Levels[People[0]['Level']]['Defense'] += 2
+            RemoveToInventory(Choose, 1)
             break;
 
         case "Wooden shield":
             alert(People[0]['Name'] + " shield is used")
-             Levels[People[0]['Level']]['Defense'] += 2
-             RemoveToInventory(Choose, 1)
-             break;
+            Levels[People[0]['Level']]['Defense'] += 2
+            RemoveToInventory(Choose, 1)
+            break;
 
         case "Spork":
-             alert(People[0]['Name'] + " good job normie!")
+            alert(People[0]['Name'] + " good job normie!")
             People[0]['HealthCurrent'] += 70
-             RemoveToInventory(Choose, 1)
-             break;
+            RemoveToInventory(Choose, 1)
+            break;
     }
     RefreshUI();
 }
@@ -583,8 +579,12 @@ function IncrementDay() {//Done
     if (Day365 % 14 == 13) {
         PayBills();
     }
-    if (Math.floor(Math.random() * 100) + 1 <= 5) {
+    if (Math.floor(Math.random() * 100) + 1 <= 10) {
         PayBills();
+    }
+
+    if (Math.floor(Math.random() * 100) + 1 <= 20) {
+        RandomEncounter();
     }
 
     //Set Month
@@ -617,30 +617,35 @@ function IncrementDay() {//Done
 //Combat
 function RandomEncounter() {//Done
     //Resets NPC's
+    var RandomLevel = People[0]['Level'] + Math.floor(Math.random() * 4) - 2;
+    if (RandomLevel < 1) {
+        RandomLevel = 1;
+    }
     People = [ //Note User is always index 0
         People[0],
-        new CharacterInfo("Fest", "Male", 2, "src/Squid.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Swift", "Male", 3, "src/Patrick.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Roush", "Female", 4, "src/Sandy.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Grub", "Male", 5, "src/Krab.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Anvil", "Male", 6, "src/Plankton.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Applesauce", "Unknown", 7, "src/Gary.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Slate", "Female", 8, "src/Puff.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Grease", "Female", 9, "src/Whale.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Boxtroll", "Alpha Male", 10, "src/Squid2.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Bling King", "Male", 11, "src/King.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Lenses", "Male", 12, "src/Lobster.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Dummy", "Female", 13, "src/Computer.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("MY LEG!", "Male", 14, "src/myLeg.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Ghost", "Male", 15, "src/Flying.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Whoosh", "Male", 16, "src/Parrot.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Flop", "Male", 17, "src/Fish.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Fish", "Female", 18, "src/Grandma.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("Thicc", "Male", 19, "src/Boy.jpg", [0, 1, 2, 3]),
-        new CharacterInfo("4-eyes", "Female", 20, "src/Man.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Fest", "Male", RandomLevel, "src/Squid.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Swift", "Male", RandomLevel, "src/Patrick.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Roush", "Female", RandomLevel, "src/Sandy.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Grub", "Male", RandomLevel, "src/Krab.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Anvil", "Male", RandomLevel, "src/Plankton.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Applesauce", "Unknown", RandomLevel, "src/Gary.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Slate", "Female", RandomLevel, "src/Puff.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Grease", "Female", RandomLevel, "src/Whale.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Boxtroll", "Alpha Male", RandomLevel, "src/Squid2.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Bling King", "Male", RandomLevel, "src/King.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Lenses", "Male", RandomLevel, "src/Lobster.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Dummy", "Female", RandomLevel, "src/Computer.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("MY LEG!", "Male", RandomLevel, "src/myLeg.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Ghost", "Male", RandomLevel, "src/Flying.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Whoosh", "Male", RandomLevel, "src/Parrot.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Flop", "Male", RandomLevel, "src/Fish.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Fish", "Female", RandomLevel, "src/Grandma.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("Thicc", "Male", RandomLevel, "src/Boy.jpg", [0, 1, 2, 3]),
+        new CharacterInfo("4-eyes", "Female", RandomLevel, "src/Man.jpg", [0, 1, 2, 3]),
     ];
 
     Opponent = Math.floor(Math.random() * 19) + 1;
+    alert("A wild " + People[Opponent]['Name'] + " has appeared.")
     Gamemode = "Battle";
     RefreshUI();
 }
@@ -655,9 +660,9 @@ function Fight() {//Done
 
         //If your opponent is faster
         if (Levels[People[Opponent]['Level']]['Speed'] > Levels[People[0]['Level']]['Speed']) {
-            OpponentAttacks();
+            UseAttack(Opponent, 0, 0); //Opponent attacks
             if (People[0]['HealthCurrent'] > 0) { //If you survived
-                UserAttacks(UserInput);
+                UseAttack(0, Opponent, UserInput);
                 if (People[Opponent]['HealthCurrent'] < 0) {
                     alert(People[Opponent]['Name'] + " Died...");
                     EndBattle();
@@ -670,9 +675,9 @@ function Fight() {//Done
         }
         //If you are faster
         else if (Levels[People[Opponent]['Level']]['Speed'] < Levels[People[0]['Level']]['Speed']) {
-            UserAttacks(UserInput);
+            UseAttack(0, Opponent, UserInput);
             if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
-                OpponentAttacks();
+                UseAttack(Opponent, 0, 0); //Opponent attacks
                 if (People[0]['HealthCurrent'] < 0) {
                     alert("You Died...");
                     EndBattle();
@@ -686,9 +691,9 @@ function Fight() {//Done
         //If you and your opponents speed is equal
         else if (Levels[People[Opponent]['Level']]['Speed'] == Levels[People[0]['Level']]['Speed']) {
             if (Math.random() <= .5) {
-                OpponentAttacks();
+                UseAttack(Opponent, 0, 0); //Opponent attacks
                 if (People[0]['HealthCurrent'] > 0) { //If you survived
-                    UserAttacks(UserInput);
+                    UseAttack(0, Opponent, UserInput);
                     if (People[Opponent]['HealthCurrent'] < 0) {
                         alert(People[Opponent]['Name'] + " Died...");
                         EndBattle();
@@ -700,9 +705,9 @@ function Fight() {//Done
                 }
             }
             else {
-                UserAttacks(UserInput);
+                UseAttack(0, Opponent, UserInput);
                 if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
-                    OpponentAttacks();
+                    UseAttack(Opponent, 0, 0); //Opponent attacks
                     if (People[0]['HealthCurrent'] < 0) {
                         alert("You Died...");
                         EndBattle();
@@ -721,7 +726,7 @@ function Fight() {//Done
 function Bag() {//Done
     UseItem();
     if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
-        OpponentAttacks();
+        UseAttack(Opponent, 0, 0); //Opponent attacks
     }
     else {
         alert(People[Opponent]['Name'] + " Died...")
@@ -731,14 +736,14 @@ function Bag() {//Done
 }
 
 function Run() {//Done
-    if ( ( Math.random() * 100) + 1 <= 33 ) {
+    if (Math.random() <= .33) {
         alert("You got away safely")
         Gamemode = "Standard";
         RefreshUI();
     }
     else {
         alert("You couldn't get away")
-        OpponentAttacks();
+        UseAttack(Opponent, 0, 0); //Opponent attacks
         if (People[0]['HealthCurrent'] < 0) {
             alert("You Died...")
             EndBattle();
@@ -766,33 +771,57 @@ function EndBattle() {
     RefreshUI();
 }
 
-
 function DamageCalc(Perpetrator, Victim, Attack) {//Done
-    return Math.floor(((2 * Perpetrator['Level'] / 5 + 2) * Attacks[Attack]['Power'] * Levels[Perpetrator['Level']]['Attack'] / Levels[Victim['Level']]['Defense'] / 30 / 50 + 2) * (300 / (Math.floor(Math.random() * 15) + 85)));
+    var Random = (Math.floor(Math.random() * 30) + 85) / 100;
+    var Critical = 1;
+    if (Math.floor(Math.random() * 100) + 1 <= 10) {
+        Critical = 2;
+        alert("It's a critical hit! That's alotta damage!")
+    }
+    return Math.floor(((2 * People[Perpetrator]['Level'] / 5 + 2) * Attacks[Attack]['Power'] * Levels[People[Perpetrator]['Level']]['Attack'] / Levels[People[Victim]['Level']]['Defense'] / 30 / 50 + 2) * Random) * Critical;
 }
 
-function UserAttacks(Attack) {//Done
+function UseAttack(Perpetrator, Victim, Attack) {//Done
+    if (Perpetrator != 0) {
+        var Attack = Math.floor(Math.random() * 4)
+    }
     alert(People[0]['Name'] + " used " + Attacks[Attack]['Name'])
-    People[Opponent]['HealthCurrent'] -= DamageCalc(People[0], People[Opponent], Attack);
-}
 
-function OpponentAttacks() {//Done
-    var Random = Math.floor(Math.random() * 4)
-    alert(People[Opponent]['Name'] + " Used " + Attacks[Random]['Name'])
-    People[0]['HealthCurrent'] -= DamageCalc(People[Opponent], People[0], Random);
+    //Attacks
+    switch (Attacks[Attack]['Name']) {
+        case "Tackle":
+            People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
+            break;
+
+        case "BulletPunch":
+            People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
+            break;
+
+        case "SuperKick":
+            People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
+            break;
+
+        case "Bash":
+            People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
+            break;
+    }
+
+
+
+    //(People[Opponent], People[0], Random)
 }
 
 //Gets the player information ready for the rest of the game
 function StartUp() {//Done
-    do{
+    do {
         People[0]['Name'] = prompt("What's your name?");
-    }while(!People[0]["Name"]);
-    while(Gender != 1 && Gender != 2){
+    } while (!People[0]["Name"]);
+    while (Gender != 1 && Gender != 2) {
         var Gender = prompt("What is your gender? \n1. Male \n2. Female \n3. Other");
-        if(Gender == 3){
+        if (Gender == 3) {
             alert("Don't be silly, there are no other genders")
         }
-        if(!Gender){
+        if (!Gender) {
             alert("We have a shy one. Kinky!")
         }
     }
