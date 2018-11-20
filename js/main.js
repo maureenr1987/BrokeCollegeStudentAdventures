@@ -139,11 +139,11 @@ class JobInfo {
 }
 var Jobs = [
     new JobInfo("Unemployed", 0, 100),
-    new JobInfo("McDonalds", 250, 60),
-    new JobInfo("Waiter", (Math.floor(Math.random() * 200) + 200), 45),
-    new JobInfo("Nurse", 400, 30),
-    new JobInfo("FactoryWorker", 500, 20),
-    new JobInfo("Scientist", 800, 3)
+    new JobInfo("McDonalds", 500, 60),
+    new JobInfo("Waiter", (Math.floor(Math.random() * 200) + 400), 45),
+    new JobInfo("Nurse", 800, 30),
+    new JobInfo("FactoryWorker", 1000, 20),
+    new JobInfo("Scientist", 1600, 3)
 ]
 
 //Time
