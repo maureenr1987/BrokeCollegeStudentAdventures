@@ -173,7 +173,7 @@ function RefreshUI() {//Gets Constantly Updated
     //Set Game mode
     switch (Gamemode) {
         case "Standard":
-            document.getElementById("buttons").hidden = false;
+            document.getElementById("SomeOptions").hidden = false;
             document.getElementById("Calendar").hidden = false;
             document.getElementById("Inventory").hidden = false;
             document.getElementById("NPCProfile").hidden = true;
@@ -181,7 +181,7 @@ function RefreshUI() {//Gets Constantly Updated
             document.getElementById("BucketListCont").hidden = false;
             break;
         case "Battle":
-            document.getElementById("buttons").hidden = true;
+            document.getElementById("SomeOptions").hidden = true;
             document.getElementById("Calendar").hidden = true;
             document.getElementById("Inventory").hidden = true;
             document.getElementById("NPCProfile").hidden = false;

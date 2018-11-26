@@ -9,21 +9,16 @@
 </head>
 
 <body>
-    <!-- Main Window Start -->
     <div class="container">
+
+        <!-- Main Window Start -->
         <div class="row" id="MainHeader">
             <div class="col-12">
                 <div class="cont">
                     <h1>Life: The Game</h1>
                     Work in progress Story: A Giant meteor is headed towords earth and the world will end in 1 Year.
                     Our protagonist made a bucket list of things he/she wants to do before the world ends.
-                    The goal is to finish everything on the bucket list before the world ends. <br> <br>
-                    Note: the bucket list hasn't been implemented yet
-                    <div id="buttons">
-                        <button onclick="OpenStore()">Store</button>
-                        <button onclick="JobOptions()">Job Options</button>
-                        <button onclick="IncrementDay()">Sleep</button>
-                    </div>
+                    The goal is to finish everything on the bucket list before the world ends.
                 </div>
             </div>
         </div>
@@ -33,10 +28,11 @@
             <div class="col-6">
                 <!-- Player Licence Start -->
                 <div class="cont">
-                    <h3>DriversLicense</h3>
+                    <h3>Drivers License</h3>
                     <div class="idInfo">
-                        <div id="idImage"><img id="UserIcon" height="125px" src="src/Sponge.jpg" alt=""></div>
-
+                        <div id="idImage">
+                            <img id="UserIcon" height="125px" src="src/Sponge.jpg">
+                        </div>
                         <div class="idStats">
                             <h2>
                                 <p id="display_username"></p>
@@ -45,15 +41,12 @@
                             <p id="display_userjobinfo"></p>
                             <p id="display_usercurrency"></p>
                         </div>
-                        <div>-------</div>
                         <div>
                             <p id="display_userstats"></p>
                         </div>
-
                     </div>
                 </div>
                 <!-- Player Licence End-->
-
                 <!-- Shitty Calendar Start -->
                 <div class="cont" id="Calendar">
                     <h3>Calendar</h3>
@@ -74,21 +67,12 @@
                         </div>
                     </div>
                 </div>
-                    <!-- Shitty calendar End -->
-                    <div class="cont" id="BucketListCont"> 
-                        <h3>Bucket List</h3>
-                        <p id="BucketList"></p>
-                    
-                </div>
+                <!-- Shitty calendar End -->
             </div>
-
-            <!-- Conditions Start -->
-
-
             <div class="col-6">
                 <!-- NPC Licence Start -->
                 <div class="cont" id="NPCProfile">
-                    <h3>DriversLicense</h3>
+                    <h3>Drivers License</h3>
                     <div class="idInfo">
                         <div id="idImage"><img id="NPCIcon" height="125px" src="src/Sponge.jpg" alt=""></div>
                         <div class="idStats">
@@ -97,25 +81,40 @@
                             </h2>
                             <p id="display_NPCgender"></p>
                         </div>
-                        <div>-------</div>
                         <div>
                             <p id="display_NPCStats"></p>
                         </div>
-
                     </div>
                 </div>
                 <!-- NPC Licence End -->
-
                 <!-- Inventory Start-->
                 <div class="cont" id="Inventory">
                     <h3>Inventory</h3>
                     <p id="display_inventory"></p>
                     <button onclick="UseItem()" id="UseItemButton">Use Item</button>
                 </div>
+                <!-- Inventory End -->
+                <!-- BucketListStart -->
+                <div class="cont" id="BucketListCont">
+                    <h3>Bucket List</h3>
+                    <p id="BucketList"></p>
+                </div>
+                <!-- BucketListEnd -->
             </div>
-            <!-- Inventory End -->
         </div>
-
+        <!-- Some Options Start -->
+        <div class="row" id="SomeOptions">
+            <div class="col-12">
+                <div class="cont">
+                    <div id="buttons">
+                        <button onclick="OpenStore()">Store</button>
+                        <button onclick="JobOptions()">Job Options</button>
+                        <button onclick="IncrementDay()">Next Day</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Some Options End -->
         <!-- Battle Options Start-->
         <div class="row" id="BattleOptions">
             <div class="col-12">
@@ -129,18 +128,7 @@
                 </div>
             </div>
         </div>
-        <!-- Battle Options End-->
-
-        <!-- Random Encounter Start --
-        <div class="row">
-            <div class="col-12">
-                <div class="cont">
-                    <button onclick="RandomEncounter()">RandomEncounter</button>
-                </div>
-            </div>
-        </div>
-        <!-- Random Encounter End -->
-
+        <!-- Battle Options End -->
         <!-- Footer Start -->
         <div class="row">
             <div class="col-12">
@@ -160,9 +148,8 @@
     <script type="text/javascript">
     </script>
     <script src="js/main.js"></script>
-    <script src="js/bootstrap.js"
-        crossorigin="anonymous">
-        </script>
+    <script src="js/bootstrap.js" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

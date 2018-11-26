@@ -42,6 +42,8 @@ h1 {
 }
 .idInfo .idStats {
   padding-left: 20px;
+  padding-right: 40px;
+  max-width: 270px;
 }
 .idInfo p {
   margin: 0;
