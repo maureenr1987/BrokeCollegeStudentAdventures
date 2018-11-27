@@ -872,7 +872,9 @@ function UseAttack(Perpetrator, Victim, Attack) {//Done
     }
     alert(People[Perpetrator]['Name'] + " used " + Attacks[Attack]['Name'])
 
-    if (Math.floor(Math.random() * 100) + 1 >= Attacks[Attack]['Accuracy']) {
+
+    var MissedChance = Math.floor(Math.random() * 100) + 1;
+    if ( MissedChance <= Attacks[Attack]['Accuracy']) {
         alert(People[Perpetrator]['Name'] + " missed, What a dumbass!")
     }
 
