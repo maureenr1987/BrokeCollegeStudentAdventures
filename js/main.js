@@ -160,12 +160,12 @@ class JobInfo {
     }
 }
 var Jobs = [
-    new JobInfo("Unemployed", 0, 100),
-    new JobInfo("McDonalds", 500, 60),
-    new JobInfo("Waiter", (Math.floor(Math.random() * 200) + 400), 45),
+    new JobInfo("Unemployed", 50, 100),
+    new JobInfo("McDonalds", 300, 60),
+    new JobInfo("Waiter", 400, 45),
     new JobInfo("Nurse", 800, 30),
     new JobInfo("FactoryWorker", 1000, 20),
-    new JobInfo("Scientist", 1600, 3)
+    new JobInfo("Scientist", 2000, 3)
 ]
 
 //Time
@@ -321,13 +321,13 @@ function RefreshUI() {//Gets Constantly Updated
 
 //Store Functions
 function OpenStore() {//Done
-    var UserInput = prompt("Store Owner: Hi how you doing? What do you need today\n \n1. Buy\n2. Sell");
+    var UserInput = prompt("Store Owner: \nHi how you doing? What do you need today\n1. Buy\n2. Sell");
     if (UserInput == 1) {
         Buy()
     } else if (UserInput == 2) {
         Sell()
     } else {
-        alert("Uhh. Have a nice day?")
+        alert("Store Owner: \nUhh. Have a nice day?")
     }
 }
 
@@ -340,35 +340,33 @@ function Buy() {//Done
     for (i = 0; i < InvStore.length; i++) {
         text += (i + 1) + ". " + Items[InvStore[i]]['Name'] + " - $" + Items[InvStore[i]]['Price'] + "\n"
     }
-    UserInput = prompt("Choose anything you like. \n \n" + text) - 1;
+    UserInput = prompt("Store Owner: \nChoose anything you like. \n\n" + text) - 1;
     if (UserInput < InvStore.length && UserInput >= 0) {
-        var Many = prompt("How many do you want to buy", 1)
+        var Many = prompt("Store Owner: \nHow many do you want to buy", 1)
         if (Many > 0 && Many <= 1000) {
             if (Currency > Items[InvStore[UserInput]]['Price'] * Many) {
-                var Confirm = prompt(Items[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Items[
-                    InvStore[UserInput]]['Price'] * Many) + "\n" + Items[InvStore[UserInput]]['Desc'] +
-                    "\n\nAre you sure you want to buy this?\n1. Yes \n2. No")
+                var Confirm = prompt(Items[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Items[InvStore[UserInput]]['Price'] * Many) + "\n" + Items[InvStore[UserInput]]['Desc'] + "\n\nStore Owner: \nAre you sure you want to buy this?\n1. Yes \n2. No")
                 if (Confirm == 1) {
                     Currency -= Items[InvStore[UserInput]]['Price'] * Many;
                     AddToInventory(InvStore[UserInput], Many);
-                    alert("Thank you for your purchase.")
+                    alert("Store Owner:\nThank you for your purchase.")
                     RefreshUI();
                 }
                 else {
-                    alert("Did you suddenly realize you're broke?")
+                    alert("Store Owner: \nYou forget you wallet? Yeah like I haven't heard that one before.")
                     Buy();
                 }
             }
             else {
-                alert("Get your broke a$$ outta here!")
+                alert("Store Owner: \nGet your broke a$$ outta here!")
             }
         }
         else {
-            alert("Ummm... Where are your parents?")
+            alert("Store Owner: \nUmmm... Where are your parents?")
         }
     }
     else {
-        alert("Thank you. Come again!")
+        alert("Store Owner: \nThank you. Come again!")
     }
 }
 
@@ -379,36 +377,33 @@ function Sell() { //Done
     for (i = 0; i < InvIndex.length; i++) {
         text += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " - $" + Items[InvIndex[i]]['Price'] + "\n"
     }
-    UserInput = prompt("Type in an items number to Sell it \n \n" + text) -
+    UserInput = prompt("Store Owner: \nWhat have you got form me today?\n \n" + text) -
         1;
     if (UserInput < InvIndex.length && UserInput >= 0) {
-        var Many = prompt("How many do you want to sell", 1)
+        var Many = prompt("Store Owner: \nHow many do you want to sell", 1)
         if (Many > 0 && Many <= InvQuantity[UserInput]) {
-            var Confirm = prompt(Items[InvIndex[UserInput]]['Name'] + " - $" + (Items[InvIndex[UserInput]][
-                'Price'
-            ] * Many) + "\n" + Items[InvIndex[UserInput]]['Desc'] +
-                "\n\nAre you sure you want to sell this?\n1. Yes \n2. No")
+            var Confirm = prompt(Items[InvIndex[UserInput]]['Name'] + " - $" + (Items[InvIndex[UserInput]]['Price'] * Many) + "\n" + Items[InvIndex[UserInput]]['Desc'] + "\n\n Store Owner: \nAre you sure you want to sell this?\n1. Yes \n2. No");
             if (Confirm == 1) {
                 Currency += Items[InvIndex[UserInput]]['Price'] * Many;
                 RemoveToInventory(UserInput, Many);
-                alert("Uhhh. Thanks...")
+                alert("Store Owner: \nPleasure doing buisness with you!")
                 RefreshUI();
             }
             else {
-                alert("Damn. I really wanted that one.")
+                alert("Store Owner: \nDamn. I really wanted that one.")
                 Sell();
             }
         }
         else if (Many >= InvQuantity[UserInput]) {
-            alert("Boi! You know you ain't got that many!")
+            alert("Store Owner:\n" + Many + "!! you know you ain't got that many!")
             Sell();
         }
         else {
-            alert("Do you need anything? Sir.")
+            alert("Store Owner: \nDo you need anything? Sir.")
         }
     }
     else {
-        alert("Thank you. Come again!")
+        alert("Store Owner: \nThank you. Come again!")
     }
 }
 
@@ -529,32 +524,32 @@ function JobOptions() { //Done
         for (i = 1; i < Jobs.length; i++) {
             text += i + ". " + Jobs[i]['Job'] + "\n"
         };
-        var UserInput = prompt("Where do you want to apply?\n" + text + i + ". Cancel");
+        var UserInput = prompt(People[0]['Name'] + ": \nWhat job do I want to apply for?\n" + text + i + ". Cancel");
         if (UserInput >= 1 && UserInput < i) {
-            var Confirm = prompt("Yor chance of getting a job at " + Jobs[UserInput]['Job'] + " is about " + Jobs[UserInput]['Chance'] + " percent.\n\n Are you sure you want to apply?\n1. Yes\n2. No");
+            var Confirm = prompt(People[0]['Name'] + ": \nMy chance of getting a job at " + Jobs[UserInput]['Job'] + " is about " + Jobs[UserInput]['Chance'] + " percent.\n\n Am I sure I want to apply?\n1. Yes\n2. No");
             if (Confirm == 1) {
                 var Random = Math.floor(Math.random() * 101);
                 if (Jobs[UserInput]['Chance'] > Random) {
                     UserJob = UserInput;
-                    alert("You got the job!")
+                    alert(People[0]['Name'] + ": \nI got the job!")
                 } else {
-                    alert("These losers don't see talent when it's right in front of them!")
+                    alert(People[0]['Name'] + ": \nThese losers don't see talent when it's right in front of them!")
                 }
                 IncrementDay();
                 RefreshUI()
             }
             else {
-                alert("Whatever. It's not like I wanted to work there.")
+                alert(People[0]['Name'] + ": \nWhatever. It's not like I wanted to work there.")
                 Apply()
             }
         }
         else {
-            alert("Pfffft! Who needs work anyways?")
+            alert(People[0]['Name'] + ": \nPfffft! Who needs work anyways?")
         }
     }
 
     function Resign() { //Done
-        UserInput = prompt("Are you sure you want to quit your " + Jobs[UserJob]['Job'] + " job?\n1. Yes\n2. No")
+        UserInput = prompt(People[0]['Name'] + ": \nDo I really want to quit my " + Jobs[UserJob]['Job'] + " job?\n1. Yes\n2. No")
         if (UserInput == 1) {
             alert("You quit your job at " + Jobs[UserJob]['Job']);
             UserJob = 0;
@@ -562,10 +557,10 @@ function JobOptions() { //Done
             RefreshUI();
         }
         else if (UserInput == 2) {
-            alert("Yeah, I think I'm set.")
+            alert(People[0]['Name'] + ": \nYeah, I think I'm set.")
         }
         else {
-            alert("To work or to not work. Hmmmmm...")
+            alert(People[0]['Name'] + ":\nTo work or to not work. Hmmmmm...")
         }
     }
 
@@ -575,42 +570,45 @@ function JobOptions() { //Done
         for (i = 1; i < Jobs.length; i++) {
             text += i + ". " + Jobs[i]['Job'] + "\n"
         }
-        UserInput = prompt("Where do you want to Intern?\n" + text);
+        UserInput = prompt(People[0]['Name'] + ": \nWhere do I want to Intern? \n" + text);
         if (UserInput >= 1 && UserInput < i) {
-            var Confirm = prompt("If you intern at " + Jobs[UserInput]['Job'] + " it will raise your chances of getting in by 5 percent, however it will take the rest of the day. \n\nIs this ok?\n1. Yes\n2. No");
+            var Confirm = prompt(People[0]['Name'] + ": \nIf I intern at " + Jobs[UserInput]['Job'] + " it will raise your chances of getting in by 3 percent I think. However it will take the next 7 days. \n\nShould I do it?\n1. Yes\n2. No");
             if (Confirm == 1) {
-                Jobs[UserInput]['Chance'] += 5;
-                alert("You interned for " + Jobs[UserInput]['Job'] +
-                    " for the rest of the day\nYour chance of getting that job next time is now " +
-                    Jobs[UserInput]['Chance'] + " Percent");
+                Jobs[UserInput]['Chance'] += 3;
+                alert(People[0]['Name'] + " interned for " + Jobs[UserInput]['Job'] + " for the next week\nYour chance of getting that job next time is now " + Jobs[UserInput]['Chance'] + " Percent");
                 IncrementDay();
-                RefreshUI();
+                IncrementDay();
+                IncrementDay();
+                IncrementDay();
+                IncrementDay();
+                IncrementDay();
+                IncrementDay();
             }
             else {
-                alert("Kinda busy right now, maybe later...")
+                alert(People[0]['Name'] + ":\nKinda busy right now, maybe later...")
             }
         }
         else {
-            alert("I think I left my stove on at home...")
+            alert(People[0]['Name'] + ": \nI think I left my stove on at home...")
         }
     }
 
     if (UserJob == 0) {
-        UserInput = prompt("What to do?\n\n1. Find Work \n2. Get Internship");
+        UserInput = prompt(People[0]['Name'] + ": \nWhat to do?\n1. Find Work \n2. Get Internship");
         if (UserInput == 1) {
             Apply()
         } else if (UserInput == 2) {
             Intern()
         } else {
-            alert("Quit wasting my time then.")
+            alert(People[0]['Name'] + ": \nWho needs work anyways...")
         }
     }
     else {
-        UserInput = prompt("What to do?\n1. Quit Current Job");
+        UserInput = prompt(People[0]['Name'] + ": \nWhat to do?\n1. Quit Current Job");
         if (UserInput == 1) {
             Resign()
         } else {
-            alert("Quit wasting my time then.")
+            alert(People[0]['Name'] + ": \nI like my job thank you very much")
         }
     }
 }
@@ -633,17 +631,17 @@ function PayBills() {//Done
         new Excuse(25, "I need to renew my world of warcraft subscription")
     ]
     var RandomExcuse = Math.floor(Math.random() * 8)
-    alert(Excuses[RandomExcuse]['FullExcuse']);
+    alert( People[0]['Name'] + ": \n" + Excuses[RandomExcuse]['FullExcuse']);
     Currency -= Excuses[RandomExcuse]['Amount'];
 }
 
 function PayDay() {//Done
     if (UserJob == 0) {
-        alert("And this is the day that you would've gotten paid... IF YOU HAD A JOB!")
+        alert(People[0]['Name'] + ": \nNothing to worry about my parents still love me. They sent 50 bucks!")
     }
     if (UserJob > 0) {
         Currency += Jobs[UserJob]['Salary']
-        alert("You earned $" + Jobs[UserJob]['Salary'] + " from your job at " + Jobs[UserJob]['Job']);
+        alert(People[0]['Name'] + ": \nI earned $" + Jobs[UserJob]['Salary'] + " from my job at " + Jobs[UserJob]['Job']);
     }
 }
 
@@ -724,7 +722,7 @@ function RandomEncounter() {//Done
     ];
     Opponent = Math.floor(Math.random() * 19) + 1;
 
-    if (People[0]['Icon'] == People[Opponent]['Icon'] ) {
+    if (People[0]['Icon'] == People[Opponent]['Icon']) {
         People[Opponent]['Icon'] = ProfilePics[0];
     }
     alert("A wild " + People[Opponent]['Name'] + " has appeared.")
@@ -841,10 +839,9 @@ function EndBattle() {
         alert("You got " + People[Opponent]['Level'] + " Experience")
         People[0]['ExperienceCurrent'] += People[Opponent]['Level'];
 
-        var PrizeMoney = Math.floor(Math.random() * 300) + 100;
+        var PrizeMoney = Math.floor(Math.random() * 100) + 100;
         Currency += PrizeMoney;
         alert("You stole $" + PrizeMoney + " from " + People[Opponent]['Name'])
-
     }
 
     //if you died
@@ -925,10 +922,10 @@ function StartUp() {//Done
     else if (Gender == 2) {
         People[0]['Gender'] = "Female"
     }
-    while (UserInput < 0 || UserInput > 19 || UserInput == undefined ) {
-        var UserInput = prompt("I want to look like a...\n1. Sponge \n2. Squid \n3. Star \n4. Squirrel \n5. Krab \n6. Plankton.jpg \n7. Snail \n8. PufferFish \n9. Whale \n10. Fancy Squid \n11.King \n 12. Lobster \n13. Computer \n14. Weakling \n15. Ghost \n16. Parrot \n17. Fish \n18. Grandma \n19. Retired SideKick \n20. Retired Hero") - 1;
+    while (UserInput < 0 || UserInput > 19 || UserInput == undefined) {
+        var UserInput = prompt("I want to look like a...\n1. Sponge \n2. Squid \n3. Star \n4. Squirrel \n5. Krab \n6. Plankton.jpg \n7. Snail \n8. PufferFish \n9. Whale \n10. Fancy Squid \n11.King \n12. Lobster \n13. Computer \n14. Weakling \n15. Ghost \n16. Parrot \n17. Fish \n18. Grandma \n19. Retired SideKick \n20. Retired Hero") - 1;
         if (UserInput >= 0 && UserInput < 20) {
-            People[0]['Icon'] = ProfilePics [UserInput];
+            People[0]['Icon'] = ProfilePics[UserInput];
         }
     }
 }
