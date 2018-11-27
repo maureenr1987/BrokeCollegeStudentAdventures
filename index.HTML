@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MTAG 1.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Main Window Start -->
+        <div class="row" id="MainHeader">
+            <div class="col-12">
+                <div class="cont">
+                    <h1>Life: The Game</h1>
+                    Work in progress Story: A Giant meteor is headed towords earth and the world will end in 1 Year.
+                    Our protagonist made a bucket list of things he/she wants to do before the world ends.
+                    The goal is to finish everything on the bucket list before the world ends.
+                </div>
+            </div>
+        </div>
+        <!-- Main Window End -->
+
+        <div class="row">
+            <div class="col-6">
+                <!-- Player Licence Start -->
+                <div class="cont">
+                    <h3>Drivers License</h3>
+                    <div class="idInfo">
+                        <div id="idImage">
+                            <img id="UserIcon" height="125px" src="src/Sponge.jpg">
+                        </div>
+                        <div class="idStats">
+                            <h2>
+                                <p id="display_username"></p>
+                            </h2>
+                            <p id="display_usergender"></p>
+                            <p id="display_userjobinfo"></p>
+                            <p id="display_usercurrency"></p>
+                        </div>
+                        <div>
+                            <p id="display_userstats"></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Player Licence End-->
+                <!-- Shitty Calendar Start -->
+                <div class="cont" id="Calendar">
+                    <h3>Calendar</h3>
+                    <div class="calendar">
+                        <div class="calendar-title">
+                            <p id="display_date"></p>
+                        </div>
+                        <div class="calendar-header calendar-row">
+                            <div class="item">S</div>
+                            <div class="item">M</div>
+                            <div class="item">T</div>
+                            <div class="item">W</div>
+                            <div class="item">T</div>
+                            <div class="item">F</div>
+                            <div class="item">S</div>
+                        </div>
+                        <div id="display_calendar">
+                        </div>
+                    </div>
+                </div>
+                <!-- Shitty calendar End -->
+            </div>
+            <div class="col-6">
+                <!-- NPC Licence Start -->
+                <div class="cont" id="NPCProfile">
+                    <h3>Drivers License</h3>
+                    <div class="idInfo">
+                        <div id="idImage"><img id="NPCIcon" height="125px" src="src/Sponge.jpg" alt=""></div>
+                        <div class="idStats">
+                            <h2>
+                                <p id="display_NPCname"></p>
+                            </h2>
+                            <p id="display_NPCgender"></p>
+                        </div>
+                        <div>
+                            <p id="display_NPCStats"></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- NPC Licence End -->
+                <!-- Inventory Start-->
+                <div class="cont" id="Inventory">
+                    <h3>Inventory</h3>
+                    <p id="display_inventory"></p>
+                    <button onclick="UseItem()" id="UseItemButton">Use Item</button>
+                </div>
+                <!-- Inventory End -->
+                <!-- BucketListStart -->
+                <div class="cont" id="BucketListCont">
+                    <h3>Bucket List</h3>
+                    <p id="BucketList"></p>
+                </div>
+                <!-- BucketListEnd -->
+            </div>
+        </div>
+        <!-- Some Options Start -->
+        <div class="row" id="SomeOptions">
+            <div class="col-12">
+                <div class="cont">
+                    <div id="buttons">
+                        <button onclick="OpenStore()">Store</button>
+                        <button onclick="JobOptions()">Job Options</button>
+                        <button onclick="IncrementDay()">Next Day</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Some Options End -->
+        <!-- Battle Options Start-->
+        <div class="row" id="BattleOptions">
+            <div class="col-12">
+                <div class="cont">
+                    What will you do?
+                    <div id="buttons">
+                        <button onclick="Fight()">Fight</button>
+                        <button onclick="Bag()">Bag</button>
+                        <button onclick="Run()">Run</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Battle Options End -->
+        <!-- Footer Start -->
+        <div class="row">
+            <div class="col-12">
+                <div class="footer cont">
+                    <h6>The <a href="#" id="pot">Pot</a> Squad &copy; 2018</h6>
+                    <h6>Document Last Updated:
+                        <script>
+                            document.write(document.lastModified)
+                        </script>
+                    </h6>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+    </div>
+
+    <script type="text/javascript">
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/bootstrap.js" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
