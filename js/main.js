@@ -289,25 +289,35 @@ function RefreshUI() {//Gets Constantly Updated
     }
 
     //Do you have big money
-    if (Currency >= 10000) {
-        bucketlist_buffer += "Done - Get 10,000 Dollars <br>"
+    if (Currency >= 100000) {
+        bucketlist_buffer += "Done - Get 100,000 Dollars <br>"
         BucketlistCheck.push(true)
     }
     else {
-        bucketlist_buffer += "____ - Get 10,000 Dollars <br>"
+        bucketlist_buffer += "____ - Get 100,000 Dollars <br>"
         BucketlistCheck.push(false)
     }
     //Do you have big flex?
     if (People[0]['Level'] > 9) {
-        bucketlist_buffer += "Done - Become level 10"
+        bucketlist_buffer += "Done - Become level 10 <br>"
         BucketlistCheck.push(true)
     }
     else {
-        bucketlist_buffer += "____ - Become level 10"
+        bucketlist_buffer += "____ - Become level 10 <br>"
         BucketlistCheck.push(false)
     }
-    document.getElementById("BucketList").innerHTML = bucketlist_buffer;
 
+    //Science Job
+    if (UserJob == 5){
+        bucketlist_buffer += "Done - Become a scientist <br>"
+        BucketlistCheck.push(true)
+    }
+    else {
+        bucketlist_buffer += "____ - Become a scientist <br>"
+        BucketlistCheck.push(false)
+    }
+
+    document.getElementById("BucketList").innerHTML = bucketlist_buffer;
     var AllTrue = true;
     for (i = 1; i < bucketlist_buffer.length; i++) {
         if (BucketlistCheck[i] == false) {
