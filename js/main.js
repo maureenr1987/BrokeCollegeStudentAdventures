@@ -631,7 +631,7 @@ function PayBills() {//Done
         new Excuse(25, "I need to renew my world of warcraft subscription")
     ]
     var RandomExcuse = Math.floor(Math.random() * 8)
-    alert( People[0]['Name'] + ": \n" + Excuses[RandomExcuse]['FullExcuse']);
+    alert(People[0]['Name'] + ": \n" + Excuses[RandomExcuse]['FullExcuse']);
     Currency -= Excuses[RandomExcuse]['Amount'];
 }
 
@@ -874,7 +874,7 @@ function UseAttack(Perpetrator, Victim, Attack) {//Done
 
 
     var MissedChance = Math.floor(Math.random() * 100) + 1;
-    if ( MissedChance <= Attacks[Attack]['Accuracy']) {
+    if (MissedChance <= Attacks[Attack]['Accuracy']) {
         alert(People[Perpetrator]['Name'] + " missed, What a dumbass!")
     }
 
@@ -901,6 +901,49 @@ function UseAttack(Perpetrator, Victim, Attack) {//Done
 
 
     //(People[Opponent], People[0], Random)
+}
+
+//Cheats
+function Cheats() {
+    var Password = prompt("Whats the password?").toLowerCase();
+    if (Password == "it's free real estate") {
+        var Cheat = prompt("Enter Cheat Code...").toLowerCase();
+        switch (Cheat) {
+            case "money":
+                Currency = 1000000;
+                alert("Money = 1000000")
+                break;
+
+            case "level":
+                People[0]['Level'] = 10;
+                alert("Level = 10")
+                break;
+
+            case "items":
+                InvIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                InvQuantity = [100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+                alert("Inventory = STACKED AF")
+                break;
+
+            case "time":
+                Day365 = 1;
+                alert("Day = 01 January")
+                break;
+
+            case "mii":
+                alert("Resetting Appearence...")
+                StartUp();
+                break;
+
+            default:
+                alert("Not Valid.")
+                break;
+        }
+    }
+    else {
+        alert("Error, Wrong password")
+    }
+    RefreshUI();
 }
 
 //Gets the player information ready for the rest of the game
