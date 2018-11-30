@@ -33,10 +33,10 @@ class AttackInfo {
     }
 }
 var Attacks = [
-    new AttackInfo("Tackle", 40, 100),
-    new AttackInfo("BulletPunch", 50, 95),
-    new AttackInfo("SuperKick", 90, 70),
-    new AttackInfo("Bash", 80, 80)
+    new AttackInfo("High Speed Tackle", 40, 200),
+    new AttackInfo("Round House Kick", 55, 160),
+    new AttackInfo("Fold", 70, 130),
+    new AttackInfo("Bash", 95, 100)
 ]
 
 //Levels
@@ -139,16 +139,16 @@ class ItemInfo {
     }
 }
 var Items = [
-    new ItemInfo("Hot Pocket", 2, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. +5 health. Restores 10HP."),
-    new ItemInfo("Maruchan Ramen", 5, "The Maruchan ramen is a very popular brand of noodles in the United-States. +15 health. Restores 20HP."),
+    new ItemInfo("Hot Pocket", 5, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. +5 health. Restores 10HP."),
+    new ItemInfo("Maruchan Ramen", 10, "The Maruchan ramen is a very popular brand of noodles in the United-States. +15 health. Restores 20HP."),
     new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control. I guess you could throw it at somebdy?"),
-    new ItemInfo("BackScraterenator 3000", 60, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. Use it to poke people, it probably hurts."),
-    new ItemInfo("Caleb", 250, "If you feed him 25 cents, he'll fix your roof. +10 to max health because I didn't know what else to do with him."),
-    new ItemInfo("Rosetta Stone", 10000, "REEEEEEEEEEEEEEET. Good luck trying to afford it. Levels you up instantly."),
-    new ItemInfo("Rusty Sword", 100, "I found this in the dumpster out back so now im gonna sell it to you and make a huge profit."),
-    new ItemInfo("Plastic shield", 20, "Here's this shield I stole from my neighbors kid. +5 defense."),
-    new ItemInfo("Wooden shield", 50, "This state of the art sheid was made with some drift wood that I found. It's not my problem if it breaks."),
-    new ItemInfo("Spork", 100, "Spork, now with 40% more spoon. Heals you fully.")
+    new ItemInfo("BackScraterenator 3000", 180, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. It uses Batteries, I hope they don't run out... If you're in danger you might be able to break it on someones head."),
+    new ItemInfo("Caleb", 250, "If you feed him 25 cents, he'll fix your roof."),
+    new ItemInfo("Rusty ScrewDriver", 180, "I found this in the dumpster out back. Can use it as a struggle knife."),
+    new ItemInfo("Machete", 500, "It's construction looks pretty cheap. It might last a couple shots if i'm lucky."),
+    new ItemInfo("Fake ID", 8000, "Discard your current ID and become someone else under a new name and ID"),
+    new ItemInfo("Rosetta Stone", 10000, "Levels you up instantly."),
+    new ItemInfo("Cyber Nuke", 100000, "Launches 69 Laminated Mobile Hyper Rune Double Helix Proton Decimator Missiles")
 ]
 
 //Employment
@@ -269,23 +269,17 @@ function RefreshUI() {//Gets Constantly Updated
     document.getElementById("NPCIcon").src = People[Opponent]['Icon'];
 
     //Update BucketList
-    //Do you have rossetta stone
     var bucketlist_buffer = "";
     var BucketlistCheck = [];
-    var Exists = false;
 
-    for (i = 0; i < InvIndex.length; i++) {
-        if (InvIndex[i] == 5) {
-            Exists = true;
-        }
-    }
-    if (Exists == false) {
-        bucketlist_buffer += "____ - Purchase a rosetta stone <br>";
-        BucketlistCheck.push(false)
+    //Do you have rossetta stone
+    if (document.getElementById("CyberRealm").hidden == false) {
+        bucketlist_buffer += "Done - Launch a cyber nuke <br>";
+        BucketlistCheck.push(true)
     }
     else {
-        bucketlist_buffer += "Done - Purchase a rosetta stone <br>";
-        BucketlistCheck.push(true)
+        bucketlist_buffer += "____ - Launch a cyber nuke <br>";
+        BucketlistCheck.push(false)
     }
 
     //Do you have big money
@@ -308,7 +302,7 @@ function RefreshUI() {//Gets Constantly Updated
     }
 
     //Science Job
-    if (UserJob == 5){
+    if (UserJob == 5) {
         bucketlist_buffer += "Done - Become a scientist <br>"
         BucketlistCheck.push(true)
     }
@@ -445,81 +439,109 @@ function RemoveToInventory(Item, Minus) {//Done
 
 function UseItem() {//Done
     var inventory_buffer = "Use an Item? \n";
-    for (i = 0; i < InvIndex.length; i++) {
-        inventory_buffer += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")\n";
-    }
+    var Random = Math.floor(Math.random() * 100) + 1
     if (InvIndex.length == 0) {
         alert("Your inventory is empty!")
     }
     else {
+        for (i = 0; i < InvIndex.length; i++) {
+            inventory_buffer += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")\n";
+        }
         var Choose = prompt(inventory_buffer) - 1
     }
 
+    alert(People[0]['Name'] + " used the " + Items[InvIndex[Choose]]['Name'])
     switch (Items[InvIndex[Choose]]['Name']) {
         case "Hot Pocket":
-            alert(People[0]['Name'] + " ate a Hot Pocket. It was very tasty")
-            People[0]['HealthCurrent'] += 10
+            alert("You ate the Hot Pocket. It was very tasty")
+            People[0]['HealthCurrent'] += 5
             RemoveToInventory(Choose, 1)
             break;
 
         case "Maruchan Ramen":
             alert(People[0]['Name'] + " ate the soup. It was very tasty")
-            People[0]['HealthCurrent'] += 20
+            People[0]['HealthCurrent'] += 8
             RemoveToInventory(Choose, 1)
             break;
 
         case "New TV Remote":
-            alert(People[0]['Name'] + " used the TV Remote")
-            if (Opponent == 12) {
+            if (Opponent == 12 && Gamemode == "Battle") {
                 alert("You her turned off ")
                 People[Opponent]['HealthCurrent'] = 0
+                RemoveToInventory(Choose, 1)
             }
             else {
                 alert("But nothing happend")
             }
-            RemoveToInventory(Choose, 1)
             break;
 
         case "BackScraterenator 3000":
-            alert(People[0]['Name'] + " scratched back! feels good! It even restored some health.")
-            People[0]['HealthCurrent'] += 12
-            RemoveToInventory(Choose, 1)
+            if (Gamemode == "Standard") {
+                alert("You scratched your back! feels good! It even restored some health.")
+                People[0]['HealthCurrent'] += 15
+                if (Random <= 40) {
+                    alert("The BackScraterenator 3000 ran out of batteries")
+                    RemoveToInventory(Choose, 1)
+                }
+            }
+            else if (Gamemode == "Battle") {
+                alert("You bashed " + People[Opponent]['Name'] + "upside the face with the BackScraterenator 3000")
+                People[Opponent]['HealthCurrent'] -= 5
+                if (Random <= 75) {
+                    alert("The BackScraterenator 3000 broke")
+                    RemoveToInventory(Choose, 1)
+                }
+            }
             break;
 
         case "Caleb":
-            alert(People[0]['Name'] + " used Caleb. Your roof has is fixed! You felt so relaxed it restored some health.")
-            People[0]['HealthCurrent'] += 10
+            alert("Your roof has is fixed! You felt so relaxed it restored some health.")
+            People[0]['HealthCurrent'] += 20
+            RemoveToInventory(Choose, 1)
+            break;
+
+        case "Rusty ScrewDriver":
+            if (Gamemode == "Battle") {
+                alert("It's not as strong as you thought. The tip broke off and got stuck in " + People[Opponent]['Name'] + "'s shoulder")
+                People[Opponent]['HealthCurrent'] -= 10
+                RemoveToInventory(Choose, 1)
+            }
+            else {
+                alert("But nothing happend")
+            }
+            break;
+
+        case "Machete":
+            if (Gamemode == "Battle") {
+                People[Opponent]['HealthCurrent'] -= 25
+                alert("You slashed " + People[Opponent]['Name'] + "with the machete")
+                if (Random <= 36) {
+                    alert("It's not as strong as you thought. The blade broke off and got stuck in " + People[Opponent]['Name'] + "'s chest")
+                    RemoveToInventory(Choose, 1)
+                }
+            }
+            else {
+                alert("But nothing happend")
+            }
+            break;
+
+        case "Fake ID":
+            StartUp();
             RemoveToInventory(Choose, 1)
             break;
 
         case "Rosetta Stone":
-            alert(People[0]['Name'] + " used the power of the rosetta stone")
-            alert("You leveled up!")
+            alert("The Rosetta Stone filled you with power. You leveled up!")
             People[0]['Level']++
             RemoveToInventory(Choose, 1)
             break;
 
-        case "Rusty Sword":
-            alert(People[0]['Name'] + " used a rusty sword. It's not a stong as you thought")
-            People[Opponent]['HealthCurrent'] -= 10
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "Plastic shield":
-            alert(People[0]['Name'] + " shield is used. It's probably not going to help, but you feel a little bit safer")
-            //People[0]['HealthCurrent'] += 2
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "Wooden shield":
-            alert(People[0]['Name'] + " shield is used. It's probably not going to help, but you feel a little bit safer")
-            //Levels[People[0]['Level']]['Defense'] += 2
-            RemoveToInventory(Choose, 1)
-            break;
-
-        case "Spork":
-            alert(People[0]['Name'] + " good job normie!")
-            //People[0]['HealthCurrent'] += 70
+        case "Cyber Nuke":
+            alert("Initialize Protcal \n C:/Users/TheLegend27/Documents/CuberNuke/Laminated Mobile Hyper Rune Double Helix Proton Decimator Missile Launch System.exe")
+            alert("69 missiles launched into the air at 1,000,000,000,000 m/s made a quick trip around the moon and then came crashing down at 1,000,000,000,000 m/s. Anythng within a 5m radius was sent to the recycle bin and then deleted from existance.")
+            alert("The impact also left a crack in space and time making it possible to access the power of the cyberverse")
+            People[Opponent]['HealthCurrent'] -= 10000000;
+            document.getElementById("CyberRealm").hidden = false;
             RemoveToInventory(Choose, 1)
             break;
     }
@@ -650,8 +672,9 @@ function PayDay() {//Done
         alert(People[0]['Name'] + ": \nNothing to worry about my parents still love me. They sent 50 bucks!")
     }
     if (UserJob > 0) {
-        Currency += Jobs[UserJob]['Salary']
-        alert(People[0]['Name'] + ": \nI earned $" + Jobs[UserJob]['Salary'] + " from my job at " + Jobs[UserJob]['Job']);
+        var Random = Math.floor(Math.random() * 100)
+        Currency += Jobs[UserJob]['Salary'] + Random
+        alert(People[0]['Name'] + ": \nI earned $" + (Jobs[UserJob]['Salary'] + Random) + " from my job at " + Jobs[UserJob]['Job']);
     }
 }
 
@@ -743,7 +766,7 @@ function RandomEncounter() {//Done
 function Fight() {//Done
     var text = "";
     for (i = 0; i < 4; i++) {
-        text += (i + 1) + ". " + Attacks[People[0]['Move'][i]]['Name'] + "\n"
+        text += (i + 1) + ". " + Attacks[People[0]['Move'][i]]['Name'] + " |Power - " + Attacks[People[0]['Move'][i]]['Power'] + " |Accuracy - " + Attacks[People[0]['Move'][i]]['Accuracy'] + "\n"
     }
     var UserInput = prompt(text) - 1;
     if (UserInput >= 0 && UserInput < 4) {
@@ -857,10 +880,9 @@ function EndBattle() {
     //if you died
     else if (People[0]['HealthCurrent'] < 1) {
         People[0]['HealthCurrent'] = Levels[People[0]['Level']]['Health'];
-        IncrementDay();
-
         Currency -= 1000;
         alert("This is for your hopital bills \nCurrency -$1000");
+        Day365 += 5;
     }
     Gamemode = "Standard";
     RefreshUI();
@@ -881,36 +903,13 @@ function UseAttack(Perpetrator, Victim, Attack) {//Done
         var Attack = Math.floor(Math.random() * 4)
     }
     alert(People[Perpetrator]['Name'] + " used " + Attacks[Attack]['Name'])
-
-
-    var MissedChance = Math.floor(Math.random() * 100) + 1;
-    if (MissedChance <= Attacks[Attack]['Accuracy']) {
+    var Random = Math.floor(Math.random() * 100) + 1;
+    if (Random < Attacks[Attack]['Accuracy']) {
+        People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
+    }
+    else {
         alert(People[Perpetrator]['Name'] + " missed, What a dumbass!")
     }
-
-    else {
-        //Attacks
-        switch (Attacks[Attack]['Name']) {
-            case "Tackle":
-                People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
-                break;
-
-            case "BulletPunch":
-                People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
-                break;
-
-            case "SuperKick":
-                People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
-                break;
-
-            case "Bash":
-                People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
-                break;
-        }
-    }
-
-
-    //(People[Opponent], People[0], Random)
 }
 
 //Cheats
@@ -952,6 +951,7 @@ function Cheats() {
     }
     else {
         alert("Error, Wrong password")
+        Day365 += 20;
     }
     RefreshUI();
 }
