@@ -164,7 +164,7 @@ function RefreshUI() {//Gets Constantly Updated
         PlayerChar['HealthCurrent'] = Levels[PlayerChar['Level']]['Health'];
     }
 
-    //Levels Up character
+    //Levels Up character if they have enough exp
     if (PlayerChar['ExperienceCurrent'] > Levels[PlayerChar['Level']]['Experience']) {
         PlayerChar['Level']++
         PlayerChar['ExperienceCurrent'] = 0;
@@ -304,87 +304,134 @@ function RefreshUI() {//Gets Constantly Updated
 
 //Store Functions
 function OpenStore() {//Done
+    //Makes store and asks for player to buy or sell
     var UserInput = prompt("Store Owner: \nHi how you doing? What do you need today\n1. Buy\n2. Sell");
+
+    //Player chooses buy
     if (UserInput == 1) {
         Buy()
+
+        //Player chooses sell
     } else if (UserInput == 2) {
         Sell()
+
+        //Player cancels or leaves blank
     } else {
         alert("Store Owner: \nUhh. Have a nice day?")
     }
 }
 
 function Buy() {//Done
+    //Makes store prompts text
     var InvStore = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     var text = "";
     var i;
-
-    //Formats the stores stock an user input
     for (i = 0; i < InvStore.length; i++) {
         text += (i + 1) + ". " + Items[InvStore[i]]['Name'] + " - $" + Items[InvStore[i]]['Price'] + "\n"
     }
+
+    //Asks player to select an item to purchase
     UserInput = prompt("Store Owner: \nChoose anything you like. \n\n" + text) - 1;
     if (UserInput < InvStore.length && UserInput >= 0) {
+
+        //Asks how many of the selected items the player wants to buy at one time but cannot exceed 1000
         var Many = prompt("Store Owner: \nHow many do you want to buy", 1)
         if (Many > 0 && Many <= 1000) {
+
+            //Checks if player has enough currency to purchase the item(s)
             if (Currency > Items[InvStore[UserInput]]['Price'] * Many) {
+
+                //Asks for players confirmation
                 var Confirm = prompt(Items[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Items[InvStore[UserInput]]['Price'] * Many) + "\n" + Items[InvStore[UserInput]]['Desc'] + "\n\nStore Owner: \nAre you sure you want to buy this?\n1. Yes \n2. No")
+
+                //Player accepts purchase
                 if (Confirm == 1) {
+
+                    //Subtracts item prices from player currency
                     Currency -= Items[InvStore[UserInput]]['Price'] * Many;
+
+                    //Adds item(s) to inventory
                     AddToInventory(InvStore[UserInput], Many);
                     alert("Store Owner:\nThank you for your purchase.")
                     RefreshUI();
                 }
+
+                //Player rejects purchase
                 else {
                     alert("Store Owner: \nYou forget you wallet? Yeah like I haven't heard that one before.")
                     Buy();
                 }
             }
+
+            //Player does not have enough money
             else {
                 alert("Store Owner: \nGet your broke a$$ outta here!")
             }
         }
+
+       //Player cancels or does not leave a valid response
         else {
             alert("Store Owner: \nUmmm... Where are your parents?")
         }
     }
+
+    //Player cancels out of shop
     else {
         alert("Store Owner: \nThank you. Come again!")
     }
 }
 
 function Sell() { //Done
+    //Make sell prompts text
     var text = ""
     var i;
-
     for (i = 0; i < InvIndex.length; i++) {
         text += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " - $" + Items[InvIndex[i]]['Price'] + "\n"
     }
-    UserInput = prompt("Store Owner: \nWhat have you got form me today?\n \n" + text) -
-        1;
+
+    //Asks player to select an item to sell
+    UserInput = prompt("Store Owner: \nWhat have you got for me today?\n \n" + text) - 1;
     if (UserInput < InvIndex.length && UserInput >= 0) {
+
+        //Asks how many of the selected items the player wants to sell at one time but cannot exceed the quantity of the item they have in their inventory
         var Many = prompt("Store Owner: \nHow many do you want to sell", 1)
         if (Many > 0 && Many <= InvQuantity[UserInput]) {
+
+            //Asks for players confirmation
             var Confirm = prompt(Items[InvIndex[UserInput]]['Name'] + " - $" + (Items[InvIndex[UserInput]]['Price'] * Many) + "\n" + Items[InvIndex[UserInput]]['Desc'] + "\n\n Store Owner: \nAre you sure you want to sell this?\n1. Yes \n2. No");
+
+            //Player accepts sale
             if (Confirm == 1) {
+
+                //Adds item(s) prices to players currency
                 Currency += Items[InvIndex[UserInput]]['Price'] * Many;
+
+                //Removes item(s) from inventory 
                 RemoveToInventory(UserInput, Many);
                 alert("Store Owner: \nPleasure doing buisness with you!")
                 RefreshUI();
             }
+
+            //Player rejects sale
             else {
                 alert("Store Owner: \nDamn. I really wanted that one.")
                 Sell();
             }
         }
+
+        //Player is attempting to sell more of the selected items than they have in their inventory
         else if (Many >= InvQuantity[UserInput]) {
             alert("Store Owner:\n" + Many + "!! you know you ain't got that many!")
             Sell();
         }
+
+        //Player cancels or does not leave a valid response
         else {
             alert("Store Owner: \nDo you need anything? Sir.")
         }
     }
+
+    //Player cancels or does not leave a valid response
     else {
         alert("Store Owner: \nThank you. Come again!")
     }
