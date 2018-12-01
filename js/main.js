@@ -21,9 +21,6 @@ var UserJob = 0;
 //Gamemode
 var Gamemode = "Standard";
 
-//Battle
-var Opponent = 12;
-
 //Attacks
 class AttackInfo {
     constructor(Name, Accuracy, Power) {
@@ -107,28 +104,11 @@ class CharacterInfo {
         this.Move = Moves
     }
 }
-var People = [ //Note User is always index 0
-    new CharacterInfo("Yeah", "Male", 1, 0, [0, 1, 2, 3]),
-    new CharacterInfo("Fest", "Male", 2, 1, [0, 1, 2, 3]),
-    new CharacterInfo("Swift", "Male", 3, 2, [0, 1, 2, 3]),
-    new CharacterInfo("Roush", "Female", 4, 3, [0, 1, 2, 3]),
-    new CharacterInfo("Grub", "Male", 5, 4, [0, 1, 2, 3]),
-    new CharacterInfo("Anvil", "Male", 6, 5, [0, 1, 2, 3]),
-    new CharacterInfo("Tub", "Unknown", 7, 6, [0, 1, 2, 3]),
-    new CharacterInfo("Slate", "Female", 8, 7, [0, 1, 2, 3]),
-    new CharacterInfo("Grease", "Female", 9, 8, [0, 1, 2, 3]),
-    new CharacterInfo("Glib", "Alpha Male", 10, 9, [0, 1, 2, 3]),
-    new CharacterInfo("Scald", "Male", 11, 10, [0, 1, 2, 3]),
-    new CharacterInfo("Lenses", "Male", 12, 11, [0, 1, 2, 3]),
-    new CharacterInfo("Boop", "Female", 13, 12, [0, 1, 2, 3]),
-    new CharacterInfo("Drip", "Male", 14, 13, [0, 1, 2, 3]),
-    new CharacterInfo("Ghost", "Male", 15, 14, [0, 1, 2, 3]),
-    new CharacterInfo("Matte", "Male", 16, 15, [0, 1, 2, 3]),
-    new CharacterInfo("Flop", "Male", 17, 16, [0, 1, 2, 3]),
-    new CharacterInfo("Fish", "Female", 18, 17, [0, 1, 2, 3]),
-    new CharacterInfo("Thicc", "Male", 19, 18, [0, 1, 2, 3]),
-    new CharacterInfo("Whey", "Female", 20, 19, [0, 1, 2, 3])
-];
+
+
+var PlayerChar = new CharacterInfo("Yeah", "Male", 1, 0, [0, 1, 2, 3]);
+var OpponentChar = new CharacterInfo("Fest", "Male", 2, 1, [0, 1, 2, 3]);
+
 
 //Items
 class ItemInfo {
@@ -177,19 +157,18 @@ var DaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 var FirstInMonth = [1, 32, 60, 91, 121, 152, 182, 213, 243, 274, 305, 335, 365];
 var Year = 2047;
 
-
 // FUNCTION section
 function RefreshUI() {//Gets Constantly Updated
     //Removes Excess HP
-    if (People[0]['HealthCurrent'] > Levels[People[0]['Level']]['Health']) {
-        People[0]['HealthCurrent'] = Levels[People[0]['Level']]['Health'];
+    if (PlayerChar['HealthCurrent'] > Levels[PlayerChar['Level']]['Health']) {
+        PlayerChar['HealthCurrent'] = Levels[PlayerChar['Level']]['Health'];
     }
 
     //Levels Up character
-    if (People[0]['ExperienceCurrent'] > Levels[People[0]['Level']]['Experience']) {
-        People[0]['Level']++
-        People[0]['ExperienceCurrent'] = 0;
-        alert(" Congrats! You are now Level " + People[0]['Level'])
+    if (PlayerChar['ExperienceCurrent'] > Levels[PlayerChar['Level']]['Experience']) {
+        PlayerChar['Level']++
+        PlayerChar['ExperienceCurrent'] = 0;
+        alert(" Congrats! You are now Level " + PlayerChar['Level'])
     }
 
     //Set Game mode
@@ -257,16 +236,16 @@ function RefreshUI() {//Gets Constantly Updated
     document.getElementById("display_date").innerHTML = DayNames[DayWeek] + " " + MonthNames[Month] + " " + DayMonth + " " + Year;
 
     //Users Name and Gender
-    document.getElementById("display_username").innerHTML = People[0]['Name'];
-    document.getElementById("display_usergender").innerHTML = "Gender: " + People[0]['Gender'];
-    document.getElementById("display_userstats").innerHTML = "Level: " + People[0]['Level'] + "<br>HP: " + People[0]['HealthCurrent'] + " / " + Levels[People[0]['Level']]['Health'] + "<br>ATK: " + Levels[People[0]['Level']]['Attack'] + "<br>DEF: " + Levels[People[0]['Level']]['Defense'] + "<br>SPD: " + Levels[People[0]['Level']]['Speed'] + "<br>EXP: " + People[0]['ExperienceCurrent'] + " / " + Levels[People[0]['Level']]['Experience'];
-    document.getElementById("UserIcon").src = People[0]['Icon'];
+    document.getElementById("display_username").innerHTML = PlayerChar['Name'];
+    document.getElementById("display_usergender").innerHTML = "Gender: " + PlayerChar['Gender'];
+    document.getElementById("display_userstats").innerHTML = "Level: " + PlayerChar['Level'] + "<br>HP: " + PlayerChar['HealthCurrent'] + " / " + Levels[PlayerChar['Level']]['Health'] + "<br>ATK: " + Levels[PlayerChar['Level']]['Attack'] + "<br>DEF: " + Levels[PlayerChar['Level']]['Defense'] + "<br>SPD: " + Levels[PlayerChar['Level']]['Speed'] + "<br>EXP: " + PlayerChar['ExperienceCurrent'] + " / " + Levels[PlayerChar['Level']]['Experience'];
+    document.getElementById("UserIcon").src = PlayerChar['Icon'];
 
     //NPCRefresh
-    document.getElementById("display_NPCname").innerHTML = People[Opponent]['Name'];
-    document.getElementById("display_NPCgender").innerHTML = "Gender: " + People[Opponent]['Gender'];
-    document.getElementById("display_NPCStats").innerHTML = "Level: " + People[Opponent]['Level'] + "<br>HP: " + People[Opponent]['HealthCurrent'] + " / " + Levels[People[Opponent]['Level']]['Health'];
-    document.getElementById("NPCIcon").src = People[Opponent]['Icon'];
+    document.getElementById("display_NPCname").innerHTML = OpponentChar['Name'];
+    document.getElementById("display_NPCgender").innerHTML = "Gender: " + OpponentChar['Gender'];
+    document.getElementById("display_NPCStats").innerHTML = "Level: " + OpponentChar['Level'] + "<br>HP: " + OpponentChar['HealthCurrent'] + " / " + Levels[OpponentChar['Level']]['Health'];
+    document.getElementById("NPCIcon").src = OpponentChar['Icon'];
 
     //Update BucketList
     var bucketlist_buffer = "";
@@ -292,7 +271,7 @@ function RefreshUI() {//Gets Constantly Updated
         BucketlistCheck.push(false)
     }
     //Do you have big flex?
-    if (People[0]['Level'] > 9) {
+    if (PlayerChar['Level'] > 9) {
         bucketlist_buffer += "Done - Become level 10 <br>"
         BucketlistCheck.push(true)
     }
@@ -450,24 +429,24 @@ function UseItem() {//Done
         var Choose = prompt(inventory_buffer) - 1
     }
 
-    alert(People[0]['Name'] + " used the " + Items[InvIndex[Choose]]['Name'])
+    alert(PlayerChar['Name'] + " used the " + Items[InvIndex[Choose]]['Name'])
     switch (Items[InvIndex[Choose]]['Name']) {
         case "Hot Pocket":
             alert("You ate the Hot Pocket. It was very tasty")
-            People[0]['HealthCurrent'] += 5
+            PlayerChar['HealthCurrent'] += 5
             RemoveToInventory(Choose, 1)
             break;
 
         case "Maruchan Ramen":
-            alert(People[0]['Name'] + " ate the soup. It was very tasty")
-            People[0]['HealthCurrent'] += 8
+            alert(PlayerChar['Name'] + " ate the soup. It was very tasty")
+            PlayerChar['HealthCurrent'] += 8
             RemoveToInventory(Choose, 1)
             break;
 
         case "New TV Remote":
             if (Opponent == 12 && Gamemode == "Battle") {
                 alert("You her turned off ")
-                People[Opponent]['HealthCurrent'] = 0
+                OpponentChar['HealthCurrent'] = 0
                 RemoveToInventory(Choose, 1)
             }
             else {
@@ -478,15 +457,15 @@ function UseItem() {//Done
         case "BackScraterenator 3000":
             if (Gamemode == "Standard") {
                 alert("You scratched your back! feels good! It even restored some health.")
-                People[0]['HealthCurrent'] += 15
+                PlayerChar['HealthCurrent'] += 15
                 if (Random <= 40) {
                     alert("The BackScraterenator 3000 ran out of batteries")
                     RemoveToInventory(Choose, 1)
                 }
             }
             else if (Gamemode == "Battle") {
-                alert("You bashed " + People[Opponent]['Name'] + "upside the face with the BackScraterenator 3000")
-                People[Opponent]['HealthCurrent'] -= 5
+                alert("You bashed " + OpponentChar['Name'] + "upside the face with the BackScraterenator 3000")
+                OpponentChar['HealthCurrent'] -= 5
                 if (Random <= 75) {
                     alert("The BackScraterenator 3000 broke")
                     RemoveToInventory(Choose, 1)
@@ -496,14 +475,14 @@ function UseItem() {//Done
 
         case "Caleb":
             alert("Your roof has is fixed! You felt so relaxed it restored some health.")
-            People[0]['HealthCurrent'] += 20
+            PlayerChar['HealthCurrent'] += 20
             RemoveToInventory(Choose, 1)
             break;
 
         case "Rusty ScrewDriver":
             if (Gamemode == "Battle") {
-                alert("It's not as strong as you thought. The tip broke off and got stuck in " + People[Opponent]['Name'] + "'s shoulder")
-                People[Opponent]['HealthCurrent'] -= 10
+                alert("It's not as strong as you thought. The tip broke off and got stuck in " + OpponentChar['Name'] + "'s shoulder")
+                OpponentChar['HealthCurrent'] -= 10
                 RemoveToInventory(Choose, 1)
             }
             else {
@@ -513,10 +492,10 @@ function UseItem() {//Done
 
         case "Machete":
             if (Gamemode == "Battle") {
-                People[Opponent]['HealthCurrent'] -= 25
-                alert("You slashed " + People[Opponent]['Name'] + "with the machete")
+                OpponentChar['HealthCurrent'] -= 25
+                alert("You slashed " + OpponentChar['Name'] + "with the machete")
                 if (Random <= 36) {
-                    alert("It's not as strong as you thought. The blade broke off and got stuck in " + People[Opponent]['Name'] + "'s chest")
+                    alert("It's not as strong as you thought. The blade broke off and got stuck in " + OpponentChar['Name'] + "'s chest")
                     RemoveToInventory(Choose, 1)
                 }
             }
@@ -532,15 +511,18 @@ function UseItem() {//Done
 
         case "Rosetta Stone":
             alert("The Rosetta Stone filled you with power. You leveled up!")
-            People[0]['Level']++
+            PlayerChar['Level']++
             RemoveToInventory(Choose, 1)
             break;
 
         case "Cyber Nuke":
             alert("Initialize Protcal \n C:/Users/TheLegend27/Documents/CuberNuke/Laminated Mobile Hyper Rune Double Helix Proton Decimator Missile Launch System.exe")
-            alert("69 missiles launched into the air at 1,000,000,000,000 m/s made a quick trip around the moon and then came crashing down at 1,000,000,000,000 m/s. Anythng within a 5m radius was sent to the recycle bin and then deleted from existance.")
+            alert("69 missiles launched into the air at 1,000,000,000,000 m/s made a quick trip around the moon and then came crashing down at 1,000,000,000,000 m/s.")
             alert("The impact also left a crack in space and time making it possible to access the power of the cyberverse")
-            People[Opponent]['HealthCurrent'] -= 10000000;
+            if (Gamemode == "Battle") {
+                alert(OpponentChar['Name'] + " was sent to the recycle bin and then deleted from existance.")
+                OpponentChar['HealthCurrent'] -= 10000000;
+            }
             document.getElementById("CyberRealm").hidden = false;
             RemoveToInventory(Choose, 1)
             break;
@@ -551,63 +533,105 @@ function UseItem() {//Done
 //Job Functions
 function JobOptions() { //Done
     function Apply() { //Done
+        //Makes list of places for player to apply
         var i;
         var text = "";
         for (i = 1; i < Jobs.length; i++) {
             text += i + ". " + Jobs[i]['Job'] + "\n"
         };
-        var UserInput = prompt(People[0]['Name'] + ": \nWhat job do I want to apply for?\n" + text + i + ". Cancel");
+
+        //Asks for player to pick from list of jobs to apply to
+        var UserInput = prompt(PlayerChar['Name'] + ": \nWhat job do I want to apply for?\n" + text + i + ". Cancel");
         if (UserInput >= 1 && UserInput < i) {
-            var Confirm = prompt(People[0]['Name'] + ": \nMy chance of getting a job at " + Jobs[UserInput]['Job'] + " is about " + Jobs[UserInput]['Chance'] + " percent.\n\n Am I sure I want to apply?\n1. Yes\n2. No");
+
+            //Asks for players confimation and gives warnings about submiting an application
+            var Confirm = prompt(PlayerChar['Name'] + ": \nMy chance of getting a job at " + Jobs[UserInput]['Job'] + " is about " + Jobs[UserInput]['Chance'] + " percent.\n\n Am I sure I want to apply?\n1. Yes\n2. No");
+
+            //TRUE if player accepted terms and conditions
             if (Confirm == 1) {
+
+                //Checks if players application will be accepted with probability
                 var Random = Math.floor(Math.random() * 101);
                 if (Jobs[UserInput]['Chance'] > Random) {
+
+                    //Application gets accepted
                     UserJob = UserInput;
-                    alert(People[0]['Name'] + ": \nI got the job!")
-                } else {
-                    alert(People[0]['Name'] + ": \nThese losers don't see talent when it's right in front of them!")
+                    alert(PlayerChar['Name'] + ": \nI got the job!")
                 }
+
+                //Application gets rejected
+                else {
+                    alert(PlayerChar['Name'] + ": \nThese losers don't see talent when it's right in front of them!")
+                }
+
+                //Ends the day
                 IncrementDay();
                 RefreshUI()
             }
+
+            //Player did not accept terms and conditions and decided not to submit application
             else {
-                alert(People[0]['Name'] + ": \nWhatever. It's not like I wanted to work there.")
+                alert(PlayerChar['Name'] + ": \nWhatever. It's not like I wanted to work there.")
                 Apply()
             }
         }
+
+        //Player did pick from list of jobs to apply or canceled prompt
         else {
-            alert(People[0]['Name'] + ": \nPfffft! Who needs work anyways?")
+            alert(PlayerChar['Name'] + ": \nPfffft! Who needs work anyways?")
         }
     }
 
     function Resign() { //Done
-        UserInput = prompt(People[0]['Name'] + ": \nDo I really want to quit my " + Jobs[UserJob]['Job'] + " job?\n1. Yes\n2. No")
+        //Asks for players confimation for quiting job
+        UserInput = prompt(PlayerChar['Name'] + ": \nDo I really want to quit my " + Jobs[UserJob]['Job'] + " job?\n1. Yes\n2. No")
+
+        //TRUE if user picks yes and decides to quit their job
         if (UserInput == 1) {
+
+            //Sets job to unemployed
             alert("You quit your job at " + Jobs[UserJob]['Job']);
             UserJob = 0;
+
+            //Ends the day
             IncrementDay();
             RefreshUI();
         }
+
+        //TRUE if user picks no and decides to keep job
         else if (UserInput == 2) {
-            alert(People[0]['Name'] + ": \nYeah, I think I'm set.")
+            alert(PlayerChar['Name'] + ": \nYeah, I think I'm set.")
         }
+
+        //user clicks cancel or leaves prompt empty
         else {
-            alert(People[0]['Name'] + ":\nTo work or to not work. Hmmmmm...")
+            alert(PlayerChar['Name'] + ":\nTo work or to not work. Hmmmmm...")
         }
     }
 
     function Intern() { //Done
+        //Makes list of places for player to intern
         var i;
         text = "";
         for (i = 1; i < Jobs.length; i++) {
             text += i + ". " + Jobs[i]['Job'] + "\n"
         }
-        UserInput = prompt(People[0]['Name'] + ": \nWhere do I want to Intern? \n" + text);
+
+        //Asks for player to pick from list to intern
+        UserInput = prompt(PlayerChar['Name'] + ": \nWhere do I want to Intern? \n" + text);
         if (UserInput >= 1 && UserInput < i) {
-            var Confirm = prompt(People[0]['Name'] + ": \nIf I intern at " + Jobs[UserInput]['Job'] + " it will raise your chances of getting in by 3 percent I think. However it will take the next 7 days. \n\nShould I do it?\n1. Yes\n2. No");
+
+            //Asks for players confimation and gives warnings about the internship
+            var Confirm = prompt(PlayerChar['Name'] + ": \nIf I intern at " + Jobs[UserInput]['Job'] + " it will raise your chances of getting in by 3 percent I think. However it will take the next 7 days. \n\nShould I do it?\n1. Yes\n2. No");
+
+            //TRUE if player accepted terms and conditions
             if (Confirm == 1) {
+
+                //Raise players chance at getting the job they interned for by 3 percent
                 Jobs[UserInput]['Chance'] += 3;
-                alert(People[0]['Name'] + " interned for " + Jobs[UserInput]['Job'] + " for the next week\nYour chance of getting that job next time is now " + Jobs[UserInput]['Chance'] + " Percent");
+                alert(PlayerChar['Name'] + " interned for " + Jobs[UserInput]['Job'] + " for the next week\nYour chance of getting that job next time is now " + Jobs[UserInput]['Chance'] + " Percent");
+
+                //Moves the calendar ahead 7 days
                 IncrementDay();
                 IncrementDay();
                 IncrementDay();
@@ -616,37 +640,45 @@ function JobOptions() { //Done
                 IncrementDay();
                 IncrementDay();
             }
+
+            //Player did not accept terms and conditions
             else {
-                alert(People[0]['Name'] + ":\nKinda busy right now, maybe later...")
+                alert(PlayerChar['Name'] + ":\nKinda busy right now, maybe later...")
             }
         }
+
+        //Player did pick from list of jobs to intern
         else {
-            alert(People[0]['Name'] + ": \nI think I left my stove on at home...")
+            alert(PlayerChar['Name'] + ": \nI think I left my stove on at home...")
         }
     }
 
+    //Makes prompt for player who is unemployed
     if (UserJob == 0) {
-        UserInput = prompt(People[0]['Name'] + ": \nWhat to do?\n1. Find Work \n2. Get Internship");
+        UserInput = prompt(PlayerChar['Name'] + ": \nWhat to do?\n1. Find Work \n2. Get Internship");
         if (UserInput == 1) {
             Apply()
         } else if (UserInput == 2) {
             Intern()
         } else {
-            alert(People[0]['Name'] + ": \nWho needs work anyways...")
+            alert(PlayerChar['Name'] + ": \nWho needs work anyways...")
         }
     }
+
+    //Makes prompt for player who has a job
     else {
-        UserInput = prompt(People[0]['Name'] + ": \nWhat to do?\n1. Quit Current Job");
+        UserInput = prompt(PlayerChar['Name'] + ": \nWhat to do?\n1. Quit Current Job");
         if (UserInput == 1) {
             Resign()
         } else {
-            alert(People[0]['Name'] + ": \nI like my job thank you very much")
+            alert(PlayerChar['Name'] + ": \nI like my job thank you very much")
         }
     }
 }
 
 //Payment Functions
 function PayBills() {//Done
+    //Objects for excuse
     function Excuse(Amount, Reason) {
         this.Amount = Amount
         this.Reason = Reason
@@ -656,25 +688,35 @@ function PayBills() {//Done
         new Excuse(215, "I hope I have enough to pay the water bill."),
         new Excuse(370, "I have to pay the gas and electric."),
         new Excuse(100, "I have to get clothes and food for that party that everybody is talking about."),
-        new Excuse(0, "No bills to pay?! Is a storm coming?"),
         new Excuse(250, "Today, I'm going to by 50 Maruchan Ramen, just because."),
         new Excuse(300, "That truck isn't going to fix itself."),
         new Excuse(90, "Phone bills are such a pain in the ass"),
-        new Excuse(25, "I need to renew my world of warcraft subscription")
-    ]
+        new Excuse(25, "I need to renew my world of warcraft subscription"),
+        new Excuse(150, "Damn, someone pickpcked me!")
+    ];
+
+    //Picks random excuse
     var RandomExcuse = Math.floor(Math.random() * 8)
-    alert(People[0]['Name'] + ": \n" + Excuses[RandomExcuse]['FullExcuse']);
+    alert(PlayerChar['Name'] + ": \n" + Excuses[RandomExcuse]['FullExcuse']);
+
+    //Subtracts from players currency
     Currency -= Excuses[RandomExcuse]['Amount'];
 }
 
 function PayDay() {//Done
+    //TRUE if player is unemployed
     if (UserJob == 0) {
-        alert(People[0]['Name'] + ": \nNothing to worry about my parents still love me. They sent 50 bucks!")
+        alert(PlayerChar['Name'] + ": \nNothing to worry about my parents still love me. They sent 50 bucks!")
     }
+    //TRUE if player has job
     if (UserJob > 0) {
+
+        //Generates random bonus 0 - 99
         var Random = Math.floor(Math.random() * 100)
+
+        //Adds player's job base salary + random bonus to players currency
         Currency += Jobs[UserJob]['Salary'] + Random
-        alert(People[0]['Name'] + ": \nI earned $" + (Jobs[UserJob]['Salary'] + Random) + " from my job at " + Jobs[UserJob]['Job']);
+        alert(PlayerChar['Name'] + ": \nI earned $" + (Jobs[UserJob]['Salary'] + Random) + " from my job at " + Jobs[UserJob]['Job']);
     }
 }
 
@@ -682,17 +724,22 @@ function PayDay() {//Done
 function IncrementDay() {//Done
     Day365++;
 
-    //Get Paid and Pay Bills
+    //If Day of week is Friday then player gets paid
     if (Day365 % 7 == 6) {
         PayDay();
     }
+
+    //If Day of the week is every other friday you pay bills
     if (Day365 % 14 == 13) {
         PayBills();
     }
+
+    //Possible Random Bills
     if (Math.floor(Math.random() * 100) + 1 <= 10) {
         PayBills();
     }
 
+    //Possible Random Encounter
     if (Math.floor(Math.random() * 100) + 1 <= 20) {
         RandomEncounter();
     }
@@ -705,17 +752,17 @@ function IncrementDay() {//Done
         }
     }
 
-    //Set Day out of month
+    //Set Day in month
     DayMonth = Day365;
     for (i = 0; i <= Month; i++) {
         DayMonth -= DaysInMonth[i]
     }
     DayMonth += DaysInMonth[Month]
 
-    //Set weekday
+    //Set day in week
     DayWeek = Day365 % 7
 
-    //ResetYear
+    //Resets year if year ends
     if (Day365 > 365) {
         Day365 = 0;
         Year++;
@@ -726,89 +773,110 @@ function IncrementDay() {//Done
 
 //Combat
 function RandomEncounter() {//Done
-    //Resets NPC's
-    var RandomLevel = People[0]['Level'] + Math.floor(Math.random() * 4) - 2;
-    if (RandomLevel < 1) {
-        RandomLevel = 1;
+    //Gets random level +/- 3 of the players own level.
+    var RandLevel = PlayerChar['Level'] + Math.floor(Math.random() * 5) - 2;
+    if (RandLevel < 1) {
+        RandLevel = 1;
     }
-    People = [ //Note User is always index 0
-        People[0],
-        new CharacterInfo("Fest", "Male", RandomLevel, 1, [0, 1, 2, 3]),
-        new CharacterInfo("Swift", "Male", RandomLevel, 2, [0, 1, 2, 3]),
-        new CharacterInfo("Roush", "Female", RandomLevel, 3, [0, 1, 2, 3]),
-        new CharacterInfo("Grub", "Male", RandomLevel, 4, [0, 1, 2, 3]),
-        new CharacterInfo("Anvil", "Male", RandomLevel, 5, [0, 1, 2, 3]),
-        new CharacterInfo("Applesauce", "Unknown", RandomLevel, 6, [0, 1, 2, 3]),
-        new CharacterInfo("Slate", "Female", RandomLevel, 7, [0, 1, 2, 3]),
-        new CharacterInfo("Grease", "Female", RandomLevel, 8, [0, 1, 2, 3]),
-        new CharacterInfo("Boxtroll", "Alpha Male", RandomLevel, 9, [0, 1, 2, 3]),
-        new CharacterInfo("Bling King", "Male", RandomLevel, 10, [0, 1, 2, 3]),
-        new CharacterInfo("Lenses", "Male", RandomLevel, 11, [0, 1, 2, 3]),
-        new CharacterInfo("Dummy", "Female", RandomLevel, 12, [0, 1, 2, 3]),
-        new CharacterInfo("MY LEG!", "Male", RandomLevel, 13, [0, 1, 2, 3]),
-        new CharacterInfo("Ghost", "Male", RandomLevel, 14, [0, 1, 2, 3]),
-        new CharacterInfo("Whoosh", "Male", RandomLevel, 15, [0, 1, 2, 3]),
-        new CharacterInfo("Flop", "Male", RandomLevel, 16, [0, 1, 2, 3]),
-        new CharacterInfo("Fish", "Female", RandomLevel, 17, [0, 1, 2, 3]),
-        new CharacterInfo("Thicc", "Male", RandomLevel, 18, [0, 1, 2, 3]),
-        new CharacterInfo("4-eyes", "Female", RandomLevel, 19, [0, 1, 2, 3])
-    ];
-    Opponent = Math.floor(Math.random() * 19) + 1;
 
-    if (People[0]['Icon'] == People[Opponent]['Icon']) {
-        People[Opponent]['Icon'] = ProfilePics[0];
+    //Gets Random Name
+    var Names = ["Fest", "Swift", "Roush", "Grub", "Anvil", "Napalm", "Slate", "Brush", "Grease", "Chub", "Spice", "Plug", "Lenz", "Rhyme", "Shackle", "Mania", "Clam", "Splice", "Mist", "Quilt", "Socket"];
+    var RandName = Names[Math.floor(Math.random() * 20)];
+
+    //Gets Random Gender
+    var Genders = ["Male", "Female"];
+    var RandGender = Genders[Math.floor(Math.random() * 2)];
+
+    //Get's Random Icon
+    var RandIcon = [Math.floor(Math.random() * 19) + 1];
+
+    //Makes Opponent
+    OpponentChar = new CharacterInfo(RandName, RandGender, RandLevel, RandIcon, [0, 1, 2, 3]);
+
+    //Changes Opponents Profile Pic if they have the same one as the player to avoid confusion
+    if (PlayerChar['Icon'] == OpponentChar['Icon']) {
+        OpponentChar['Icon'] = ProfilePics[0];
     }
-    alert("A wild " + People[Opponent]['Name'] + " has appeared.")
+
+    //Starts Battle
+    alert("A wild " + OpponentChar['Name'] + " has appeared.")
     Gamemode = "Battle";
     RefreshUI();
 }
 
 function Fight() {//Done
+    //Asks player whick attack they want to use
     var text = "";
     for (i = 0; i < 4; i++) {
-        text += (i + 1) + ". " + Attacks[People[0]['Move'][i]]['Name'] + " |Power - " + Attacks[People[0]['Move'][i]]['Power'] + " |Accuracy - " + Attacks[People[0]['Move'][i]]['Accuracy'] + "\n"
+        text += (i + 1) + ". " + Attacks[PlayerChar['Move'][i]]['Name'] + " |Power - " + Attacks[PlayerChar['Move'][i]]['Power'] + " |Accuracy - " + Attacks[PlayerChar['Move'][i]]['Accuracy'] + "\n"
     }
     var UserInput = prompt(text) - 1;
     if (UserInput >= 0 && UserInput < 4) {
 
-        //If your opponent is faster
-        if (Levels[People[Opponent]['Level']]['Speed'] > Levels[People[0]['Level']]['Speed']) {
-            UseAttack(Opponent, 0, 0); //Opponent attacks
-            if (People[0]['HealthCurrent'] > 0) { //If you survived
-                UseAttack(0, Opponent, UserInput);
-                if (People[Opponent]['HealthCurrent'] < 0) {
-                    alert(People[Opponent]['Name'] + " Died...");
+        //ATTACK
+
+        //TRUE if the opponent is faster than the player
+        if (Levels[OpponentChar['Level']]['Speed'] > Levels[PlayerChar['Level']]['Speed']) {
+
+            //Opponent attacks
+            UseAttack(OpponentChar, PlayerChar, 0);
+
+            //Checks if player survived
+            if (PlayerChar['HealthCurrent'] > 0) {
+
+                //Player Attacks
+                UseAttack(PlayerChar, OpponentChar, UserInput);
+
+                //Checks if the opponent survived
+                if (OpponentChar['HealthCurrent'] < 0) {
+
+                    //Opponent didn't survive
+                    alert(OpponentChar['Name'] + " Died...");
                     EndBattle();
                 }
             }
-            else { //You didn't survive
+            //Player didn't survive
+            else {
                 alert("You Died...");
                 EndBattle();
             }
         }
-        //If you are faster
-        else if (Levels[People[Opponent]['Level']]['Speed'] < Levels[People[0]['Level']]['Speed']) {
-            UseAttack(0, Opponent, UserInput);
-            if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
-                UseAttack(Opponent, 0, 0); //Opponent attacks
-                if (People[0]['HealthCurrent'] < 0) {
+
+
+        //TRUE if the player is faster than the opponent
+        else if (Levels[OpponentChar['Level']]['Speed'] < Levels[PlayerChar['Level']]['Speed']) {
+
+            //Player Attacks
+            UseAttack(PlayerChar, OpponentChar, UserInput);
+
+            //Checks if the opponent survived
+            if (OpponentChar['HealthCurrent'] > 0) {
+
+                //Opponents attacks
+                UseAttack(OpponentChar, PlayerChar, 0);
+
+                //Checks if player survived
+                if (PlayerChar['HealthCurrent'] < 0) {
+
+                    //Player didn't survive
                     alert("You Died...");
                     EndBattle();
                 }
             }
-            else { //Your Opponent didn't survive
-                alert(People[Opponent]['Name'] + " Died...")
+            //Opponent didn't survive
+            else {
+                alert(OpponentChar['Name'] + " Died...")
                 EndBattle();
             }
         }
         //If you and your opponents speed is equal
-        else if (Levels[People[Opponent]['Level']]['Speed'] == Levels[People[0]['Level']]['Speed']) {
+        else if (Levels[OpponentChar['Level']]['Speed'] == Levels[PlayerChar['Level']]['Speed']) {
             if (Math.random() <= .5) {
-                UseAttack(Opponent, 0, 0); //Opponent attacks
-                if (People[0]['HealthCurrent'] > 0) { //If you survived
-                    UseAttack(0, Opponent, UserInput);
-                    if (People[Opponent]['HealthCurrent'] < 0) {
-                        alert(People[Opponent]['Name'] + " Died...");
+                UseAttack(OpponentChar, PlayerChar, 0); //Opponent attacks
+                if (PlayerChar['HealthCurrent'] > 0) { //If you survived
+                    UseAttack(PlayerChar, OpponentChar, UserInput);
+                    if (OpponentChar['HealthCurrent'] < 0) {
+                        alert(OpponentChar['Name'] + " Died...");
                         EndBattle();
                     }
                 }
@@ -818,16 +886,16 @@ function Fight() {//Done
                 }
             }
             else {
-                UseAttack(0, Opponent, UserInput);
-                if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
-                    UseAttack(Opponent, 0, 0); //Opponent attacks
-                    if (People[0]['HealthCurrent'] < 0) {
+                UseAttack(PlayerChar, OpponentChar, UserInput);
+                if (OpponentChar['HealthCurrent'] > 0) { //If you opponent survived
+                    UseAttack(OpponentChar, PlayerChar, 0); //Opponent attacks
+                    if (PlayerChar['HealthCurrent'] < 0) {
                         alert("You Died...");
                         EndBattle();
                     }
                 }
-                else { //Your Opponent didn't survive
-                    alert(People[Opponent]['Name'] + " Died...")
+                else { //Opponent didn't survive
+                    alert(OpponentChar['Name'] + " Died...")
                     EndBattle();
                 }
             }
@@ -838,26 +906,42 @@ function Fight() {//Done
 
 function Bag() {//Done
     UseItem();
-    if (People[Opponent]['HealthCurrent'] > 0) { //If you opponent survived
-        UseAttack(Opponent, 0, 0); //Opponent attacks
+    //TRUE if you opponent survived
+    if (OpponentChar['HealthCurrent'] > 0) {
+
+        //Opponent attacks
+        UseAttack(OpponentChar, PlayerChar, 0);
     }
+
+    //Opponent didn't survive
     else {
-        alert(People[Opponent]['Name'] + " Died...")
+        alert(OpponentChar['Name'] + " Died...")
         EndBattle();
     }
     RefreshUI();
 }
 
 function Run() {//Done
+    //Checks if player can run away
     if (Math.random() <= .33) {
+
+        //Run Succses
         alert("You got away safely")
         Gamemode = "Standard";
         RefreshUI();
     }
+
+    //Run Unsuccsessful
     else {
         alert("You couldn't get away")
-        UseAttack(Opponent, 0, 0); //Opponent attacks
-        if (People[0]['HealthCurrent'] < 0) {
+
+        //Opponent attacks
+        UseAttack(OpponentChar, PlayerChar, 0);
+
+        //Checks if the player survived
+        if (PlayerChar['HealthCurrent'] < 0) {
+
+            //Player didn't survive
             alert("You Died...")
             EndBattle();
         }
@@ -865,55 +949,79 @@ function Run() {//Done
     RefreshUI();
 }
 
-function EndBattle() {
-    //if you opponent died
-    if (People[Opponent]['HealthCurrent'] < 1) {
-        //Gives EXP
-        alert("You got " + People[Opponent]['Level'] + " Experience")
-        People[0]['ExperienceCurrent'] += People[Opponent]['Level'];
+function EndBattle() {//Done
+    //TRUE if opponent didn't survive
+    if (OpponentChar['HealthCurrent'] < 1) {
 
-        var PrizeMoney = Math.floor(Math.random() * 100) + 100;
+        //Gives the player EXP based on opponents level
+        alert("You got " + OpponentChar['Level'] + " Experience")
+        PlayerChar['ExperienceCurrent'] += OpponentChar['Level'];
+
+        //Gives player random prize money within $100 - $200
+        var PrizeMoney = Math.floor(Math.random() * 100) + 101;
         Currency += PrizeMoney;
-        alert("You stole $" + PrizeMoney + " from " + People[Opponent]['Name'])
+        alert("You stole $" + PrizeMoney + " from " + OpponentChar['Name'])
     }
 
-    //if you died
-    else if (People[0]['HealthCurrent'] < 1) {
-        People[0]['HealthCurrent'] = Levels[People[0]['Level']]['Health'];
+    //TRUE if player didn't survive
+    else if (PlayerChar['HealthCurrent'] < 1) {
+
+        //Restores Players Health
+        PlayerChar['HealthCurrent'] = Levels[PlayerChar['Level']]['Health'];
+
+        //Subtracts $1000 from player's currency due to hospital bills
         Currency -= 1000;
         alert("This is for your hopital bills \nCurrency -$1000");
+
+        //Player is penalized by spending 5 days in the hospital
         Day365 += 5;
     }
+
+    //Ends the battle
     Gamemode = "Standard";
     RefreshUI();
 }
 
 function DamageCalc(Perpetrator, Victim, Attack) {//Done
+    //Generates random number between .85 and 1.15
     var Random = (Math.floor(Math.random() * 30) + 85) / 100;
+
+    //10 percent chance of move being critical
     var Critical = 1;
     if (Math.floor(Math.random() * 100) + 1 <= 10) {
         Critical = 2;
         alert("It's a critical hit! That's alotta damage!")
     }
-    return Math.floor(((2 * People[Perpetrator]['Level'] / 5 + 2) * Attacks[Attack]['Power'] * Levels[People[Perpetrator]['Level']]['Attack'] / Levels[People[Victim]['Level']]['Defense'] / 30 / 50 + 2) * Random) * Critical;
+
+    //Full damage formula
+    return Math.floor(((2 * Perpetrator['Level'] / 5 + 2) * Attacks[Attack]['Power'] * Levels[Perpetrator['Level']]['Attack'] / Levels[Victim['Level']]['Defense'] / 30 / 50 + 2) * Random) * Critical;
 }
 
 function UseAttack(Perpetrator, Victim, Attack) {//Done
+    //if the perpetrator is not the player then pick a random attack
     if (Perpetrator != 0) {
         var Attack = Math.floor(Math.random() * 4)
     }
-    alert(People[Perpetrator]['Name'] + " used " + Attacks[Attack]['Name'])
+
+    //Perpetrator attacks
+    alert(Perpetrator['Name'] + " used " + Attacks[Attack]['Name'])
+
+    //Checks if a move will hit/miss based on the attacks accuracy
     var Random = Math.floor(Math.random() * 100) + 1;
     if (Random < Attacks[Attack]['Accuracy']) {
-        People[Victim]['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, People[Perpetrator]['Move'][Attack]);
+
+        //Perpetrators attack hits
+        Victim['HealthCurrent'] -= DamageCalc(Perpetrator, Victim, Perpetrator['Move'][Attack]);
     }
+
+    //Perpetrator's attack missed
     else {
-        alert(People[Perpetrator]['Name'] + " missed, What a dumbass!")
+        alert(Perpetrator['Name'] + " missed, What a dumbass!")
     }
 }
 
 //Cheats
-function Cheats() {
+function Cheats() {//Done
     var Password = prompt("Whats the password?").toLowerCase();
     if (Password == "it's free real estate") {
         var Cheat = prompt("Enter Cheat Code...").toLowerCase();
@@ -924,7 +1032,7 @@ function Cheats() {
                 break;
 
             case "level":
-                People[0]['Level'] = 10;
+                PlayerChar['Level'] = 10;
                 alert("Level = 10")
                 break;
 
@@ -956,12 +1064,15 @@ function Cheats() {
     RefreshUI();
 }
 
-//Gets the player information ready for the rest of the game
+//Customize Character
 function StartUp() {//Done
+    //Asks player for a name for their character
     do {
-        People[0]['Name'] = prompt("What's your name?");
+        PlayerChar['Name'] = prompt("What's your name?");
     }
-    while (!People[0]["Name"]);
+    while (!PlayerChar["Name"]);
+
+    //Asks player for a gender for thier character
     while (Gender != 1 && Gender != 2) {
         var Gender = prompt("What is your gender? \n1. Male \n2. Female \n3. Other");
         if (Gender == 3) {
@@ -972,15 +1083,17 @@ function StartUp() {//Done
         }
     }
     if (Gender == 1) {
-        People[0]['Gender'] = "Male"
+        PlayerChar['Gender'] = "Male"
     }
     else if (Gender == 2) {
-        People[0]['Gender'] = "Female"
+        PlayerChar['Gender'] = "Female"
     }
+
+    //Asks player for a desired appearance
     while (UserInput < 0 || UserInput > 19 || UserInput == undefined) {
-        var UserInput = prompt("I want to look like a...\n1. Sponge \n2. Squid \n3. Star \n4. Squirrel \n5. Krab \n6. Plankton.jpg \n7. Snail \n8. PufferFish \n9. Whale \n10. Fancy Squid \n11.King \n12. Lobster \n13. Computer \n14. Weakling \n15. Ghost \n16. Parrot \n17. Fish \n18. Grandma \n19. Retired SideKick \n20. Retired Hero") - 1;
+        var UserInput = prompt("I want to look like a...\n1. Sponge \n2. Squid \n3. Star \n4. Squirrel \n5. Krab \n6. Plankton \n7. Snail \n8. PufferFish \n9. Whale \n10. Fancy Squid \n11.King \n12. Lobster \n13. Computer \n14. Weakling \n15. Ghost \n16. Parrot \n17. Fish \n18. Grandma \n19. Retired SideKick \n20. Retired Hero") - 1;
         if (UserInput >= 0 && UserInput < 20) {
-            People[0]['Icon'] = ProfilePics[UserInput];
+            PlayerChar['Icon'] = ProfilePics[UserInput];
         }
     }
 }
