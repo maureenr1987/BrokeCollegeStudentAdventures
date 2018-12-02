@@ -11,7 +11,7 @@ Our protagonist made a bucket list of things he/she wants to do before the world
 */
 
 
-// VARIABLES section
+// VARIABLES section-----------------------------------------------------------------------------------------------------------------------------------------------------------
 //User
 var Currency = Math.floor(Math.random() * 401) + 100;
 var InvIndex = [];
@@ -104,8 +104,6 @@ class CharacterInfo {
         this.Move = Moves
     }
 }
-
-
 var PlayerChar = new CharacterInfo("Yeah", "Male", 1, 0, [0, 1, 2, 3]);
 var OpponentChar = new CharacterInfo("Fest", "Male", 2, 1, [0, 1, 2, 3]);
 
@@ -157,7 +155,8 @@ var DaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 var FirstInMonth = [1, 32, 60, 91, 121, 152, 182, 213, 243, 274, 305, 335, 365];
 var Year = 2047;
 
-// FUNCTION section
+
+// FUNCTION section------------------------------------------------------------------------------------------------------------------------------------------------------------
 function RefreshUI() {//Gets Constantly Updated
     //Removes Excess HP
     if (PlayerChar['HealthCurrent'] > Levels[PlayerChar['Level']]['Health']) {
@@ -369,7 +368,7 @@ function Buy() {//Done
             }
         }
 
-       //Player cancels or does not leave a valid response
+        //Player cancels or does not leave a valid response
         else {
             alert("Store Owner: \nUmmm... Where are your parents?")
         }
@@ -1146,6 +1145,6 @@ function StartUp() {//Done
 }
 
 
-// MAIN program execution
+// MAIN program execution------------------------------------------------------------------------------------------------------------------------------------------------------
 StartUp();
 RefreshUI();
