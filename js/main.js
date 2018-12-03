@@ -12,6 +12,7 @@ Our protagonist made a bucket list of things he/she wants to do before the world
 
 
 // VARIABLES section-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 //User
 var Currency = Math.floor(Math.random() * 401) + 100;
 var InvIndex = [];
@@ -179,6 +180,7 @@ function RefreshUI() {//Gets Constantly Updated
             document.getElementById("NPCProfile").hidden = true;
             document.getElementById("BattleOptions").hidden = true;
             document.getElementById("BucketListCont").hidden = false;
+            document.getElementById("battlemusic").pause();
             break;
         case "Battle":
             document.getElementById("SomeOptions").hidden = true;
@@ -820,6 +822,9 @@ function IncrementDay() {//Done
 
 //Combat
 function RandomEncounter() {//Done
+    document.getElementById("battlemusic").play();
+    document.getElementById("battlemusic").currentTime = 0;
+
     //Gets random level +/- 3 of the players own level.
     var RandLevel = PlayerChar['Level'] + Math.floor(Math.random() * 5) - 2;
     if (RandLevel < 1) {
@@ -974,6 +979,7 @@ function Run() {//Done
 
         //Run Succses
         alert("You got away safely")
+        document.getElementById("battlemusic").pause();
         Gamemode = "Standard";
         RefreshUI();
     }
@@ -997,6 +1003,7 @@ function Run() {//Done
 }
 
 function EndBattle() {//Done
+    document.getElementById("battlemusic").pause();
     //TRUE if opponent didn't survive
     if (OpponentChar['HealthCurrent'] < 1) {
 
