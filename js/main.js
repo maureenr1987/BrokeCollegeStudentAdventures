@@ -1046,7 +1046,7 @@ function DamageCalc(Perpetrator, Victim, Attack) {//Done
 
 function UseAttack(Perpetrator, Victim, Attack) {//Done
     //if the perpetrator is not the player then pick a random attack
-    if (Perpetrator != 0) {
+    if (Perpetrator != PlayerChar) {
         var Attack = Math.floor(Math.random() * 4)
     }
 
