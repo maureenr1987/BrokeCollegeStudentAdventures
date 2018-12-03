@@ -12,7 +12,6 @@ Our protagonist made a bucket list of things he/she wants to do before the world
 
 
 // VARIABLES section-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
 //User
 var Currency = Math.floor(Math.random() * 401) + 100;
 var InvIndex = [];
@@ -119,7 +118,7 @@ class ItemInfo {
 }
 var Items = [
     new ItemInfo("Hot Pocket", 5, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. +5 health. Restores 10HP."),
-    new ItemInfo("Maruchan Ramen", 10, "The Maruchan ramen is a very popular brand of noodles in the United-States. +15 health. Restores 20HP."),
+    new ItemInfo("Maruchan Ramen", 10, "The Maruchan ramen is a very popular brand of noodles in the United-States. Restores 8HP."),
     new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control. I guess you could throw it at somebdy?"),
     new ItemInfo("BackScraterenator 3000", 180, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. It uses Batteries, I hope they don't run out... If you're in danger you might be able to break it on someones head."),
     new ItemInfo("Caleb", 250, "If you feed him 25 cents, he'll fix your roof."),
@@ -141,10 +140,10 @@ class JobInfo {
 var Jobs = [
     new JobInfo("Unemployed", 50, 100),
     new JobInfo("McDonalds", 300, 60),
-    new JobInfo("Waiter", 400, 45),
-    new JobInfo("Nurse", 800, 30),
-    new JobInfo("FactoryWorker", 1000, 20),
-    new JobInfo("Scientist", 2000, 3)
+    new JobInfo("Waiter", 500, 45),
+    new JobInfo("Nurse", 1000, 30),
+    new JobInfo("FactoryWorker", 1500, 20),
+    new JobInfo("Scientist", 2750, 3)
 ]
 
 //Time
@@ -165,7 +164,7 @@ function RefreshUI() {//Gets Constantly Updated
     }
 
     //Levels Up character if they have enough exp
-    if (PlayerChar['ExperienceCurrent'] > Levels[PlayerChar['Level']]['Experience']) {
+    if (PlayerChar['ExperienceCurrent'] >= Levels[PlayerChar['Level']]['Experience']) {
         PlayerChar['Level']++
         PlayerChar['ExperienceCurrent'] = 0;
         alert(" Congrats! You are now Level " + PlayerChar['Level'])
@@ -180,7 +179,6 @@ function RefreshUI() {//Gets Constantly Updated
             document.getElementById("NPCProfile").hidden = true;
             document.getElementById("BattleOptions").hidden = true;
             document.getElementById("BucketListCont").hidden = false;
-            document.getElementById("battlemusic").pause();
             break;
         case "Battle":
             document.getElementById("SomeOptions").hidden = true;
@@ -499,7 +497,7 @@ function UseItem() {//Done
                 RemoveToInventory(Choose, 1)
             }
             else {
-                alert("But nothing happend")
+                alert("But nothing happened")
             }
             break;
 
@@ -671,13 +669,13 @@ function JobOptions() { //Done
         if (UserInput >= 1 && UserInput < i) {
 
             //Asks for players confimation and gives warnings about the internship
-            var Confirm = prompt(PlayerChar['Name'] + ": \nIf I intern at " + Jobs[UserInput]['Job'] + " it will raise your chances of getting in by 3 percent I think. However it will take the next 7 days. \n\nShould I do it?\n1. Yes\n2. No");
+            var Confirm = prompt(PlayerChar['Name'] + ": \nIf I intern at " + Jobs[UserInput]['Job'] + " it will raise your chances of getting in by 4 percent I think. However it will take the next 7 days. \n\nShould I do it?\n1. Yes\n2. No");
 
             //TRUE if player accepted terms and conditions
             if (Confirm == 1) {
 
                 //Raise players chance at getting the job they interned for by 3 percent
-                Jobs[UserInput]['Chance'] += 3;
+                Jobs[UserInput]['Chance'] += 4;
                 alert(PlayerChar['Name'] + " interned for " + Jobs[UserInput]['Job'] + " for the next week\nYour chance of getting that job next time is now " + Jobs[UserInput]['Chance'] + " Percent");
 
                 //Moves the calendar ahead 7 days
@@ -737,7 +735,7 @@ function PayBills() {//Done
         new Excuse(215, "I hope I have enough to pay the water bill."),
         new Excuse(370, "I have to pay the gas and electric."),
         new Excuse(100, "I have to get clothes and food for that party that everybody is talking about."),
-        new Excuse(250, "Today, I'm going to by 50 Maruchan Ramen, just because."),
+        new Excuse(250, "Today, I'm going to by 50 Maruchan Ramen, just because. I also just so happened to leave it all at the store"),
         new Excuse(300, "That truck isn't going to fix itself."),
         new Excuse(90, "Phone bills are such a pain in the ass"),
         new Excuse(25, "I need to renew my world of warcraft subscription"),
@@ -822,9 +820,6 @@ function IncrementDay() {//Done
 
 //Combat
 function RandomEncounter() {//Done
-    document.getElementById("battlemusic").play();
-    document.getElementById("battlemusic").currentTime = 0;
-
     //Gets random level +/- 3 of the players own level.
     var RandLevel = PlayerChar['Level'] + Math.floor(Math.random() * 5) - 2;
     if (RandLevel < 1) {
@@ -979,7 +974,6 @@ function Run() {//Done
 
         //Run Succses
         alert("You got away safely")
-        document.getElementById("battlemusic").pause();
         Gamemode = "Standard";
         RefreshUI();
     }
@@ -1003,7 +997,6 @@ function Run() {//Done
 }
 
 function EndBattle() {//Done
-    document.getElementById("battlemusic").pause();
     //TRUE if opponent didn't survive
     if (OpponentChar['HealthCurrent'] < 1) {
 
@@ -1053,7 +1046,7 @@ function DamageCalc(Perpetrator, Victim, Attack) {//Done
 
 function UseAttack(Perpetrator, Victim, Attack) {//Done
     //if the perpetrator is not the player then pick a random attack
-    if (Perpetrator == OpponentChar) {
+    if (Perpetrator != 0) {
         var Attack = Math.floor(Math.random() * 4)
     }
 
