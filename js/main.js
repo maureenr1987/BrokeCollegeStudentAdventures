@@ -456,6 +456,7 @@ function AddToInventory(Item, Plus) {//Done
 function RemoveToInventory(Item, Minus) {//Done
     InvQuantity[Item] -= Minus;
     if (InvQuantity[Item] < 1) {
+        
         InvIndex.splice(Item, 1);
         InvQuantity.splice(Item, 1);
     }
