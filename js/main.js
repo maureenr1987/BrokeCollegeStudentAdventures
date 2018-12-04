@@ -117,11 +117,10 @@ class ItemInfo {
     }
 }
 var Items = [
-    new ItemInfo("Hot Pocket", 5, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. +5 health. Restores 10HP."),
-    new ItemInfo("Maruchan Ramen", 10, "The Maruchan ramen is a very popular brand of noodles in the United-States. Restores 8HP."),
-    new ItemInfo("New TV Remote", 20, "Infrared All in One Remote Control. I guess you could throw it at somebdy?"),
+    new ItemInfo("Hot Pocket", 5, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. Restores 4 HP."),
+    new ItemInfo("Maruchan Ramen", 10, "The Maruchan ramen is a very popular brand of noodles in the United-States. Restores 8 HP."),
+    new ItemInfo("5 Hour Energy", 15, "Is a very potent drink. Restores all of my health." ),
     new ItemInfo("BackScraterenator 3000", 180, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. It uses Batteries, I hope they don't run out... If you're in danger you might be able to break it on someones head."),
-    new ItemInfo("Caleb", 250, "If you feed him 25 cents, he'll fix your roof."),
     new ItemInfo("Rusty ScrewDriver", 180, "I found this in the dumpster out back. Can use it as a struggle knife."),
     new ItemInfo("Machete", 500, "It's construction looks pretty cheap. It might last a couple shots if i'm lucky."),
     new ItemInfo("Fake ID", 8000, "Discard your current ID and become someone else under a new name and ID"),
@@ -302,137 +301,140 @@ function RefreshUI() {//Gets Constantly Updated
 }
 
 //Store Functions
-function OpenStore() {//Done
+function Store() {//Done
+
     //Makes store and asks for player to buy or sell
     var UserInput = prompt("Store Owner: \nHi how you doing? What do you need today\n1. Buy\n2. Sell");
 
     //Player chooses buy
     if (UserInput == 1) {
-        Buy()
+        //Makes store prompts text
+        var InvStore = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        var text = "";
+        var i;
+        for (i = 0; i < InvStore.length; i++) {
+            text += (i + 1) + ". " + Items[InvStore[i]]['Name'] + " - $" + Items[InvStore[i]]['Price'] + "\n"
+        }
 
-        //Player chooses sell
-    } else if (UserInput == 2) {
-        Sell()
+        //Asks player to select an item to purchase
+        UserInput = prompt("Store Owner: \nChoose anything you like. \n\n" + text) - 1;
+        if (UserInput < InvStore.length && UserInput >= 0) {
 
-        //Player cancels or leaves blank
-    } else {
-        alert("Store Owner: \nUhh. Have a nice day?")
+            //Asks how many of the selected items the player wants to buy at one time but cannot exceed 1000
+            var Many = prompt("Store Owner: \nHow many do you want to buy", 1)
+            if (Many > 0 && Many <= 1000) {
+
+                //Checks if player has enough currency to purchase the item(s)
+                if (Currency > Items[InvStore[UserInput]]['Price'] * Many) {
+
+                    //Asks for players confirmation
+                    var Confirm = prompt(Items[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Items[InvStore[UserInput]]['Price'] * Many) + "\n" + Items[InvStore[UserInput]]['Desc'] + "\n\nStore Owner: \nAre you sure you want to buy this?\n1. Yes \n2. No")
+
+                    //Player accepts purchase
+                    if (Confirm == 1) {
+
+                        //Subtracts item prices from player currency
+                        Currency -= Items[InvStore[UserInput]]['Price'] * Many;
+
+                        //Adds item(s) to inventory
+                        AddToInventory(InvStore[UserInput], Many);
+                        alert("Store Owner:\nThank you for your purchase.")
+                        RefreshUI();
+
+                        //Ends Day
+                        IncrementDay()
+                    }
+
+                    //Player rejects purchase
+                    else {
+                        alert("Store Owner: \nYou forget you wallet? Yeah like I haven't heard that one before.")
+                    }
+                }
+
+                //Player does not have enough money
+                else {
+                    alert("Store Owner: \nGet your broke a$$ outta here!")
+                }
+            }
+
+            //Player cancels or does not leave a valid response
+            else {
+                alert("Store Owner: \nUmmm... Where are your parents?")
+            }
+        }
+
+        //Player cancels out of shop
+        else {
+            alert("Store Owner: \nThank you. Come again!")
+        }
+
+
+
     }
-}
 
-function Buy() {//Done
-    //Makes store prompts text
-    var InvStore = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-    var text = "";
-    var i;
-    for (i = 0; i < InvStore.length; i++) {
-        text += (i + 1) + ". " + Items[InvStore[i]]['Name'] + " - $" + Items[InvStore[i]]['Price'] + "\n"
-    }
+    //Player chooses sell
+    else if (UserInput == 2) {
+        //Make sell prompts text
+        var text = ""
+        var i;
+        for (i = 0; i < InvIndex.length; i++) {
+            text += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " - $" + Items[InvIndex[i]]['Price'] + "\n"
+        }
 
-    //Asks player to select an item to purchase
-    UserInput = prompt("Store Owner: \nChoose anything you like. \n\n" + text) - 1;
-    if (UserInput < InvStore.length && UserInput >= 0) {
+        //Asks player to select an item to sell
+        UserInput = prompt("Store Owner: \nWhat have you got for me today?\n \n" + text) - 1;
+        if (UserInput < InvIndex.length && UserInput >= 0) {
 
-        //Asks how many of the selected items the player wants to buy at one time but cannot exceed 1000
-        var Many = prompt("Store Owner: \nHow many do you want to buy", 1)
-        if (Many > 0 && Many <= 1000) {
-
-            //Checks if player has enough currency to purchase the item(s)
-            if (Currency > Items[InvStore[UserInput]]['Price'] * Many) {
+            //Asks how many of the selected items the player wants to sell at one time but cannot exceed the quantity of the item they have in their inventory
+            var Many = prompt("Store Owner: \nHow many do you want to sell", 1)
+            if (Many > 0 && Many <= InvQuantity[UserInput]) {
 
                 //Asks for players confirmation
-                var Confirm = prompt(Items[InvStore[UserInput]]['Name'] + " x" + Many + " - $" + (Items[InvStore[UserInput]]['Price'] * Many) + "\n" + Items[InvStore[UserInput]]['Desc'] + "\n\nStore Owner: \nAre you sure you want to buy this?\n1. Yes \n2. No")
+                var Confirm = prompt(Items[InvIndex[UserInput]]['Name'] + " - $" + (Items[InvIndex[UserInput]]['Price'] * Many) + "\n" + Items[InvIndex[UserInput]]['Desc'] + "\n\n Store Owner: \nAre you sure you want to sell this?\n1. Yes \n2. No");
 
-                //Player accepts purchase
+                //Player accepts sale
                 if (Confirm == 1) {
 
-                    //Subtracts item prices from player currency
-                    Currency -= Items[InvStore[UserInput]]['Price'] * Many;
+                    //Adds item(s) prices to players currency
+                    Currency += Items[InvIndex[UserInput]]['Price'] * Many;
 
-                    //Adds item(s) to inventory
-                    AddToInventory(InvStore[UserInput], Many);
-                    alert("Store Owner:\nThank you for your purchase.")
+                    //Removes item(s) from inventory 
+                    RemoveToInventory(UserInput, Many);
+                    alert("Store Owner: \nPleasure doing buisness with you!")
                     RefreshUI();
+
+                    //Ends Day
+                    IncrementDay()
                 }
 
-                //Player rejects purchase
+                //Player rejects sale
                 else {
-                    alert("Store Owner: \nYou forget you wallet? Yeah like I haven't heard that one before.")
-                    Buy();
+                    alert("Store Owner: \nDamn. I really wanted that one.")
                 }
             }
 
-            //Player does not have enough money
+            //Player is attempting to sell more of the selected items than they have in their inventory
+            else if (Many >= InvQuantity[UserInput]) {
+                alert("Store Owner:\n" + Many + "!! you know you ain't got that many!")
+            }
+
+            //Player cancels or does not leave a valid response
             else {
-                alert("Store Owner: \nGet your broke a$$ outta here!")
+                alert("Store Owner: \nDo you need anything? Sir.")
             }
         }
 
         //Player cancels or does not leave a valid response
         else {
-            alert("Store Owner: \nUmmm... Where are your parents?")
-        }
-    }
-
-    //Player cancels out of shop
-    else {
-        alert("Store Owner: \nThank you. Come again!")
-    }
-}
-
-function Sell() { //Done
-    //Make sell prompts text
-    var text = ""
-    var i;
-    for (i = 0; i < InvIndex.length; i++) {
-        text += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " - $" + Items[InvIndex[i]]['Price'] + "\n"
-    }
-
-    //Asks player to select an item to sell
-    UserInput = prompt("Store Owner: \nWhat have you got for me today?\n \n" + text) - 1;
-    if (UserInput < InvIndex.length && UserInput >= 0) {
-
-        //Asks how many of the selected items the player wants to sell at one time but cannot exceed the quantity of the item they have in their inventory
-        var Many = prompt("Store Owner: \nHow many do you want to sell", 1)
-        if (Many > 0 && Many <= InvQuantity[UserInput]) {
-
-            //Asks for players confirmation
-            var Confirm = prompt(Items[InvIndex[UserInput]]['Name'] + " - $" + (Items[InvIndex[UserInput]]['Price'] * Many) + "\n" + Items[InvIndex[UserInput]]['Desc'] + "\n\n Store Owner: \nAre you sure you want to sell this?\n1. Yes \n2. No");
-
-            //Player accepts sale
-            if (Confirm == 1) {
-
-                //Adds item(s) prices to players currency
-                Currency += Items[InvIndex[UserInput]]['Price'] * Many;
-
-                //Removes item(s) from inventory 
-                RemoveToInventory(UserInput, Many);
-                alert("Store Owner: \nPleasure doing buisness with you!")
-                RefreshUI();
-            }
-
-            //Player rejects sale
-            else {
-                alert("Store Owner: \nDamn. I really wanted that one.")
-                Sell();
-            }
+            alert("Store Owner: \nThank you. Come again!")
         }
 
-        //Player is attempting to sell more of the selected items than they have in their inventory
-        else if (Many >= InvQuantity[UserInput]) {
-            alert("Store Owner:\n" + Many + "!! you know you ain't got that many!")
-            Sell();
-        }
-
-        //Player cancels or does not leave a valid response
-        else {
-            alert("Store Owner: \nDo you need anything? Sir.")
-        }
+        //Player cancels or leaves blank
     }
 
     //Player cancels or does not leave a valid response
     else {
-        alert("Store Owner: \nThank you. Come again!")
+        alert("Store Owner: \nUhh. Have a nice day?")
     }
 }
 
@@ -456,7 +458,7 @@ function AddToInventory(Item, Plus) {//Done
 function RemoveToInventory(Item, Minus) {//Done
     InvQuantity[Item] -= Minus;
     if (InvQuantity[Item] < 1) {
-        
+
         InvIndex.splice(Item, 1);
         InvQuantity.splice(Item, 1);
     }
@@ -480,7 +482,7 @@ function UseItem() {//Done
     switch (Items[InvIndex[Choose]]['Name']) {
         case "Hot Pocket":
             alert("You ate the Hot Pocket. It was very tasty")
-            PlayerChar['HealthCurrent'] += 5
+            PlayerChar['HealthCurrent'] += 4
             RemoveToInventory(Choose, 1)
             break;
 
@@ -490,16 +492,12 @@ function UseItem() {//Done
             RemoveToInventory(Choose, 1)
             break;
 
-        case "New TV Remote":
-            if (Opponent == 12 && Gamemode == "Battle") {
-                alert("You her turned off ")
-                OpponentChar['HealthCurrent'] = 0
-                RemoveToInventory(Choose, 1)
-            }
-            else {
-                alert("But nothing happened")
-            }
-            break;
+        case "5 Hour Energy":
+            alert(PlayerChar['Name'] + " drank the 5 Hour Energy. It's completely healed.")
+            PlayerChar['HealthCurrent'] += 100
+            RemoveToInventory(Choose, 1)
+        break;
+
 
         case "BackScraterenator 3000":
             if (Gamemode == "Standard") {
@@ -518,12 +516,6 @@ function UseItem() {//Done
                     RemoveToInventory(Choose, 1)
                 }
             }
-            break;
-
-        case "Caleb":
-            alert("Your roof has is fixed! You felt so relaxed it restored some health.")
-            PlayerChar['HealthCurrent'] += 20
-            RemoveToInventory(Choose, 1)
             break;
 
         case "Rusty ScrewDriver":
@@ -679,12 +671,8 @@ function JobOptions() { //Done
                 alert(PlayerChar['Name'] + " interned for " + Jobs[UserInput]['Job'] + " for the next week\nYour chance of getting that job next time is now " + Jobs[UserInput]['Chance'] + " Percent");
 
                 //Moves the calendar ahead 7 days
-                IncrementDay();
-                IncrementDay();
-                IncrementDay();
-                IncrementDay();
-                IncrementDay();
-                IncrementDay();
+                Day365 += 6;
+                PayBills();
                 IncrementDay();
             }
 
@@ -727,7 +715,7 @@ function JobOptions() { //Done
 function PayBills() {//Done
     //Objects for excuse
     function Excuse(Amount, Reason) {
-        this.Amount = Amount
+        this.Amount = Amount + Math.floor(Math.random() * 100) - 50
         this.Reason = Reason
         this.FullExcuse = Reason + "\nYou spent $" + Amount
     }
@@ -857,10 +845,10 @@ function Fight() {//Done
     for (i = 0; i < 4; i++) {
         text += (i + 1) + ". " + Attacks[PlayerChar['Move'][i]]['Name'] + " |Power - " + Attacks[PlayerChar['Move'][i]]['Power'] + " |Accuracy - " + Attacks[PlayerChar['Move'][i]]['Accuracy'] + "\n"
     }
+
+    //Choose Attack
     var UserInput = prompt(text) - 1;
     if (UserInput >= 0 && UserInput < 4) {
-
-        //ATTACK
 
         //TRUE if the opponent is faster than the player
         if (Levels[OpponentChar['Level']]['Speed'] > Levels[PlayerChar['Level']]['Speed']) {
@@ -868,185 +856,117 @@ function Fight() {//Done
             //Opponent attacks
             UseAttack(OpponentChar, PlayerChar, 0);
 
-            //Checks if player survived
-            if (PlayerChar['HealthCurrent'] > 0) {
-
-                //Player Attacks
-                UseAttack(PlayerChar, OpponentChar, UserInput);
-
-                //Checks if the opponent survived
-                if (OpponentChar['HealthCurrent'] < 0) {
-
-                    //Opponent didn't survive
-                    alert(OpponentChar['Name'] + " Died...");
-                    EndBattle();
-                }
-            }
-            //Player didn't survive
-            else {
-                alert("You Died...");
-                EndBattle();
+            //Player Attacks
+            if (PlayerChar['HealthCurrent'] >= 1) {
+                UseAttack(PlayerChar, OpponentChar, UserInput)
             }
         }
-
 
         //TRUE if the player is faster than the opponent
         else if (Levels[OpponentChar['Level']]['Speed'] < Levels[PlayerChar['Level']]['Speed']) {
 
             //Player Attacks
-            UseAttack(PlayerChar, OpponentChar, UserInput);
+            UseAttack(PlayerChar, OpponentChar, UserInput)
 
-            //Checks if the opponent survived
-            if (OpponentChar['HealthCurrent'] > 0) {
+            //Opponent attacks
+            if (OpponentChar['HealthCurrent'] >= 1) {
+                UseAttack(OpponentChar, PlayerChar, 0);
+            }
+        }
 
-                //Opponents attacks
+        //TRUE if th player and the opponents speed is equal
+        else if (Levels[OpponentChar['Level']]['Speed'] == Levels[PlayerChar['Level']]['Speed']) {
+
+            //Flips a coin to see who goes first
+            if (Math.random() <= .5) {
+                //Opponent attacks
                 UseAttack(OpponentChar, PlayerChar, 0);
 
-                //Checks if player survived
-                if (PlayerChar['HealthCurrent'] < 0) {
+                //Player Attacks
+                if (PlayerChar['HealthCurrent'] >= 1) {
+                    UseAttack(PlayerChar, OpponentChar, UserInput)
+                }
+            }
+            else {
+                //Player Attacks
+                UseAttack(PlayerChar, OpponentChar, UserInput)
 
-                    //Player didn't survive
-                    alert("You Died...");
-                    EndBattle();
-                }
-            }
-            //Opponent didn't survive
-            else {
-                alert(OpponentChar['Name'] + " Died...")
-                EndBattle();
-            }
-        }
-        //If you and your opponents speed is equal
-        else if (Levels[OpponentChar['Level']]['Speed'] == Levels[PlayerChar['Level']]['Speed']) {
-            if (Math.random() <= .5) {
-                UseAttack(OpponentChar, PlayerChar, 0); //Opponent attacks
-                if (PlayerChar['HealthCurrent'] > 0) { //If you survived
-                    UseAttack(PlayerChar, OpponentChar, UserInput);
-                    if (OpponentChar['HealthCurrent'] < 0) {
-                        alert(OpponentChar['Name'] + " Died...");
-                        EndBattle();
-                    }
-                }
-                else { //You didn't survive
-                    alert("You Died...");
-                    EndBattle();
-                }
-            }
-            else {
-                UseAttack(PlayerChar, OpponentChar, UserInput);
-                if (OpponentChar['HealthCurrent'] > 0) { //If you opponent survived
-                    UseAttack(OpponentChar, PlayerChar, 0); //Opponent attacks
-                    if (PlayerChar['HealthCurrent'] < 0) {
-                        alert("You Died...");
-                        EndBattle();
-                    }
-                }
-                else { //Opponent didn't survive
-                    alert(OpponentChar['Name'] + " Died...")
-                    EndBattle();
+                //Opponent attacks
+                if (OpponentChar['HealthCurrent'] >= 1) {
+                    UseAttack(OpponentChar, PlayerChar, 0);
                 }
             }
         }
-        RefreshUI();
     }
+
+    //Ends battle if someone dies
+    if (PlayerChar['HealthCurrent'] <= 0 || OpponentChar['HealthCurrent'] <= 0) {
+        EndBattle()
+    }
+    RefreshUI();
 }
+
 
 function Bag() {//Done
     UseItem();
-    //TRUE if you opponent survived
-    if (OpponentChar['HealthCurrent'] > 0) {
 
-        //Opponent attacks
+    //Ends battle if someone dies
+    if (PlayerChar['HealthCurrent'] <= 0 || OpponentChar['HealthCurrent'] <= 0) {
+        EndBattle()
+    }
+
+    //Opponent attacks
+    else {
         UseAttack(OpponentChar, PlayerChar, 0);
     }
 
-    //Opponent didn't survive
-    else {
-        alert(OpponentChar['Name'] + " Died...")
-        EndBattle();
+    //Ends battle if someone dies
+    if (PlayerChar['HealthCurrent'] <= 0 || OpponentChar['HealthCurrent'] <= 0) {
+        EndBattle()
     }
+
     RefreshUI();
 }
 
 function Run() {//Done
-    //Checks if player can run away
+    //TRUE if run succeeds
     if (Math.random() <= .33) {
-
-        //Run Succses
         alert("You got away safely")
         Gamemode = "Standard";
-        RefreshUI();
     }
 
     //Run Unsuccsessful
     else {
-        alert("You couldn't get away")
-
         //Opponent attacks
+        alert("You couldn't get away")
         UseAttack(OpponentChar, PlayerChar, 0);
 
-        //Checks if the player survived
-        if (PlayerChar['HealthCurrent'] < 0) {
-
-            //Player didn't survive
-            alert("You Died...")
-            EndBattle();
+        //Ends battle if someone dies
+        if (PlayerChar['HealthCurrent'] <= 0 || OpponentChar['HealthCurrent'] <= 0) {
+            EndBattle()
         }
     }
     RefreshUI();
 }
 
-function EndBattle() {//Done
-    //TRUE if opponent didn't survive
-    if (OpponentChar['HealthCurrent'] < 1) {
-
-        //Gives the player EXP based on opponents level
-        alert("You got " + OpponentChar['Level'] + " Experience")
-        PlayerChar['ExperienceCurrent'] += OpponentChar['Level'];
-
-        //Gives player random prize money within $100 - $200
-        var PrizeMoney = Math.floor(Math.random() * 100) + 101;
-        Currency += PrizeMoney;
-        alert("You stole $" + PrizeMoney + " from " + OpponentChar['Name'])
-    }
-
-    //TRUE if player didn't survive
-    else if (PlayerChar['HealthCurrent'] < 1) {
-
-        //Restores Players Health
-        PlayerChar['HealthCurrent'] = Levels[PlayerChar['Level']]['Health'];
-
-        //Subtracts $1000 from player's currency due to hospital bills
-        Currency -= 1000;
-        alert("This is for your hopital bills \nCurrency -$1000");
-
-        //Player is penalized by spending 5 days in the hospital
-        Day365 += 5;
-    }
-
-    //Ends the battle
-    Gamemode = "Standard";
-    RefreshUI();
-}
-
-function DamageCalc(Perpetrator, Victim, Attack) {//Done
-    //Generates random number between .85 and 1.15
-    var Random = (Math.floor(Math.random() * 30) + 85) / 100;
-
-    //10 percent chance of move being critical
-    var Critical = 1;
-    if (Math.floor(Math.random() * 100) + 1 <= 10) {
-        Critical = 2;
-        alert("It's a critical hit! That's alotta damage!")
-    }
-
-    //Full damage formula
-    return Math.floor(((2 * Perpetrator['Level'] / 5 + 2) * Attacks[Attack]['Power'] * Levels[Perpetrator['Level']]['Attack'] / Levels[Victim['Level']]['Defense'] / 30 / 50 + 2) * Random) * Critical;
-}
-
 function UseAttack(Perpetrator, Victim, Attack) {//Done
+    function DamageCalc(Perpetrator, Victim, Attack) {//Done
+        //Generates random number between .85 and 1.15
+        var Random = (Math.floor(Math.random() * 30) + 85) / 100;
+    
+        //10 percent chance of move being critical
+        var Critical = 1;
+        if (Math.floor(Math.random() * 100) + 1 <= 10) {
+            Critical = 2;
+            alert("It's a critical hit! That's alotta damage!")
+        }
+    
+        //Full damage formula
+        return Math.floor(((2 * Perpetrator['Level'] / 5 + 2) * Attacks[Attack]['Power'] * Levels[Perpetrator['Level']]['Attack'] / Levels[Victim['Level']]['Defense'] / 30 / 50 + 2) * Random) * Critical;
+    }
+
     //if the perpetrator is not the player then pick a random attack
-    if (Perpetrator != 0) {
+    if (Perpetrator == OpponentChar) {
         var Attack = Math.floor(Math.random() * 4)
     }
 
@@ -1067,46 +987,74 @@ function UseAttack(Perpetrator, Victim, Attack) {//Done
     }
 }
 
+function EndBattle() {//Done
+    //TRUE if opponent is dead and the player is alive
+    if (OpponentChar['HealthCurrent'] < 1 && PlayerChar['HealthCurrent'] >= 1) {
+
+        //Gives the player EXP based on opponents level
+        alert("You got " + OpponentChar['Level'] + " Experience")
+        PlayerChar['ExperienceCurrent'] += OpponentChar['Level'];
+
+        //Gives player random prize money within $100 - $200
+        var PrizeMoney = Math.floor(Math.random() * 100) + 101;
+        Currency += PrizeMoney;
+        alert("You stole $" + PrizeMoney + " from " + OpponentChar['Name'])
+    }
+
+    //TRUE if player didn't survive
+    else {
+        //Restores Players Health
+        PlayerChar['HealthCurrent'] = Levels[PlayerChar['Level']]['Health'];
+
+        //Subtracts $1000 from player's currency due to hospital bills
+        Currency -= 1000;
+        alert("This is for your hopital bills \nCurrency -$1000");
+
+        //Player is penalized by spending 5 days in the hospital
+        Day365 += 5;
+        PayBills();
+    }
+
+    //Ends the battle
+    Gamemode = "Standard";
+    RefreshUI();
+}
+
 //Cheats
 function Cheats() {//Done
-    var Password = prompt("Whats the password?").toLowerCase();
-    if (Password == "it's free real estate") {
-        var Cheat = prompt("Enter Cheat Code...").toLowerCase();
-        switch (Cheat) {
-            case "money":
-                Currency = 1000000;
-                alert("Money = 1000000")
-                break;
 
-            case "level":
-                PlayerChar['Level'] = 10;
-                alert("Level = 10")
-                break;
+    var Cheat = prompt("Enter Cheat Code...").toLowerCase();
+    switch (Cheat) {
+        case "money":
+            Currency = 1000000;
+            alert("Money = 1000000")
+            break;
 
-            case "items":
-                InvIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-                InvQuantity = [100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
-                alert("Inventory = STACKED AF")
-                break;
+        case "level":
+            PlayerChar['Level'] = 10;
+            alert("Level = 10")
+            break;
 
-            case "time":
-                Day365 = 1;
-                alert("Day = 01 January")
-                break;
+        case "items":
+            InvIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+            InvQuantity = [100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+            alert("Inventory = STACKED AF")
+            break;
 
-            case "mii":
-                alert("Resetting Appearence...")
-                StartUp();
-                break;
+        case "time":
+            Day365 = 1;
+            alert("Day = 01 January")
+            break;
 
-            default:
-                alert("Not Valid.")
-                break;
-        }
-    }
-    else {
-        alert("Error, Wrong password")
-        Day365 += 20;
+        case "mii":
+            alert("Resetting Appearence...")
+            StartUp();
+            break;
+
+        default:
+            alert("Error! not valid cheat code.")
+            break;
+
     }
     RefreshUI();
 }
