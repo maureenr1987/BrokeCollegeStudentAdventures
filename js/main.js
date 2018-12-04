@@ -178,6 +178,7 @@ function RefreshUI() {//Gets Constantly Updated
             document.getElementById("NPCProfile").hidden = true;
             document.getElementById("BattleOptions").hidden = true;
             document.getElementById("BucketListCont").hidden = false;
+            document.getElementById("battlemusic").pause();
             break;
         case "Battle":
             document.getElementById("SomeOptions").hidden = true;
@@ -833,6 +834,10 @@ function RandomEncounter() {//Done
         OpponentChar['Icon'] = ProfilePics[0];
     }
 
+    //Play Music
+    document.getElementById("battlemusic").play();
+    document.getElementById("battlemusic").currentTime = 0;
+
     //Starts Battle
     alert("A wild " + OpponentChar['Name'] + " has appeared.")
     Gamemode = "Battle";
@@ -933,6 +938,9 @@ function Run() {//Done
     if (Math.random() <= .33) {
         alert("You got away safely")
         Gamemode = "Standard";
+
+        //End Music
+        document.getElementById("battlemusic").pause();
     }
 
     //Run Unsuccsessful
@@ -1014,6 +1022,9 @@ function EndBattle() {//Done
         Day365 += 5;
         PayBills();
     }
+
+    //Stop Music
+    document.getElementById("battlemusic").pause();
 
     //Ends the battle
     Gamemode = "Standard";
