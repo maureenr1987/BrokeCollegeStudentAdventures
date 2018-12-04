@@ -30,10 +30,10 @@ class AttackInfo {
     }
 }
 var Attacks = [
-    new AttackInfo("High Speed Tackle", 40, 200),
-    new AttackInfo("Round House Kick", 55, 160),
-    new AttackInfo("Fold", 70, 130),
-    new AttackInfo("Bash", 95, 100)
+    new AttackInfo("High Speed Tackle", 40, 400),
+    new AttackInfo("Round House Kick", 55, 320),
+    new AttackInfo("Fold", 70, 260),
+    new AttackInfo("Bash", 95, 200)
 ]
 
 //Levels
@@ -117,9 +117,9 @@ class ItemInfo {
     }
 }
 var Items = [
-    new ItemInfo("Hot Pocket", 5, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. Restores 4 HP."),
-    new ItemInfo("Maruchan Ramen", 10, "The Maruchan ramen is a very popular brand of noodles in the United-States. Restores 8 HP."),
-    new ItemInfo("5 Hour Energy", 15, "Is a very potent drink. Restores all of my health." ),
+    new ItemInfo("Hot Pocket", 5, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. Restores 5 HP."),
+    new ItemInfo("Maruchan Ramen", 10, "The Maruchan ramen is a very popular brand of noodles in the United-States. Restores 10 HP."),
+    new ItemInfo("5 Hour Energy", 35, "Is a very potent drink. Restores all of my health."),
     new ItemInfo("BackScraterenator 3000", 180, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. It uses Batteries, I hope they don't run out... If you're in danger you might be able to break it on someones head."),
     new ItemInfo("Rusty ScrewDriver", 180, "I found this in the dumpster out back. Can use it as a struggle knife."),
     new ItemInfo("Machete", 500, "It's construction looks pretty cheap. It might last a couple shots if i'm lucky."),
@@ -142,7 +142,7 @@ var Jobs = [
     new JobInfo("Waiter", 500, 45),
     new JobInfo("Nurse", 1000, 30),
     new JobInfo("FactoryWorker", 1500, 20),
-    new JobInfo("Scientist", 2750, 3)
+    new JobInfo("Scientist", 2500, 3)
 ]
 
 //Time
@@ -483,13 +483,13 @@ function UseItem() {//Done
     switch (Items[InvIndex[Choose]]['Name']) {
         case "Hot Pocket":
             alert("You ate the Hot Pocket. It was very tasty")
-            PlayerChar['HealthCurrent'] += 4
+            PlayerChar['HealthCurrent'] += 5
             RemoveToInventory(Choose, 1)
             break;
 
         case "Maruchan Ramen":
             alert(PlayerChar['Name'] + " ate the soup. It was very tasty")
-            PlayerChar['HealthCurrent'] += 8
+            PlayerChar['HealthCurrent'] += 10
             RemoveToInventory(Choose, 1)
             break;
 
@@ -497,8 +497,7 @@ function UseItem() {//Done
             alert(PlayerChar['Name'] + " drank the 5 Hour Energy. It's completely healed.")
             PlayerChar['HealthCurrent'] += 100
             RemoveToInventory(Choose, 1)
-        break;
-
+            break;
 
         case "BackScraterenator 3000":
             if (Gamemode == "Standard") {
@@ -718,30 +717,35 @@ function PayBills() {//Done
     function Excuse(Amount, Reason) {
         this.Amount = Amount + Math.floor(Math.random() * 100) - 50
         this.Reason = Reason
-        this.FullExcuse = Reason + "\nYou spent $" + Amount
     }
     var Excuses = [
-        new Excuse(215, "I hope I have enough to pay the water bill."),
-        new Excuse(370, "I have to pay the gas and electric."),
-        new Excuse(100, "I have to get clothes and food for that party that everybody is talking about."),
-        new Excuse(250, "Today, I'm going to by 50 Maruchan Ramen, just because. I also just so happened to leave it all at the store"),
-        new Excuse(300, "That truck isn't going to fix itself."),
-        new Excuse(90, "Phone bills are such a pain in the ass"),
-        new Excuse(25, "I need to renew my world of warcraft subscription"),
-        new Excuse(150, "Damn, someone pickpcked me!")
+        new Excuse(-215, "I hope I have enough to pay the water bill."),
+        new Excuse(-370, "I have to pay the gas and electric."),
+        new Excuse(-100, "I have to get clothes and food for that party that everybody is talking about."),
+        new Excuse(-250, "Today, I'm going to by 50 Maruchan Ramen, just because. I also just so happened to leave it all at the store"),
+        new Excuse(-300, "That truck isn't going to fix itself."),
+        new Excuse(-90, "Phone bills are such a pain in the ass"),
+        new Excuse(-25, "I need to renew my world of warcraft subscription"),
+        new Excuse(-150, "Damn, someone pickpcked me!"),
+        new Excuse(-270, "I have to pay my monthly car insurance"),
+        new Excuse(+170, "I got some money from my tax-rebate"),
     ];
 
     //Picks random excuse
-    var RandomExcuse = Math.floor(Math.random() * 8)
-    alert(PlayerChar['Name'] + ": \n" + Excuses[RandomExcuse]['FullExcuse']);
+    var Random = Math.floor(Math.random() * 10)
 
-    //Subtracts from players currency
-    Currency -= Excuses[RandomExcuse]['Amount'];
+    //Prompt
+    alert(PlayerChar['Name'] + ": \n" + Excuses[Random]['Reason'] + "\nCurrency " + Excuses[Random]['Amount']);
+
+
+    //Adds/Subtracts money from players currency
+    Currency += Excuses[Random]['Amount'];
 }
 
 function PayDay() {//Done
     //TRUE if player is unemployed
     if (UserJob == 0) {
+        Currency += 50;
         alert(PlayerChar['Name'] + ": \nNothing to worry about my parents still love me. They sent 50 bucks!")
     }
     //TRUE if player has job
@@ -765,18 +769,13 @@ function IncrementDay() {//Done
         PayDay();
     }
 
-    //If Day of the week is every other friday you pay bills
-    if (Day365 % 14 == 13) {
-        PayBills();
-    }
-
     //Possible Random Bills
-    if (Math.floor(Math.random() * 100) + 1 <= 10) {
+    if (Math.random() <= .1) {
         PayBills();
     }
 
     //Possible Random Encounter
-    if (Math.floor(Math.random() * 100) + 1 <= 20) {
+    if (Math.random() <= .2) {
         RandomEncounter();
     }
 
@@ -961,14 +960,14 @@ function UseAttack(Perpetrator, Victim, Attack) {//Done
     function DamageCalc(Perpetrator, Victim, Attack) {//Done
         //Generates random number between .85 and 1.15
         var Random = (Math.floor(Math.random() * 30) + 85) / 100;
-    
+
         //10 percent chance of move being critical
         var Critical = 1;
         if (Math.floor(Math.random() * 100) + 1 <= 10) {
             Critical = 2;
             alert("It's a critical hit! That's alotta damage!")
         }
-    
+
         //Full damage formula
         return Math.floor(((2 * Perpetrator['Level'] / 5 + 2) * Attacks[Attack]['Power'] * Levels[Perpetrator['Level']]['Attack'] / Levels[Victim['Level']]['Defense'] / 30 / 50 + 2) * Random) * Critical;
     }
@@ -1003,8 +1002,8 @@ function EndBattle() {//Done
         alert("You got " + OpponentChar['Level'] + " Experience")
         PlayerChar['ExperienceCurrent'] += OpponentChar['Level'];
 
-        //Gives player random prize money within $100 - $200
-        var PrizeMoney = Math.floor(Math.random() * 100) + 101;
+        //Gives player random prize money within $300 - $500
+        var PrizeMoney = Math.floor(Math.random() * 200) + 301;
         Currency += PrizeMoney;
         alert("You stole $" + PrizeMoney + " from " + OpponentChar['Name'])
     }
@@ -1019,7 +1018,8 @@ function EndBattle() {//Done
         alert("This is for your hopital bills \nCurrency -$1000");
 
         //Player is penalized by spending 5 days in the hospital
-        Day365 += 5;
+        Day365 += 4;
+        IncrementDay();
         PayBills();
     }
 
