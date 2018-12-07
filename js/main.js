@@ -120,6 +120,7 @@ var Items = [
     new ItemInfo("Hot Pocket", 5, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. Restores 5 HP."),
     new ItemInfo("Maruchan Ramen", 10, "The Maruchan ramen is a very popular brand of noodles in the United-States. Restores 10 HP."),
     new ItemInfo("5 Hour Energy", 35, "Is a very potent drink. Restores all of my health."),
+    new ItemInfo("Lottery Ticket", 50, "Everyone has a 3 percent chance at 20,000 and making their dreams come through"),
     new ItemInfo("BackScraterenator 3000", 180, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. It uses Batteries, I hope they don't run out... If you're in danger you might be able to break it on someones head."),
     new ItemInfo("Rusty ScrewDriver", 180, "I found this in the dumpster out back. Can use it as a struggle knife."),
     new ItemInfo("Machete", 500, "It's construction looks pretty cheap. It might last a couple shots if i'm lucky."),
@@ -310,7 +311,7 @@ function Store() {//Done
     //Player chooses buy
     if (UserInput == 1) {
         //Makes store prompts text
-        var InvStore = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        var InvStore = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
         var text = "";
         var i;
         for (i = 0; i < InvStore.length; i++) {
@@ -467,18 +468,25 @@ function RemoveToInventory(Item, Minus) {//Done
 }
 
 function UseItem() {//Done
+    //Format prompts text
     var inventory_buffer = "Use an Item? \n";
     var Random = Math.floor(Math.random() * 100) + 1
+
+    //TRUE If you don't have any items
     if (InvIndex.length == 0) {
         alert("Your inventory is empty!")
     }
+
+    //The player has items
     else {
+        //Display inventory prompt
         for (i = 0; i < InvIndex.length; i++) {
             inventory_buffer += (i + 1) + ". " + Items[InvIndex[i]]['Name'] + " (" + InvQuantity[i] + ")\n";
         }
         var Choose = prompt(inventory_buffer) - 1
     }
 
+    //Use item
     alert(PlayerChar['Name'] + " used the " + Items[InvIndex[Choose]]['Name'])
     switch (Items[InvIndex[Choose]]['Name']) {
         case "Hot Pocket":
@@ -496,6 +504,18 @@ function UseItem() {//Done
         case "5 Hour Energy":
             alert(PlayerChar['Name'] + " drank the 5 Hour Energy. It's completely healed.")
             PlayerChar['HealthCurrent'] += 100
+            RemoveToInventory(Choose, 1)
+            break;
+
+        case "Lottery Ticket":
+            alert(PlayerChar['Name'] + " scratched the back of the ticket.")
+            if (Math.random() < .03) {
+                alert("You won the lottery")
+                Currency += 20000
+            }
+            else {
+                alert("You didn't win")
+            }
             RemoveToInventory(Choose, 1)
             break;
 
@@ -729,14 +749,37 @@ function PayBills() {//Done
         new Excuse(-150, "Damn, someone pickpcked me!"),
         new Excuse(-270, "I have to pay my monthly car insurance"),
         new Excuse(+170, "I got some money from my tax-rebate"),
+        new Excuse(-50, "I bought a lottery ticket on the way home"),
+        new Excuse(100, "I found money under a park bench"),
+        new Excuse(90, "Someone on the subway dropped their wallet"),
+
     ];
 
     //Picks random excuse
-    var Random = Math.floor(Math.random() * 10)
+    var Random = Math.floor(Math.random() * 13)
 
     //Prompt
-    alert(PlayerChar['Name'] + ": \n" + Excuses[Random]['Reason'] + "\nCurrency " + Excuses[Random]['Amount']);
+    if (Excuses[Random]['Amount'] > 0) {
+        alert(PlayerChar['Name'] + ": \n" + Excuses[Random]['Reason'] + "\nCurrency +" + Excuses[Random]['Amount']);
+    }
+    else {
+        alert(PlayerChar['Name'] + ": \n" + Excuses[Random]['Reason'] + "\nCurrency " + Excuses[Random]['Amount']);
+    }
 
+    //TRUE If the player buys a lottery ticket 
+    if (Random == 10) {
+
+        //TRUE If the player gets the jackpot (5%)
+        if (Math.random() < .1) {
+            alert("You won the lottery")
+            Currency += 10000
+        }
+
+        //The player didn't get the jackpot
+        else {
+            alert("You didn't win")
+        }
+    }
 
     //Adds/Subtracts money from players currency
     Currency += Excuses[Random]['Amount'];
