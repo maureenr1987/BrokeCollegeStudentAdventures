@@ -120,7 +120,7 @@ var Items = [
     new ItemInfo("Hot Pocket", 5, "Need a delicious and satisfying snack? Hot Pockets® brand sandwiches are made with quality ingredients to deliver delicious taste and big flavor. Restores 5 HP."),
     new ItemInfo("Maruchan Ramen", 10, "The Maruchan ramen is a very popular brand of noodles in the United-States. Restores 10 HP."),
     new ItemInfo("5 Hour Energy", 35, "Is a very potent drink. Restores all of my health."),
-    new ItemInfo("Lottery Ticket", 50, "Everyone has a 3 percent chance at 20,000 and making their dreams come through"),
+    new ItemInfo("Lottery Ticket", 50, "Everyone has a 1 percent chance at 20,000 and making their dreams come through. So theoretically, if I bought 100 tickets I should win!"),
     new ItemInfo("BackScraterenator 3000", 180, "This handy telescopic back scratcher features a comfortable cushion grip handle and a bear paw shaped metal claw. It uses Batteries, I hope they don't run out... If you're in danger you might be able to break it on someones head."),
     new ItemInfo("Rusty ScrewDriver", 180, "I found this in the dumpster out back. Can use it as a struggle knife."),
     new ItemInfo("Machete", 500, "It's construction looks pretty cheap. It might last a couple shots if i'm lucky."),
@@ -509,7 +509,7 @@ function UseItem() {//Done
 
         case "Lottery Ticket":
             alert(PlayerChar['Name'] + " scratched the back of the ticket.")
-            if (Math.random() < .03) {
+            if (Math.random() < .005) {
                 alert("You won the lottery")
                 Currency += 20000
             }
@@ -770,7 +770,7 @@ function PayBills() {//Done
     if (Random == 10) {
 
         //TRUE If the player gets the jackpot (5%)
-        if (Math.random() < .1) {
+        if (Math.random() < .05) {
             alert("You won the lottery")
             Currency += 10000
         }
